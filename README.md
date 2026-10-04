@@ -1,3 +1,10 @@
+![HACS](https://img.shields.io/badge/HACS-Custom-orange?style=flat-square)
+![Downloads](https://img.shields.io/github/downloads/Piotras1/psb-history-engine/psb_history_engine.zip?logo=homeassistant&color=41BDF5&displayAssetName=false)
+![GitHub Stars](https://img.shields.io/github/stars/Piotras1/psb-history-engine?style=flat-square&logo=github&label=stars&color=brightgreen)
+![GitHub Issues](https://img.shields.io/github/issues/Piotras1/psb-history-engine?style=flat-square&logo=github&label=issues)
+[![GitHub Release](https://img.shields.io/github/v/release/Piotras1/psb-history-engine?style=flat-square&logo=github&label=release)](https://github.com/Piotras1/psb-history-engine/releases)
+![GitHub Release Date](https://img.shields.io/github/release-date/Piotras1/psb-history-engine?style=flat-square&logo=github&label=released)
+
 # PSB History Engine
 
 <img src="https://raw.githubusercontent.com/Piotras1/psb-history-engine/refs/heads/main/img/PSB-History-Engine.jpg" alt="PSB History Engine Showcase" width="100%">
