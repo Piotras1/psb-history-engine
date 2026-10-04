@@ -46,6 +46,8 @@ Traditional workarounds (like appending readings to `input_text` via automations
 
 ## 🛠️ Installation
 
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Piotras1&repository=psb-history-engine&category=integration)
+
 ### HACS (Recommended)
 1. Open **HACS** → **Integrations** → top right menu (⋮) → **Custom repositories**.
 2. Paste this repository URL and select **Integration** as the category.
