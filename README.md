@@ -1,5 +1,7 @@
 # PSB History Engine
 
+<img src="https://raw.githubusercontent.com/Piotras1/psb-history-engine/refs/heads/main/img/PSB-History-Engine.jpg" alt="PSB History Engine Showcase" width="100%">
+
 A lightweight, high-performance, RAM-based history buffer for Home Assistant. Pick any numeric entity, select your sampling frequency and buffer depth, and **PSB History Engine** creates a companion `sensor.<name>_history` entity holding a rolling array of `[timestamp, value]` points directly in its state attributes.
 
 No YAML, no complex automations, no `input_text` hacks, and zero recorder/database queries — everything is managed from a full sidebar panel, serving instant history data to your dashboard cards directly from RAM.
