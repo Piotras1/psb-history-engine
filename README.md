@@ -1,0 +1,126 @@
+# PSB History Engine
+
+A lightweight, high-performance, RAM-based history buffer for Home Assistant. Pick any numeric entity, select your sampling frequency and buffer depth, and **PSB History Engine** creates a companion `sensor.<name>_history` entity holding a rolling array of `[timestamp, value]` points directly in its state attributes.
+
+No YAML, no complex automations, no `input_text` hacks, and zero recorder/database queries — everything is managed from a full sidebar panel, serving instant history data to your dashboard cards directly from RAM.
+
+---
+
+## 🎨 Dashboards & Visualization (Piotras Smart Button)
+
+While any custom Lovelace card can read `attributes.history`, this integration is built to natively power **[Piotras Smart Button (PSB)](https://github.com/...)**. 
+
+PSB leverages ultra-lightweight JavaScript/SVG chart modules that render interactive graphs instantly without loading heavy third-party plotting libraries.
+
+### 🚀 Ready-to-Use PSB Templates
+
+We provide optimized, pre-configured card templates for entities tracked by this integration. You can preview and copy their YAML code directly from our repository or through the integration's sidebar menu:
+
+| Category | Features & Capabilities | Template Code |
+| :--- | :--- | :---: |
+| ⚡ **Energy Engine** | Main meter vs sub-meters balance, hourly breakdown, and unmeasured usage calculation | [View Template](docs/templates/energy-history.md) |
+| 🌡️ **Climate Advice Engine** | Smooth temperature curve, Min/Max trend indicators, and daily clothing advice | [View Template](docs/templates/temperature-advice.md) |
+| 🔋 **Battery Health Monitor** | Battery discharge history with dynamic color thresholds and low-power alerts | [View Template](docs/templates/battery-health.md) |
+
+---
+
+## ⚡ Why PSB History Engine?
+
+Home Assistant's built-in history is backed by the recorder database. While essential for long-term storage, querying SQLite/MariaDB just to render a 24-hour daily chart on your dashboard is slow and creates unnecessary disk I/O.
+
+Traditional workarounds (like appending readings to `input_text` via automations) suffer from severe limitations:
+- **255-character limit** on `input_text` states.
+- **Time drift**: Sampling happens whenever the automation fires rather than on clean clock boundaries.
+- **Tight coupling**: Complex parsing logic is embedded directly inside card configurations.
+
+**PSB History Engine** solves this by providing clean, aligned, generic history entities that any card can read instantaneously.
+
+---
+
+## ✨ Features
+
+- **Supports any numeric entity**: `sensor`, `number`, `input_number`, `counter`.
+- **Per-entity custom tuning**: Sampling interval (seconds / minutes / hours / days), buffer depth (up to 500 points), and precision alignment offsets.
+- **Dual tracking modes**:
+  - *Current value*: For temperature, humidity, power, or battery levels.
+  - *Increasing counter*: For energy, gas, or water meters. Automatically handles periodic meter resets by flagging them as `"reset"` instead of negative deltas.
+- **Zero database overhead**: History buffers live strictly in memory and persist across restarts via Home Assistant's native Restore State mechanism.
+- **Dedicated Sidebar Panel**:
+  - **Tracked**: Displays entities grouped by auto-detected categories (*Energy, Power, Climate, Batteries, Water/Gas, Other*) with live expanded preview charts and edit controls.
+  - **Add**: Fast, search-driven picker designed for instances with hundreds of entities.
+  - **Dashboards & Cards**: Direct access to PSB card templates and visualization guides.
+  - **Setup**: Global defaults, panel language selector, and configuration backup/restore.
+- **Multi-language support**: Built-in translations for 10 languages (*English, Polish, German, French, Spanish, Italian, Czech, Portuguese, Russian, Swedish*).
+
+---
+
+## 🛠️ Installation
+
+### HACS (Recommended)
+1. Open **HACS** → **Integrations** → top right menu (⋮) → **Custom repositories**.
+2. Paste this repository URL and select **Integration** as the category.
+3. Click **Install**, then restart Home Assistant.
+
+### Manual
+1. Download the latest release.
+2. Copy the `custom_components/history_engine` directory into your Home Assistant `config/custom_components/` folder.
+3. Restart Home Assistant.
+
+---
+
+## 🚀 Getting Started
+
+1. Go to **Settings** → **Devices & Services** → **Add Integration** → **PSB History Engine**.
+2. Open the new **PSB History Engine** item in your Home Assistant sidebar.
+3. Navigate to **Add**, search for an entity (e.g., `sensor.living_room_temperature`), and click **Add**.
+4. Navigate to **Tracked**, expand the entity row to fine-tune its tracking mode, interval, or offset.
+5. Copy the generated `sensor.<name>_history` entity ID and use it in your **Piotras Smart Button** card!
+
+---
+
+## 📊 Created History Entity Structure
+
+For a tracked source entity `sensor.power_meter`, the integration generates `sensor.power_meter_history` with the following attribute structure:
+
+```yaml
+state: 24                    # Number of points currently buffered
+attributes:
+  source_entity: sensor.power_meter
+  tracking_mode: counter     # "value" or "counter"
+  interval_seconds: 3600
+  offset_seconds: -60
+  depth: 48
+  last_raw_value: 12.34
+  unit_of_measurement: points
+  source_unit_of_measurement: kWh
+  history:
+    - [1735689600, 0.42]
+    - [1735693200, 0.51]
+    - [1735696800, 0.07, "reset"]   # Meter reset flagged automatically
+    - [1735700400, 0.19]
+```
+
+Reading attributes.history from a dashboard card is a lightweight, local state read with zero backend query overhead.
+
+## ⏱️ Interval Alignment & Offsets
+
+Readings align automatically with wall-clock grids rather than integration startup times. On an hourly interval, samples occur precisely at HH:00:00.
+
+The offset setting (in seconds) shifts this grid. For example, setting an hourly interval with an offset = -60 forces samples to land at HH:59:00 — capturing the exact final reading before utility tariff changes or daily counter resets.
+## 🛡️ Buffer Depth & Safety Limits
+
+Home Assistant logs a warning if entity state attributes exceed 16 KiB. To guarantee long-term stability regardless of entity name length or value size, buffer depth is capped at 500 points per entity (~10–12 KiB).
+
+- Hourly sampling: 500 points = ~21 days of history.
+- Daily sampling: 500 points = >1.3 years of history.
+
+### This limit applies strictly to this integration's buffer attributes and does not affect your global Home Assistant Recorder settings.
+
+## 📄 License
+
+MIT — free to use, modify, and share.
+
+---
+
+*Created by Piotras. Strictly engineered for reliability.*
+
