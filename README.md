@@ -104,11 +104,15 @@ Home Assistant logs a warning if entity state attributes exceed 16 KiB. To guara
 
 ## 🎨 Dashboards & Visualization
 
-While any custom Lovelace card can read `attributes.history`, this engine is natively optimized for **[Piotras Smart Button (PSB)](https://github.com/Piotras1/piotras-smart-button)** using ultra-lightweight SVG chart modules.
+Standard Home Assistant cards query the backend database directly and cannot read array data stored inside state attributes. To visualize `attributes.history`, you need custom Lovelace cards capable of parsing JSON arrays within templates.
 
-For complete YAML code, setup guides, and pre-configured templates (Energy, Climate, Battery, and more), visit our dedicated guide:
+Currently, this attribute structure is supported by:
+- **[Piotras Smart Button (PSB)](https://github.com/Piotras1/piotras-smart-button)** (via custom JavaScript templates or dedicated [Custom Data Modules](https://github.com/Piotras1/piotras-smart-button/discussions/categories/custom-data-modules))
+- **[Custom Button-card (CB)](https://github.com/custom-cards/button-card)** (via custom JavaScript templates)
 
-👉 **[Explore PSB History Templates & Examples](docs/TEMPLATES.md)**
+For complete YAML configuration code, setup guides, and pre-configured dashboard templates (Energy, Climate, Battery, and more), visit our visualization guide:
+
+👉 **[Explore History Templates & Card Examples](docs/TEMPLATES.md)**
 
 ---
 
