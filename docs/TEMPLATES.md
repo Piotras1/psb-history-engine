@@ -10,8 +10,6 @@ Each card comes in two versions with the same look:
 ---
 
 ## Temperature
-### What the cards do
-All cards show the current value, a status text with a color picked from thresholds you define, and a filled history chart
 
 | [PSB version](URL_TEMPERATURE_PSB) | [CB version](URL_TEMPERATURE_CB) |
 | :--- | :--- |
