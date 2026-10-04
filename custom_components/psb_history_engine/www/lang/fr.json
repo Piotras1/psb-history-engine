@@ -1,0 +1,120 @@
+{
+  "language_name": "Français",
+  "nav": {
+    "tracked": "Suivies",
+    "add": "Ajouter",
+    "setup": "Configuration"
+  },
+  "category": {
+    "energy": "Énergie",
+    "power": "Puissance",
+    "temperature": "Température",
+    "humidity": "Humidité",
+    "battery": "Batteries",
+    "water_gas": "Eau / gaz",
+    "other": "Autres"
+  },
+  "mode": {
+    "value": "Valeur actuelle",
+    "counter": "Compteur croissant",
+    "value_full": "Valeur actuelle (température, batterie...)",
+    "counter_full": "Compteur croissant (énergie, eau... détecte les remises à zéro)"
+  },
+  "unit": {
+    "seconds": "secondes",
+    "minutes": "minutes",
+    "hours": "heures",
+    "days": "jours"
+  },
+  "status": {
+    "tracked": "Suivie",
+    "paused": "En pause",
+    "not_tracked": "Non suivie"
+  },
+  "coverage": {
+    "prefix": "≈ couverture : ",
+    "seconds": "{n} s",
+    "min": "{n} min",
+    "hours": "{n} h",
+    "days": "{n} j"
+  },
+  "msg": {
+    "save_ok": "Paramètres enregistrés.",
+    "save_fail": "Échec de l'enregistrement",
+    "entity_not_found": "Entité \"{id}\" introuvable",
+    "already_tracked": "L'entité \"{id}\" est déjà suivie.",
+    "added": "{id} ajoutée. Modifiez ses paramètres sous \"Suivies\" via \"Modifier\".",
+    "add_fail": "Échec de l'ajout de l'entité",
+    "remove_fail": "Échec de la suppression",
+    "clear_ok": "Données du tampon effacées.",
+    "clear_fail": "Échec de l'effacement des données",
+    "settings_saved": "Paramètres par défaut enregistrés.",
+    "settings_save_fail": "Échec de l'enregistrement des paramètres",
+    "export_fail": "Échec de l'exportation",
+    "import_ok": "Paramètres importés.",
+    "import_fail": "Échec de l'importation"
+  },
+  "preview": {
+    "not_created": "Cette entité n'existe pas encore - elle sera créée lors de l'enregistrement ; le premier point apparaîtra à la prochaine limite d'intervalle.",
+    "count": "Entrées dans le tampon : {n} / {depth}",
+    "full_tag": "plein",
+    "full_tooltip": "Le tampon est plein - chaque nouvelle entrée évince la plus ancienne (fenêtre glissante).",
+    "timespan_tooltip": "Plage de temps actuellement couverte / maximum possible avec cette taille de tampon.",
+    "no_entries_hint": "Pas encore de données - première écriture à la prochaine limite d'intervalle.",
+    "not_enough_points": "Pas assez de points pour un graphique (2 minimum).",
+    "last_entries": "Dernières entrées :",
+    "value_label": "Valeur",
+    "reset_tag": "réinitialisation"
+  },
+  "form": {
+    "enabled": "Suivi activé",
+    "mode": "Mode de suivi",
+    "interval": "Intervalle d'enregistrement",
+    "depth": "Profondeur du tampon (nombre d'entrées)",
+    "offset": "Décalage par rapport à la limite de période (secondes)",
+    "offset_hint": "ex. -60 avec un intervalle d'1h = écriture à HH:59 au lieu de HH:00. 0 = exactement sur la limite.",
+    "suffix": "Suffixe de l'entité créée",
+    "name": "Nom (facultatif)",
+    "target": "Entité cible :",
+    "save": "Enregistrer",
+    "saving": "Enregistrement...",
+    "cancel": "Annuler",
+    "remove": "Arrêter le suivi",
+    "removing": "Suppression...",
+    "clear": "Effacer les données",
+    "clearing": "Effacement...",
+    "confirm_clear": "Effacer les données mises en tampon pour cette entité ? Les paramètres de suivi sont conservés - seuls les points collectés sont supprimés. Cette action est irréversible.",
+    "confirm_clear_yes": "Oui, effacer",
+    "confirm_remove": "Supprimer le suivi et l'entité {code}, y compris ses données mises en tampon ? Cette action est irréversible.",
+    "confirm_yes": "Oui, supprimer",
+    "confirm_no": "Non"
+  },
+  "card": {
+    "edit": "Modifier",
+    "copy_title": "Copier le nom de l'entité d'historique",
+    "open_title": "Ouvrir l'entité d'historique"
+  },
+  "settings": {
+    "defaults_title": "Paramètres par défaut pour les nouvelles entités",
+    "defaults_hint": "Pré-remplissent le formulaire la première fois que vous suivez une nouvelle entité - modifiable par entité.",
+    "language": "Langue du panneau",
+    "save": "Enregistrer les paramètres",
+    "export_import_title": "Exporter / Importer les paramètres",
+    "export_import_hint": "Enregistre les paramètres par défaut et la liste des entités suivies dans un fichier - pratique avant une réinitialisation ou une migration de Home Assistant. N'inclut pas les données d'historique elles-mêmes (elles vivent dans les entités et n'en sont pas affectées).",
+    "export_button": "Exporter vers un fichier",
+    "import_label": "Importer depuis un fichier"
+  },
+  "add": {
+    "search_placeholder": "Rechercher une entité à suivre (nom ou entity_id)...",
+    "all_chip": "Toutes",
+    "hint_choose": "Saisissez un nom d'entité ou choisissez une catégorie pour voir les entités à ajouter.",
+    "no_results": "Aucune entité correspondante.",
+    "showing": "Affichage de {shown} sur {total} - affinez votre recherche."
+  },
+  "track": {
+    "search_placeholder": "Rechercher parmi les entités suivies...",
+    "no_results": "Aucun résultat.",
+    "nothing": "Rien n'est encore suivi - allez dans \"Ajouter\" dans le menu."
+  },
+  "loading": "Chargement..."
+}

@@ -1,0 +1,13 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "PSB History Engine",
+        "description": "Un búfer de historial ligero en RAM. Toda la configuración (elegir entidades, intervalo, profundidad del búfer) se realiza en el panel de PSB History Engine, en la barra lateral."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "PSB History Engine ya está configurado (solo se permite una instancia)."
+    }
+  }
+}

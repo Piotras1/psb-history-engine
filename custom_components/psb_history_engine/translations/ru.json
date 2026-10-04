@@ -1,0 +1,13 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "PSB History Engine",
+        "description": "Лёгкий буфер истории в оперативной памяти. Вся настройка (выбор сущностей, интервал, глубина буфера) выполняется на панели PSB History Engine в боковом меню."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "PSB History Engine уже настроен (разрешён только один экземпляр)."
+    }
+  }
+}

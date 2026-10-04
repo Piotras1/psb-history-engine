@@ -1,0 +1,13 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "PSB History Engine",
+        "description": "Lehký vyrovnávací paměťový buffer historie v RAM. Veškerá konfigurace (výběr entit, interval, hloubka bufferu) probíhá v panelu PSB History Engine v postranním panelu."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "PSB History Engine je již nakonfigurován (povolena je pouze jedna instance)."
+    }
+  }
+}

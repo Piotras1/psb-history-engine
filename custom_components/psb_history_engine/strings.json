@@ -1,0 +1,13 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "PSB History Engine",
+        "description": "A lightweight in-RAM history buffer. All configuration (picking entities, interval, buffer depth) happens in the PSB History Engine panel in the sidebar."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "PSB History Engine is already configured (only one instance is allowed)."
+    }
+  }
+}

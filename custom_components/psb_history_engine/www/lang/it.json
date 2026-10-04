@@ -1,0 +1,120 @@
+{
+  "language_name": "Italiano",
+  "nav": {
+    "tracked": "Monitorate",
+    "add": "Aggiungi",
+    "setup": "Impostazioni"
+  },
+  "category": {
+    "energy": "Energia",
+    "power": "Potenza",
+    "temperature": "Temperatura",
+    "humidity": "Umidità",
+    "battery": "Batterie",
+    "water_gas": "Acqua / gas",
+    "other": "Altro"
+  },
+  "mode": {
+    "value": "Valore attuale",
+    "counter": "Contatore crescente",
+    "value_full": "Valore attuale (temperatura, batteria...)",
+    "counter_full": "Contatore crescente (energia, acqua... rileva gli azzeramenti)"
+  },
+  "unit": {
+    "seconds": "secondi",
+    "minutes": "minuti",
+    "hours": "ore",
+    "days": "giorni"
+  },
+  "status": {
+    "tracked": "Monitorata",
+    "paused": "In pausa",
+    "not_tracked": "Non monitorata"
+  },
+  "coverage": {
+    "prefix": "≈ copertura: ",
+    "seconds": "{n} s",
+    "min": "{n} min",
+    "hours": "{n} h",
+    "days": "{n} gg"
+  },
+  "msg": {
+    "save_ok": "Impostazioni salvate.",
+    "save_fail": "Salvataggio non riuscito",
+    "entity_not_found": "Entità \"{id}\" non trovata",
+    "already_tracked": "L'entità \"{id}\" è già monitorata.",
+    "added": "{id} aggiunta. Modifica le impostazioni in \"Monitorate\" con \"Modifica\".",
+    "add_fail": "Aggiunta dell'entità non riuscita",
+    "remove_fail": "Rimozione non riuscita",
+    "clear_ok": "Dati del buffer cancellati.",
+    "clear_fail": "Impossibile cancellare i dati",
+    "settings_saved": "Impostazioni predefinite salvate.",
+    "settings_save_fail": "Salvataggio delle impostazioni non riuscito",
+    "export_fail": "Esportazione non riuscita",
+    "import_ok": "Impostazioni importate.",
+    "import_fail": "Importazione non riuscita"
+  },
+  "preview": {
+    "not_created": "Questa entità non esiste ancora - verrà creata al salvataggio; il primo punto comparirà al successivo limite di intervallo.",
+    "count": "Voci nel buffer: {n} / {depth}",
+    "full_tag": "pieno",
+    "full_tooltip": "Il buffer è pieno - ogni nuova voce elimina la più vecchia (finestra scorrevole).",
+    "timespan_tooltip": "Intervallo di tempo attualmente coperto / massimo possibile con questa dimensione del buffer.",
+    "no_entries_hint": "Nessun dato ancora - prima scrittura al successivo limite di intervallo.",
+    "not_enough_points": "Punti insufficienti per un grafico (minimo 2).",
+    "last_entries": "Ultime voci:",
+    "value_label": "Valore",
+    "reset_tag": "azzeramento"
+  },
+  "form": {
+    "enabled": "Monitoraggio attivo",
+    "mode": "Modalità di monitoraggio",
+    "interval": "Intervallo di salvataggio",
+    "depth": "Profondità del buffer (numero di voci)",
+    "offset": "Scostamento dal limite del periodo (secondi)",
+    "offset_hint": "es. -60 con intervallo di 1h = scrittura alle HH:59 invece di HH:00. 0 = esattamente sul limite.",
+    "suffix": "Suffisso dell'entità creata",
+    "name": "Nome (facoltativo)",
+    "target": "Entità di destinazione:",
+    "save": "Salva",
+    "saving": "Salvataggio...",
+    "cancel": "Annulla",
+    "remove": "Interrompi monitoraggio",
+    "removing": "Rimozione...",
+    "clear": "Cancella dati",
+    "clearing": "Cancellazione...",
+    "confirm_clear": "Cancellare i dati nel buffer di questa entità? Le impostazioni di monitoraggio vengono mantenute - vengono rimossi solo i punti raccolti. L'operazione non può essere annullata.",
+    "confirm_clear_yes": "Sì, cancella",
+    "confirm_remove": "Rimuovere il monitoraggio e l'entità {code}, compresi i dati nel buffer? L'operazione non può essere annullata.",
+    "confirm_yes": "Sì, rimuovi",
+    "confirm_no": "No"
+  },
+  "card": {
+    "edit": "Modifica",
+    "copy_title": "Copia il nome dell'entità cronologia",
+    "open_title": "Apri l'entità cronologia"
+  },
+  "settings": {
+    "defaults_title": "Impostazioni predefinite per le nuove entità",
+    "defaults_hint": "Precompilano il modulo la prima volta che monitori una nuova entità - modificabili per singola entità.",
+    "language": "Lingua del pannello",
+    "save": "Salva impostazioni",
+    "export_import_title": "Esporta / Importa impostazioni",
+    "export_import_hint": "Salva le impostazioni predefinite e l'elenco delle entità monitorate in un file - utile prima di un reset o di una migrazione di Home Assistant. Non include i dati della cronologia stessa (che vivono nelle entità e non ne sono influenzati).",
+    "export_button": "Esporta su file",
+    "import_label": "Importa da file"
+  },
+  "add": {
+    "search_placeholder": "Cerca un'entità da monitorare (nome o entity_id)...",
+    "all_chip": "Tutte",
+    "hint_choose": "Digita il nome di un'entità o scegli una categoria per vedere le entità che puoi aggiungere.",
+    "no_results": "Nessuna entità corrispondente.",
+    "showing": "Mostrate {shown} di {total} - restringi la ricerca."
+  },
+  "track": {
+    "search_placeholder": "Cerca tra le entità monitorate...",
+    "no_results": "Nessun risultato.",
+    "nothing": "Ancora nulla in monitoraggio - vai su \"Aggiungi\" nel menu."
+  },
+  "loading": "Caricamento..."
+}

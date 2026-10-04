@@ -1,0 +1,13 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "PSB History Engine",
+        "description": "Ein leichter Verlaufspuffer im RAM. Die gesamte Konfiguration (Auswahl der Entitäten, Intervall, Puffertiefe) erfolgt im PSB History Engine-Panel in der Seitenleiste."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "PSB History Engine ist bereits konfiguriert (nur eine Instanz ist zulässig)."
+    }
+  }
+}

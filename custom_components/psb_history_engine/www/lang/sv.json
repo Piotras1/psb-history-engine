@@ -1,0 +1,120 @@
+{
+  "language_name": "Svenska",
+  "nav": {
+    "tracked": "Spårade",
+    "add": "Lägg till",
+    "setup": "Inställningar"
+  },
+  "category": {
+    "energy": "Energi",
+    "power": "Effekt",
+    "temperature": "Temperatur",
+    "humidity": "Luftfuktighet",
+    "battery": "Batterier",
+    "water_gas": "Vatten / gas",
+    "other": "Övrigt"
+  },
+  "mode": {
+    "value": "Aktuellt värde",
+    "counter": "Stigande räknare",
+    "value_full": "Aktuellt värde (temperatur, batteri...)",
+    "counter_full": "Stigande räknare (energi, vatten... upptäcker återställning)"
+  },
+  "unit": {
+    "seconds": "sekunder",
+    "minutes": "minuter",
+    "hours": "timmar",
+    "days": "dagar"
+  },
+  "status": {
+    "tracked": "Spårad",
+    "paused": "Pausad",
+    "not_tracked": "Ej spårad"
+  },
+  "coverage": {
+    "prefix": "≈ täckning: ",
+    "seconds": "{n} s",
+    "min": "{n} min",
+    "hours": "{n} h",
+    "days": "{n} d"
+  },
+  "msg": {
+    "save_ok": "Inställningar sparade.",
+    "save_fail": "Det gick inte att spara",
+    "entity_not_found": "Entiteten \"{id}\" hittades inte",
+    "already_tracked": "Entiteten \"{id}\" spåras redan.",
+    "added": "{id} tillagd. Ändra dess inställningar under \"Spårade\" genom att klicka på \"Redigera\".",
+    "add_fail": "Det gick inte att lägga till entiteten",
+    "remove_fail": "Det gick inte att ta bort",
+    "clear_ok": "Buffertdata rensad.",
+    "clear_fail": "Det gick inte att rensa data",
+    "settings_saved": "Standardinställningar sparade.",
+    "settings_save_fail": "Det gick inte att spara inställningarna",
+    "export_fail": "Export misslyckades",
+    "import_ok": "Inställningar importerade.",
+    "import_fail": "Import misslyckades"
+  },
+  "preview": {
+    "not_created": "Den här entiteten finns inte än - den skapas vid sparande; första punkten visas vid nästa intervallgräns.",
+    "count": "Poster i bufferten: {n} / {depth}",
+    "full_tag": "full",
+    "full_tooltip": "Bufferten är full - varje ny post tränger ut den äldsta (glidande fönster).",
+    "timespan_tooltip": "Nuvarande täckt tidsintervall / max möjligt med denna buffertstorlek.",
+    "value_label": "Värde",
+    "no_entries_hint": "Ingen data än - första skrivningen sker vid nästa intervallgräns.",
+    "not_enough_points": "För få punkter för ett diagram (minst 2 krävs).",
+    "last_entries": "Senaste posterna:",
+    "reset_tag": "återställning"
+  },
+  "form": {
+    "enabled": "Spårning aktiverad",
+    "mode": "Spårningsläge",
+    "interval": "Sparintervall",
+    "depth": "Buffertdjup (antal poster)",
+    "offset": "Förskjutning från periodgräns (sekunder)",
+    "offset_hint": "t.ex. -60 med 1h intervall = skrivning vid HH:59 istället för HH:00. 0 = exakt på gränsen.",
+    "suffix": "Suffix för skapad entitet",
+    "name": "Namn (valfritt)",
+    "target": "Målentitet:",
+    "save": "Spara",
+    "saving": "Sparar...",
+    "cancel": "Avbryt",
+    "remove": "Sluta spåra",
+    "removing": "Tar bort...",
+    "clear": "Rensa data",
+    "clearing": "Rensar...",
+    "confirm_clear": "Rensa buffrad data för denna entitet? Spårningsinställningarna behålls - endast insamlade punkter tas bort. Detta kan inte ångras.",
+    "confirm_clear_yes": "Ja, rensa",
+    "confirm_remove": "Ta bort spårning och entiteten {code}, inklusive dess buffrade data? Detta kan inte ångras.",
+    "confirm_yes": "Ja, ta bort",
+    "confirm_no": "Nej"
+  },
+  "card": {
+    "edit": "Redigera",
+    "copy_title": "Kopiera historikentitetens namn",
+    "open_title": "Öppna historikentitet"
+  },
+  "settings": {
+    "defaults_title": "Standardinställningar för nya entiteter",
+    "defaults_hint": "Förifyller formuläret första gången du spårar en ny entitet - kan åsidosättas per entitet.",
+    "language": "Panelspråk",
+    "save": "Spara inställningar",
+    "export_import_title": "Exportera / Importera inställningar",
+    "export_import_hint": "Sparar standardinställningar och listan över spårade entiteter till en fil - praktiskt före en återställning eller Home Assistant-migrering. Innehåller inte själva historikdatan (den lever i entiteterna och påverkas inte).",
+    "export_button": "Exportera till fil",
+    "import_label": "Importera från fil"
+  },
+  "add": {
+    "search_placeholder": "Sök en entitet att spåra (namn eller entity_id)...",
+    "all_chip": "Alla",
+    "hint_choose": "Skriv ett entitetsnamn eller välj en kategori för att se entiteter du kan lägga till.",
+    "no_results": "Inga matchande entiteter.",
+    "showing": "Visar {shown} av {total} - begränsa din sökning."
+  },
+  "track": {
+    "search_placeholder": "Sök bland spårade...",
+    "no_results": "Inga resultat.",
+    "nothing": "Inget spåras ännu - gå till \"Lägg till\" i menyn."
+  },
+  "loading": "Laddar..."
+}

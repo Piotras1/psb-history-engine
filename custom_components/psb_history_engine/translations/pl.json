@@ -1,0 +1,13 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "PSB History Engine",
+        "description": "Lekki bufor historii w RAM. Cała konfiguracja (wybór encji, interwał, głębokość bufora) odbywa się w panelu PSB History Engine w bocznym menu."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Integracja PSB History Engine jest już skonfigurowana (może istnieć tylko jedna)."
+    }
+  }
+}

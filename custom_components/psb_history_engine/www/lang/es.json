@@ -1,0 +1,120 @@
+{
+  "language_name": "Español",
+  "nav": {
+    "tracked": "Seguidas",
+    "add": "Añadir",
+    "setup": "Configuración"
+  },
+  "category": {
+    "energy": "Energía",
+    "power": "Potencia",
+    "temperature": "Temperatura",
+    "humidity": "Humedad",
+    "battery": "Baterías",
+    "water_gas": "Agua / gas",
+    "other": "Otros"
+  },
+  "mode": {
+    "value": "Valor actual",
+    "counter": "Contador creciente",
+    "value_full": "Valor actual (temperatura, batería...)",
+    "counter_full": "Contador creciente (energía, agua... detecta reinicios)"
+  },
+  "unit": {
+    "seconds": "segundos",
+    "minutes": "minutos",
+    "hours": "horas",
+    "days": "días"
+  },
+  "status": {
+    "tracked": "Seguida",
+    "paused": "Pausada",
+    "not_tracked": "No seguida"
+  },
+  "coverage": {
+    "prefix": "≈ cobertura: ",
+    "seconds": "{n} s",
+    "min": "{n} min",
+    "hours": "{n} h",
+    "days": "{n} d"
+  },
+  "msg": {
+    "save_ok": "Ajustes guardados.",
+    "save_fail": "No se pudo guardar",
+    "entity_not_found": "Entidad \"{id}\" no encontrada",
+    "already_tracked": "La entidad \"{id}\" ya se está siguiendo.",
+    "added": "Se añadió {id}. Cambia sus ajustes en \"Seguidas\" pulsando \"Editar\".",
+    "add_fail": "No se pudo añadir la entidad",
+    "remove_fail": "No se pudo eliminar",
+    "clear_ok": "Datos del búfer borrados.",
+    "clear_fail": "No se pudieron borrar los datos",
+    "settings_saved": "Ajustes predeterminados guardados.",
+    "settings_save_fail": "No se pudieron guardar los ajustes",
+    "export_fail": "Error al exportar",
+    "import_ok": "Ajustes importados.",
+    "import_fail": "Error al importar"
+  },
+  "preview": {
+    "not_created": "Esta entidad aún no existe - se creará al guardar; el primer punto aparecerá en el siguiente límite de intervalo.",
+    "count": "Entradas en el búfer: {n} / {depth}",
+    "full_tag": "lleno",
+    "full_tooltip": "El búfer está lleno - cada entrada nueva elimina la más antigua (ventana deslizante).",
+    "timespan_tooltip": "Intervalo de tiempo cubierto actualmente / máximo posible con este tamaño de búfer.",
+    "no_entries_hint": "Aún no hay datos - primera escritura en el siguiente límite de intervalo.",
+    "not_enough_points": "No hay suficientes puntos para un gráfico (se necesitan al menos 2).",
+    "last_entries": "Últimas entradas:",
+    "value_label": "Valor",
+    "reset_tag": "reinicio"
+  },
+  "form": {
+    "enabled": "Seguimiento activado",
+    "mode": "Modo de seguimiento",
+    "interval": "Intervalo de guardado",
+    "depth": "Profundidad del búfer (número de entradas)",
+    "offset": "Desfase respecto al límite del período (segundos)",
+    "offset_hint": "ej. -60 con un intervalo de 1h = escritura a las HH:59 en vez de HH:00. 0 = justo en el límite.",
+    "suffix": "Sufijo de la entidad creada",
+    "name": "Nombre (opcional)",
+    "target": "Entidad de destino:",
+    "save": "Guardar",
+    "saving": "Guardando...",
+    "cancel": "Cancelar",
+    "remove": "Dejar de seguir",
+    "removing": "Eliminando...",
+    "clear": "Borrar datos",
+    "clearing": "Borrando...",
+    "confirm_clear": "¿Borrar los datos almacenados en el búfer de esta entidad? La configuración de seguimiento se conserva - solo se eliminan los puntos recogidos. Esto no se puede deshacer.",
+    "confirm_clear_yes": "Sí, borrar",
+    "confirm_remove": "¿Eliminar el seguimiento y la entidad {code}, incluidos sus datos almacenados? Esto no se puede deshacer.",
+    "confirm_yes": "Sí, eliminar",
+    "confirm_no": "No"
+  },
+  "card": {
+    "edit": "Editar",
+    "copy_title": "Copiar el nombre de la entidad de historial",
+    "open_title": "Abrir la entidad de historial"
+  },
+  "settings": {
+    "defaults_title": "Ajustes predeterminados para nuevas entidades",
+    "defaults_hint": "Rellenan el formulario la primera vez que sigues una entidad nueva - se pueden anular por entidad.",
+    "language": "Idioma del panel",
+    "save": "Guardar ajustes",
+    "export_import_title": "Exportar / Importar ajustes",
+    "export_import_hint": "Guarda los ajustes predeterminados y la lista de entidades seguidas en un archivo - útil antes de un reinicio o una migración de Home Assistant. No incluye los datos de historial en sí (viven en las entidades y no se ven afectados).",
+    "export_button": "Exportar a archivo",
+    "import_label": "Importar desde archivo"
+  },
+  "add": {
+    "search_placeholder": "Buscar una entidad para seguir (nombre o entity_id)...",
+    "all_chip": "Todas",
+    "hint_choose": "Escribe un nombre de entidad o elige una categoría para ver las entidades que puedes añadir.",
+    "no_results": "No hay entidades coincidentes.",
+    "showing": "Mostrando {shown} de {total} - acota tu búsqueda."
+  },
+  "track": {
+    "search_placeholder": "Buscar entre las seguidas...",
+    "no_results": "Sin resultados.",
+    "nothing": "Todavía no hay nada en seguimiento - ve a \"Añadir\" en el menú."
+  },
+  "loading": "Cargando..."
+}

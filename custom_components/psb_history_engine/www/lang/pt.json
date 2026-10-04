@@ -1,0 +1,120 @@
+{
+  "language_name": "Português",
+  "nav": {
+    "tracked": "Monitoradas",
+    "add": "Adicionar",
+    "setup": "Configuração"
+  },
+  "category": {
+    "energy": "Energia",
+    "power": "Potência",
+    "temperature": "Temperatura",
+    "humidity": "Umidade",
+    "battery": "Baterias",
+    "water_gas": "Água / gás",
+    "other": "Outros"
+  },
+  "mode": {
+    "value": "Valor atual",
+    "counter": "Contador crescente",
+    "value_full": "Valor atual (temperatura, bateria...)",
+    "counter_full": "Contador crescente (energia, água... detecta reinícios)"
+  },
+  "unit": {
+    "seconds": "segundos",
+    "minutes": "minutos",
+    "hours": "horas",
+    "days": "dias"
+  },
+  "status": {
+    "tracked": "Monitorada",
+    "paused": "Pausada",
+    "not_tracked": "Não monitorada"
+  },
+  "coverage": {
+    "prefix": "≈ cobertura: ",
+    "seconds": "{n} s",
+    "min": "{n} min",
+    "hours": "{n} h",
+    "days": "{n} d"
+  },
+  "msg": {
+    "save_ok": "Configurações salvas.",
+    "save_fail": "Falha ao salvar",
+    "entity_not_found": "Entidade \"{id}\" não encontrada",
+    "already_tracked": "A entidade \"{id}\" já está sendo monitorada.",
+    "added": "{id} adicionada. Altere as configurações em \"Monitoradas\" clicando em \"Editar\".",
+    "add_fail": "Falha ao adicionar a entidade",
+    "remove_fail": "Falha ao remover",
+    "clear_ok": "Dados do buffer limpos.",
+    "clear_fail": "Falha ao limpar os dados",
+    "settings_saved": "Configurações padrão salvas.",
+    "settings_save_fail": "Falha ao salvar as configurações",
+    "export_fail": "Falha na exportação",
+    "import_ok": "Configurações importadas.",
+    "import_fail": "Falha na importação"
+  },
+  "preview": {
+    "not_created": "Esta entidade ainda não existe - será criada ao salvar; o primeiro ponto aparecerá no próximo limite de intervalo.",
+    "count": "Entradas no buffer: {n} / {depth}",
+    "full_tag": "cheio",
+    "full_tooltip": "O buffer está cheio - cada nova entrada remove a mais antiga (janela deslizante).",
+    "timespan_tooltip": "Intervalo de tempo atualmente coberto / máximo possível com este tamanho de buffer.",
+    "value_label": "Valor",
+    "no_entries_hint": "Ainda sem dados - primeira gravação no próximo limite de intervalo.",
+    "not_enough_points": "Pontos insuficientes para um gráfico (mínimo de 2).",
+    "last_entries": "Últimas entradas:",
+    "reset_tag": "reinício"
+  },
+  "form": {
+    "enabled": "Monitoramento ativado",
+    "mode": "Modo de monitoramento",
+    "interval": "Intervalo de gravação",
+    "depth": "Profundidade do buffer (número de entradas)",
+    "offset": "Deslocamento em relação ao limite do período (segundos)",
+    "offset_hint": "ex. -60 com intervalo de 1h = gravação às HH:59 em vez de HH:00. 0 = exatamente no limite.",
+    "suffix": "Sufixo da entidade criada",
+    "name": "Nome (opcional)",
+    "target": "Entidade de destino:",
+    "save": "Salvar",
+    "saving": "Salvando...",
+    "cancel": "Cancelar",
+    "remove": "Parar monitoramento",
+    "removing": "Removendo...",
+    "clear": "Limpar dados",
+    "clearing": "Limpando...",
+    "confirm_clear": "Limpar os dados armazenados no buffer desta entidade? As configurações de monitoramento são mantidas - apenas os pontos coletados são removidos. Esta ação não pode ser desfeita.",
+    "confirm_clear_yes": "Sim, limpar",
+    "confirm_remove": "Remover o monitoramento e a entidade {code}, incluindo os dados do buffer? Esta ação não pode ser desfeita.",
+    "confirm_yes": "Sim, remover",
+    "confirm_no": "Não"
+  },
+  "card": {
+    "edit": "Editar",
+    "copy_title": "Copiar nome da entidade de histórico",
+    "open_title": "Abrir entidade de histórico"
+  },
+  "settings": {
+    "defaults_title": "Configurações padrão para novas entidades",
+    "defaults_hint": "Preenchem o formulário na primeira vez que você monitora uma nova entidade - pode ser substituído por entidade.",
+    "language": "Idioma do painel",
+    "save": "Salvar configurações",
+    "export_import_title": "Exportar / Importar configurações",
+    "export_import_hint": "Salva as configurações padrão e a lista de entidades monitoradas em um arquivo - útil antes de uma redefinição ou migração do Home Assistant. Não inclui os dados do histórico em si (eles ficam nas entidades e não são afetados).",
+    "export_button": "Exportar para arquivo",
+    "import_label": "Importar de arquivo"
+  },
+  "add": {
+    "search_placeholder": "Pesquisar uma entidade para monitorar (nome ou entity_id)...",
+    "all_chip": "Todas",
+    "hint_choose": "Digite o nome de uma entidade ou escolha uma categoria para ver as entidades que podem ser adicionadas.",
+    "no_results": "Nenhuma entidade correspondente.",
+    "showing": "Mostrando {shown} de {total} - refine sua pesquisa."
+  },
+  "track": {
+    "search_placeholder": "Pesquisar entre as monitoradas...",
+    "no_results": "Nenhum resultado.",
+    "nothing": "Nada sendo monitorado ainda - vá para \"Adicionar\" no menu."
+  },
+  "loading": "Carregando..."
+}

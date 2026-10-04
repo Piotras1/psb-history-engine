@@ -1,0 +1,120 @@
+{
+  "language_name": "English",
+  "nav": {
+    "tracked": "Tracked",
+    "add": "Add",
+    "setup": "Setup"
+  },
+  "category": {
+    "energy": "Energy",
+    "power": "Power",
+    "temperature": "Temperature",
+    "humidity": "Humidity",
+    "battery": "Batteries",
+    "water_gas": "Water / Gas",
+    "other": "Other"
+  },
+  "mode": {
+    "value": "Current value",
+    "counter": "Increasing counter",
+    "value_full": "Current value (temperature, battery...)",
+    "counter_full": "Increasing counter (energy, water... detects resets)"
+  },
+  "unit": {
+    "seconds": "seconds",
+    "minutes": "minutes",
+    "hours": "hours",
+    "days": "days"
+  },
+  "status": {
+    "tracked": "Tracked",
+    "paused": "Paused",
+    "not_tracked": "Not tracked"
+  },
+  "coverage": {
+    "prefix": "≈ coverage: ",
+    "seconds": "{n} s",
+    "min": "{n} min",
+    "hours": "{n} h",
+    "days": "{n} d"
+  },
+  "msg": {
+    "save_ok": "Settings saved.",
+    "save_fail": "Failed to save",
+    "entity_not_found": "Entity \"{id}\" not found",
+    "already_tracked": "Entity \"{id}\" is already tracked.",
+    "added": "Added {id}. Change its settings under \"Tracked\" by clicking \"Edit\".",
+    "add_fail": "Failed to add entity",
+    "remove_fail": "Failed to remove",
+    "clear_ok": "Buffer data cleared.",
+    "clear_fail": "Failed to clear data",
+    "settings_saved": "Default settings saved.",
+    "settings_save_fail": "Failed to save settings",
+    "export_fail": "Export failed",
+    "import_ok": "Settings imported.",
+    "import_fail": "Import failed"
+  },
+  "preview": {
+    "not_created": "This entity doesn't exist yet - it will be created on save; the first point appears at the next interval boundary.",
+    "count": "Entries in buffer: {n} / {depth}",
+    "full_tag": "full",
+    "full_tooltip": "Buffer is full - every new entry pushes out the oldest one (rolling window).",
+    "timespan_tooltip": "Current covered time span / maximum possible with this buffer size.",
+    "no_entries_hint": "No data yet - first write at the next interval boundary.",
+    "not_enough_points": "Not enough points for a chart (need at least 2).",
+    "last_entries": "Last entries:",
+    "value_label": "Value",
+    "reset_tag": "reset"
+  },
+  "form": {
+    "enabled": "Tracking enabled",
+    "mode": "Tracking mode",
+    "interval": "Save interval",
+    "depth": "Buffer depth (number of entries)",
+    "offset": "Offset from period boundary (seconds)",
+    "offset_hint": "e.g. -60 with a 1h interval = write at HH:59 instead of HH:00. 0 = exactly on the boundary.",
+    "suffix": "Created entity suffix",
+    "name": "Name (optional)",
+    "target": "Target entity:",
+    "save": "Save",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "remove": "Stop tracking",
+    "removing": "Removing...",
+    "clear": "Clear data",
+    "clearing": "Clearing...",
+    "confirm_clear": "Clear the buffered data for this entity? Tracking settings are kept - only the collected points are removed. This cannot be undone.",
+    "confirm_clear_yes": "Yes, clear",
+    "confirm_remove": "Remove tracking and the entity {code}, including its buffered data? This cannot be undone.",
+    "confirm_yes": "Yes, remove",
+    "confirm_no": "No"
+  },
+  "card": {
+    "edit": "Edit",
+    "copy_title": "Copy history entity name",
+    "open_title": "Open history entity"
+  },
+  "settings": {
+    "defaults_title": "Default settings for new entities",
+    "defaults_hint": "Pre-fill the form the first time you track a new entity - can be overridden per entity.",
+    "language": "Panel language",
+    "save": "Save settings",
+    "export_import_title": "Export / Import settings",
+    "export_import_hint": "Saves default settings and the list of tracked entities to a file - handy before a reset or Home Assistant migration. Does not include the history data itself (that lives in the entities and is unaffected).",
+    "export_button": "Export to file",
+    "import_label": "Import from file"
+  },
+  "add": {
+    "search_placeholder": "Search for an entity to track (name or entity_id)...",
+    "all_chip": "All",
+    "hint_choose": "Type an entity name or pick a category to see entities you can add.",
+    "no_results": "No matching entities.",
+    "showing": "Showing {shown} of {total} - narrow your search."
+  },
+  "track": {
+    "search_placeholder": "Search tracked entities...",
+    "no_results": "No results.",
+    "nothing": "Nothing tracked yet - go to \"Add\" in the menu."
+  },
+  "loading": "Loading..."
+}

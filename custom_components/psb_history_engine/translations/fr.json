@@ -1,0 +1,13 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "PSB History Engine",
+        "description": "Un tampon d'historique léger en RAM. Toute la configuration (choix des entités, intervalle, profondeur du tampon) se fait dans le panneau PSB History Engine, dans la barre latérale."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "PSB History Engine est déjà configuré (une seule instance est autorisée)."
+    }
+  }
+}

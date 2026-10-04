@@ -1,0 +1,13 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "PSB History Engine",
+        "description": "En lättviktig historikbuffert i RAM. All konfiguration (val av entiteter, intervall, buffertdjup) sker i panelen PSB History Engine i sidofältet."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "PSB History Engine är redan konfigurerad (endast en instans är tillåten)."
+    }
+  }
+}

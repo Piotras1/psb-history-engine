@@ -1,0 +1,120 @@
+{
+  "language_name": "Čeština",
+  "nav": {
+    "tracked": "Sledované",
+    "add": "Přidat",
+    "setup": "Nastavení"
+  },
+  "category": {
+    "energy": "Energie",
+    "power": "Výkon",
+    "temperature": "Teplota",
+    "humidity": "Vlhkost",
+    "battery": "Baterie",
+    "water_gas": "Voda / plyn",
+    "other": "Ostatní"
+  },
+  "mode": {
+    "value": "Aktuální hodnota",
+    "counter": "Rostoucí počítadlo",
+    "value_full": "Aktuální hodnota (teplota, baterie...)",
+    "counter_full": "Rostoucí počítadlo (energie, voda... detekuje reset)"
+  },
+  "unit": {
+    "seconds": "sekundy",
+    "minutes": "minuty",
+    "hours": "hodiny",
+    "days": "dny"
+  },
+  "status": {
+    "tracked": "Sledovaná",
+    "paused": "Pozastavená",
+    "not_tracked": "Nesledovaná"
+  },
+  "coverage": {
+    "prefix": "≈ pokrytí: ",
+    "seconds": "{n} s",
+    "min": "{n} min",
+    "hours": "{n} h",
+    "days": "{n} d"
+  },
+  "msg": {
+    "save_ok": "Nastavení uloženo.",
+    "save_fail": "Uložení se nezdařilo",
+    "entity_not_found": "Entita \"{id}\" nebyla nalezena",
+    "already_tracked": "Entita \"{id}\" je již sledována.",
+    "added": "Přidáno {id}. Nastavení změníte v sekci \"Sledované\" kliknutím na \"Upravit\".",
+    "add_fail": "Přidání entity se nezdařilo",
+    "remove_fail": "Odebrání se nezdařilo",
+    "clear_ok": "Data bufferu vymazána.",
+    "clear_fail": "Vymazání dat se nezdařilo",
+    "settings_saved": "Výchozí nastavení uloženo.",
+    "settings_save_fail": "Uložení nastavení se nezdařilo",
+    "export_fail": "Export se nezdařil",
+    "import_ok": "Nastavení importováno.",
+    "import_fail": "Import se nezdařil"
+  },
+  "preview": {
+    "not_created": "Tato entita ještě neexistuje - vytvoří se při uložení; první bod se objeví na nejbližší hranici intervalu.",
+    "count": "Záznamy v bufferu: {n} / {depth}",
+    "full_tag": "plný",
+    "full_tooltip": "Buffer je plný - každý nový záznam vytlačí ten nejstarší (posuvné okno).",
+    "timespan_tooltip": "Aktuálně pokryté časové rozmezí / maximální možné při této velikosti bufferu.",
+    "value_label": "Hodnota",
+    "no_entries_hint": "Zatím žádná data - první zápis na nejbližší hranici intervalu.",
+    "not_enough_points": "Nedostatek bodů pro graf (potřeba alespoň 2).",
+    "last_entries": "Poslední záznamy:",
+    "reset_tag": "reset"
+  },
+  "form": {
+    "enabled": "Sledování zapnuto",
+    "mode": "Režim sledování",
+    "interval": "Interval ukládání",
+    "depth": "Hloubka bufferu (počet záznamů)",
+    "offset": "Posun vůči hranici období (sekundy)",
+    "offset_hint": "např. -60 při intervalu 1h = zápis v HH:59 místo HH:00. 0 = přesně na hranici.",
+    "suffix": "Přípona vytvořené entity",
+    "name": "Název (volitelné)",
+    "target": "Cílová entita:",
+    "save": "Uložit",
+    "saving": "Ukládání...",
+    "cancel": "Zrušit",
+    "remove": "Zastavit sledování",
+    "removing": "Odebírání...",
+    "clear": "Vymazat data",
+    "clearing": "Mazání...",
+    "confirm_clear": "Vymazat uložená data bufferu této entity? Nastavení sledování zůstane zachováno, odstraní se pouze shromážděné body. Tuto akci nelze vrátit zpět.",
+    "confirm_clear_yes": "Ano, vymazat",
+    "confirm_remove": "Odstranit sledování a entitu {code} včetně uložených dat bufferu? Tuto akci nelze vrátit zpět.",
+    "confirm_yes": "Ano, odstranit",
+    "confirm_no": "Ne"
+  },
+  "card": {
+    "edit": "Upravit",
+    "copy_title": "Kopírovat název entity historie",
+    "open_title": "Otevřít entitu historie"
+  },
+  "settings": {
+    "defaults_title": "Výchozí nastavení pro nové entity",
+    "defaults_hint": "Předvyplní formulář při prvním sledování nové entity - lze přepsat pro každou entitu zvlášť.",
+    "language": "Jazyk panelu",
+    "save": "Uložit nastavení",
+    "export_import_title": "Export / Import nastavení",
+    "export_import_hint": "Uloží výchozí nastavení a seznam sledovaných entit do souboru - užitečné před resetem nebo migrací Home Assistanta. Neobsahuje samotná historická data (ta žijí v entitách a jsou na tomto nezávislá).",
+    "export_button": "Exportovat do souboru",
+    "import_label": "Importovat ze souboru"
+  },
+  "add": {
+    "search_placeholder": "Hledat entitu ke sledování (název nebo entity_id)...",
+    "all_chip": "Vše",
+    "hint_choose": "Zadejte název entity nebo vyberte kategorii pro zobrazení entit, které lze přidat.",
+    "no_results": "Žádné odpovídající entity.",
+    "showing": "Zobrazeno {shown} z {total} - zužte vyhledávání."
+  },
+  "track": {
+    "search_placeholder": "Hledat mezi sledovanými...",
+    "no_results": "Žádné výsledky.",
+    "nothing": "Zatím nic není sledováno - přejděte na \"Přidat\" v nabídce."
+  },
+  "loading": "Načítání..."
+}

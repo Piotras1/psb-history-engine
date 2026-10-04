@@ -1,0 +1,120 @@
+{
+  "language_name": "Deutsch",
+  "nav": {
+    "tracked": "Überwacht",
+    "add": "Hinzufügen",
+    "setup": "Einrichtung"
+  },
+  "category": {
+    "energy": "Energie",
+    "power": "Leistung",
+    "temperature": "Temperatur",
+    "humidity": "Luftfeuchtigkeit",
+    "battery": "Batterien",
+    "water_gas": "Wasser / Gas",
+    "other": "Sonstige"
+  },
+  "mode": {
+    "value": "Aktueller Wert",
+    "counter": "Steigender Zähler",
+    "value_full": "Aktueller Wert (Temperatur, Batterie...)",
+    "counter_full": "Steigender Zähler (Energie, Wasser... erkennt Reset)"
+  },
+  "unit": {
+    "seconds": "Sekunden",
+    "minutes": "Minuten",
+    "hours": "Stunden",
+    "days": "Tage"
+  },
+  "status": {
+    "tracked": "Überwacht",
+    "paused": "Pausiert",
+    "not_tracked": "Nicht überwacht"
+  },
+  "coverage": {
+    "prefix": "≈ Abdeckung: ",
+    "seconds": "{n} s",
+    "min": "{n} min",
+    "hours": "{n} Std.",
+    "days": "{n} Tage"
+  },
+  "msg": {
+    "save_ok": "Einstellungen gespeichert.",
+    "save_fail": "Speichern fehlgeschlagen",
+    "entity_not_found": "Entität \"{id}\" nicht gefunden",
+    "already_tracked": "Entität \"{id}\" wird bereits überwacht.",
+    "added": "Entität {id} hinzugefügt. Einstellungen unter \"Überwacht\" über \"Bearbeiten\" ändern.",
+    "add_fail": "Entität konnte nicht hinzugefügt werden",
+    "remove_fail": "Entfernen fehlgeschlagen",
+    "clear_ok": "Pufferdaten gelöscht.",
+    "clear_fail": "Löschen der Daten fehlgeschlagen",
+    "settings_saved": "Standardeinstellungen gespeichert.",
+    "settings_save_fail": "Einstellungen konnten nicht gespeichert werden",
+    "export_fail": "Export fehlgeschlagen",
+    "import_ok": "Einstellungen importiert.",
+    "import_fail": "Import fehlgeschlagen"
+  },
+  "preview": {
+    "not_created": "Diese Entität existiert noch nicht - sie wird beim Speichern erstellt; der erste Punkt erscheint an der nächsten Intervallgrenze.",
+    "count": "Einträge im Puffer: {n} / {depth}",
+    "full_tag": "voll",
+    "full_tooltip": "Puffer ist voll - jeder neue Eintrag verdrängt den ältesten (gleitendes Fenster).",
+    "timespan_tooltip": "Aktuell abgedeckte Zeitspanne / maximal möglich bei dieser Puffergröße.",
+    "no_entries_hint": "Noch keine Daten - erster Eintrag an der nächsten Intervallgrenze.",
+    "not_enough_points": "Zu wenige Punkte für ein Diagramm (mindestens 2 nötig).",
+    "last_entries": "Letzte Einträge:",
+    "value_label": "Wert",
+    "reset_tag": "Reset"
+  },
+  "form": {
+    "enabled": "Verfolgung aktiviert",
+    "mode": "Verfolgungsmodus",
+    "interval": "Speicherintervall",
+    "depth": "Puffertiefe (Anzahl Einträge)",
+    "offset": "Versatz zur Periodengrenze (Sekunden)",
+    "offset_hint": "z. B. -60 bei 1h Intervall = Eintrag um HH:59 statt HH:00. 0 = genau auf der Grenze.",
+    "suffix": "Suffix der erstellten Entität",
+    "name": "Name (optional)",
+    "target": "Zielentität:",
+    "save": "Speichern",
+    "saving": "Wird gespeichert...",
+    "cancel": "Abbrechen",
+    "remove": "Verfolgung beenden",
+    "removing": "Wird entfernt...",
+    "clear": "Daten löschen",
+    "clearing": "Wird gelöscht...",
+    "confirm_clear": "Die gepufferten Daten dieser Entität löschen? Die Verfolgungseinstellungen bleiben erhalten - nur die gesammelten Punkte werden entfernt. Dies kann nicht rückgängig gemacht werden.",
+    "confirm_clear_yes": "Ja, löschen",
+    "confirm_remove": "Verfolgung und Entität {code} inklusive gespeichertem Puffer entfernen? Dies kann nicht rückgängig gemacht werden.",
+    "confirm_yes": "Ja, entfernen",
+    "confirm_no": "Nein"
+  },
+  "card": {
+    "edit": "Bearbeiten",
+    "copy_title": "Namen der Verlaufsentität kopieren",
+    "open_title": "Verlaufsentität öffnen"
+  },
+  "settings": {
+    "defaults_title": "Standardeinstellungen für neue Entitäten",
+    "defaults_hint": "Füllen das Formular beim ersten Verfolgen einer neuen Entität vor - pro Entität änderbar.",
+    "language": "Sprache des Panels",
+    "save": "Einstellungen speichern",
+    "export_import_title": "Einstellungen exportieren / importieren",
+    "export_import_hint": "Speichert Standardeinstellungen und die Liste überwachter Entitäten in einer Datei - nützlich vor einem Reset oder einer Home-Assistant-Migration. Enthält nicht die Verlaufsdaten selbst (diese leben in den Entitäten und sind davon unabhängig).",
+    "export_button": "In Datei exportieren",
+    "import_label": "Aus Datei importieren"
+  },
+  "add": {
+    "search_placeholder": "Entität zum Überwachen suchen (Name oder entity_id)...",
+    "all_chip": "Alle",
+    "hint_choose": "Namen eingeben oder Kategorie wählen, um hinzufügbare Entitäten zu sehen.",
+    "no_results": "Keine passenden Entitäten.",
+    "showing": "{shown} von {total} angezeigt - Suche eingrenzen."
+  },
+  "track": {
+    "search_placeholder": "Überwachte Entitäten durchsuchen...",
+    "no_results": "Keine Ergebnisse.",
+    "nothing": "Noch nichts wird überwacht - gehe zu \"Hinzufügen\" im Menü."
+  },
+  "loading": "Wird geladen..."
+}

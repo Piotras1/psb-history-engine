@@ -1,0 +1,120 @@
+{
+  "language_name": "Polski",
+  "nav": {
+    "tracked": "Śledzone",
+    "add": "Dodaj",
+    "setup": "Setup"
+  },
+  "category": {
+    "energy": "Energia",
+    "power": "Moc",
+    "temperature": "Temperatura",
+    "humidity": "Wilgotność",
+    "battery": "Baterie",
+    "water_gas": "Woda / gaz",
+    "other": "Inne"
+  },
+  "mode": {
+    "value": "Wartość bieżąca",
+    "counter": "Licznik narastający",
+    "value_full": "Wartość bieżąca (temperatura, bateria...)",
+    "counter_full": "Licznik narastający (energia, woda... wykrywa reset)"
+  },
+  "unit": {
+    "seconds": "sekundy",
+    "minutes": "minuty",
+    "hours": "godziny",
+    "days": "dni"
+  },
+  "status": {
+    "tracked": "Śledzona",
+    "paused": "Wstrzymana",
+    "not_tracked": "Nieśledzona"
+  },
+  "coverage": {
+    "prefix": "≈ pokrycie: ",
+    "seconds": "{n} s",
+    "min": "{n} min",
+    "hours": "{n} godz.",
+    "days": "{n} dni"
+  },
+  "msg": {
+    "save_ok": "Zapisano ustawienia.",
+    "save_fail": "Nie udało się zapisać",
+    "entity_not_found": "Nie znaleziono encji \"{id}\"",
+    "already_tracked": "Encja \"{id}\" jest już śledzona.",
+    "added": "Dodano {id}. Ustawienia zmienisz w zakładce „Śledzone” po kliknięciu „Edytuj”.",
+    "add_fail": "Nie udało się dodać encji",
+    "remove_fail": "Nie udało się usunąć",
+    "clear_ok": "Wyczyszczono dane bufora.",
+    "clear_fail": "Nie udało się wyczyścić danych",
+    "settings_saved": "Zapisano domyślne ustawienia.",
+    "settings_save_fail": "Nie udało się zapisać ustawień",
+    "export_fail": "Eksport nie powiódł się",
+    "import_ok": "Zaimportowano ustawienia.",
+    "import_fail": "Import nie powiódł się"
+  },
+  "preview": {
+    "not_created": "Encja jeszcze nie istnieje - powstanie po zapisaniu, pierwszy punkt pojawi się o najbliższej pełnej granicy interwału.",
+    "count": "Wpisów w buforze: {n} / {depth}",
+    "full_tag": "pełny",
+    "full_tooltip": "Bufor jest pełny - każdy nowy wpis usuwa najstarszy (przesuwające się okno).",
+    "timespan_tooltip": "Aktualny zakryty zakres czasowy / Maksymalny możliwy pojemność bufora",
+    "no_entries_hint": "Brak danych - pierwszy zapis o najbliższej granicy interwału.",
+    "not_enough_points": "Za mało punktów na wykres (potrzeba min. 2).",
+    "last_entries": "Ostatnie wpisy:",
+    "value_label": "Wartość",
+    "reset_tag": "reset"
+  },
+  "form": {
+    "enabled": "Śledzenie włączone",
+    "mode": "Tryb śledzenia",
+    "interval": "Interwał zapisu",
+    "depth": "Głębokość bufora (liczba wpisów)",
+    "offset": "Przesunięcie względem granicy okresu (sekundy)",
+    "offset_hint": "np. -60 przy interwale 1h = zapis o HH:59 zamiast HH:00. 0 = dokładnie na granicy.",
+    "suffix": "Sufiks tworzonej encji",
+    "name": "Nazwa (opcjonalnie)",
+    "target": "Docelowa encja:",
+    "save": "Zapisz",
+    "saving": "Zapisywanie...",
+    "cancel": "Anuluj",
+    "remove": "Usuń śledzenie",
+    "removing": "Usuwanie...",
+    "clear": "Wyczyść dane",
+    "clearing": "Czyszczenie...",
+    "confirm_clear": "Wyczyścić zapisane dane bufora tej encji? Ustawienia śledzenia zostaną zachowane, usunięte zostaną tylko zebrane punkty. Tego nie da się cofnąć.",
+    "confirm_clear_yes": "Tak, wyczyść",
+    "confirm_remove": "Usunąć śledzenie i encję {code} razem z zapisanym buforem? Tego nie da się cofnąć.",
+    "confirm_yes": "Tak, usuń",
+    "confirm_no": "Nie"
+  },
+  "card": {
+    "edit": "Edytuj",
+    "copy_title": "Kopiuj nazwę encji historii",
+    "open_title": "Otwórz encję historii"
+  },
+  "settings": {
+    "defaults_title": "Domyślne ustawienia dla nowych encji",
+    "defaults_hint": "Wypełniają formularz przy pierwszym śledzeniu nowej encji - można je nadpisać per encja.",
+    "language": "Język panelu",
+    "save": "Zapisz ustawienia",
+    "export_import_title": "Eksport / Import ustawień",
+    "export_import_hint": "Zapisuje domyślne ustawienia i listę śledzonych encji do pliku - przydatne przed resetem lub migracją Home Assistanta. Nie zawiera samych danych historycznych (te żyją w encjach i są od tego niezależne).",
+    "export_button": "Eksportuj do pliku",
+    "import_label": "Importuj z pliku"
+  },
+  "add": {
+    "search_placeholder": "Szukaj encji do śledzenia (nazwa lub entity_id)...",
+    "all_chip": "Wszystkie",
+    "hint_choose": "Wpisz nazwę encji albo wybierz kategorię, żeby zobaczyć encje do dodania.",
+    "no_results": "Brak pasujących encji.",
+    "showing": "Pokazano {shown} z {total} - zawęź wyszukiwanie."
+  },
+  "track": {
+    "search_placeholder": "Szukaj wśród śledzonych...",
+    "no_results": "Brak wyników.",
+    "nothing": "Nic jeszcze nie jest śledzone - przejdź do „Dodaj” w menu."
+  },
+  "loading": "Ładowanie..."
+}
