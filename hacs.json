@@ -1,1 +1,6 @@
-
+{
+  "name": "PSB History Engine",
+  "render_readme": true,
+  "zip_release": true,
+  "filename": "psb_history_engine.zip"
+}
