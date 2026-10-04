@@ -55,7 +55,7 @@ Traditional workarounds (like appending readings to `input_text` via automations
 
 ### Manual
 1. Download the latest release.
-2. Copy the `custom_components/history_engine` directory into your Home Assistant `config/custom_components/` folder.
+2. Copy the `custom_components/psb_history_engine` directory into your Home Assistant `config/custom_components/` folder.
 3. Restart Home Assistant.
 
 ---
