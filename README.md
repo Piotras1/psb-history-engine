@@ -2,27 +2,11 @@
 
 <img src="https://raw.githubusercontent.com/Piotras1/psb-history-engine/refs/heads/main/img/PSB-History-Engine.jpg" alt="PSB History Engine Showcase" width="100%">
 
+![PSB History Engine Showcase](img/PSB-History-Engine.jpg)
+
 A lightweight, high-performance, RAM-based history buffer for Home Assistant. Pick any numeric entity, select your sampling frequency and buffer depth, and **PSB History Engine** creates a companion `sensor.<name>_history` entity holding a rolling array of `[timestamp, value]` points directly in its state attributes.
 
 No YAML, no complex automations, no `input_text` hacks, and zero recorder/database queries — everything is managed from a full sidebar panel, serving instant history data to your dashboard cards directly from RAM.
-
----
-
-## 🎨 Dashboards & Visualization (Piotras Smart Button)
-
-While any custom Lovelace card can read `attributes.history`, this integration is built to natively power **[Piotras Smart Button (PSB)](https://github.com/...)**. 
-
-PSB leverages ultra-lightweight JavaScript/SVG chart modules that render interactive graphs instantly without loading heavy third-party plotting libraries.
-
-### 🚀 Ready-to-Use PSB Templates
-
-We provide optimized, pre-configured card templates for entities tracked by this integration. You can preview and copy their YAML code directly from our repository or through the integration's sidebar menu:
-
-| Category | Features & Capabilities | Template Code |
-| :--- | :--- | :---: |
-| ⚡ **Energy Engine** | Main meter vs sub-meters balance, hourly breakdown, and unmeasured usage calculation | [View Template](docs/templates/energy-history.md) |
-| 🌡️ **Climate Advice Engine** | Smooth temperature curve, Min/Max trend indicators, and daily clothing advice | [View Template](docs/templates/temperature-advice.md) |
-| 🔋 **Battery Health Monitor** | Battery discharge history with dynamic color thresholds and low-power alerts | [View Template](docs/templates/battery-health.md) |
 
 ---
 
@@ -117,6 +101,16 @@ Home Assistant logs a warning if entity state attributes exceed 16 KiB. To guara
 - Daily sampling: 500 points = >1.3 years of history.
 
 ### This limit applies strictly to this integration's buffer attributes and does not affect your global Home Assistant Recorder settings.
+
+## 🎨 Dashboards & Visualization
+
+While any custom Lovelace card can read `attributes.history`, this engine is natively optimized for **[Piotras Smart Button (PSB)](https://github.com/Piotras1/piotras-smart-button)** using ultra-lightweight SVG chart modules.
+
+For complete YAML code, setup guides, and pre-configured templates (Energy, Climate, Battery, and more), visit our dedicated guide:
+
+👉 **[Explore PSB History Templates & Examples](docs/TEMPLATES.md)**
+
+---
 
 ## 📄 License
 
