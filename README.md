@@ -34,7 +34,6 @@ Traditional workarounds (like appending readings to `input_text` via automations
 - **Dedicated Sidebar Panel**:
   - **Tracked**: Displays entities grouped by auto-detected categories (*Energy, Power, Climate, Batteries, Water/Gas, Other*) with live expanded preview charts and edit controls.
   - **Add**: Fast, search-driven picker designed for instances with hundreds of entities.
-  - **Dashboards & Cards**: Direct access to PSB card templates and visualization guides.
   - **Setup**: Global defaults, panel language selector, and configuration backup/restore.
 - **Multi-language support**: Built-in translations for 10 languages (*English, Polish, German, French, Spanish, Italian, Czech, Portuguese, Russian, Swedish*).
 
@@ -104,15 +103,23 @@ Home Assistant logs a warning if entity state attributes exceed 16 KiB. To guara
 
 ## 🎨 Dashboards & Visualization
 
-Standard Home Assistant cards query the backend database directly and cannot read array data stored inside state attributes. To visualize `attributes.history`, you need custom Lovelace cards capable of parsing JSON arrays within templates.
+The history is stored in the `history` attribute of the generated entity, so a dashboard card can read it instantly from the frontend, with no database query involved.
 
-Currently, this attribute structure is supported by:
-- **[Piotras Smart Button (PSB)](https://github.com/Piotras1/piotras-smart-button)** (via custom JavaScript templates or dedicated [Custom Data Modules](https://github.com/Piotras1/piotras-smart-button/discussions/categories/custom-data-modules))
-- **[Custom Button-card (CB)](https://github.com/custom-cards/button-card)** (via custom JavaScript templates)
+Home Assistant's built-in graph cards (History Graph, Statistics Graph, Energy dashboard) read from the recorder and cannot plot an array stored in a state attribute. To visualize `attributes.history`, use a custom card that can read entity attributes through JavaScript templates.
 
-For complete YAML configuration code, setup guides, and pre-configured dashboard templates (Energy, Climate, Battery, and more), visit our visualization guide:
+Currently supported:
 
-👉 **[Explore History Templates & Card Examples](docs/TEMPLATES.md)**
+- **[Piotras Smart Button (PSB)](https://github.com/Piotras1/piotras-smart-button)**: via custom JavaScript templates or ready-made [Custom Data Modules](https://github.com/Piotras1/piotras-smart-button/discussions/categories/custom-data-modules)
+- **[Custom Button-card (CB)](https://github.com/custom-cards/button-card)**: via custom JavaScript templates
+
+**Notes for card authors**
+
+- Timestamps are Unix time in **seconds** (not milliseconds).
+- In `counter` mode the buffer stores the raw meter values. A sample taken right after a meter reset is flagged with `"reset"`, so a consumer should treat its value as the delta for that interval instead of subtracting the previous value.
+
+For complete YAML configurations, setup guides and ready-made dashboard templates (Energy, Climate, Battery and more), see the visualization guide:
+
+👉 **[History Templates & Card Examples](docs/TEMPLATES.md)**
 
 ---
 
