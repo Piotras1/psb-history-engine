@@ -1,4 +1,4 @@
-![HACS](https://img.shields.io/badge/HACS-Custom-orange?style=flat-square)
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/default)
 ![Downloads](https://img.shields.io/github/downloads/Piotras1/psb-history-engine/psb_history_engine.zip?logo=homeassistant&color=41BDF5&displayAssetName=false)
 ![GitHub Stars](https://img.shields.io/github/stars/Piotras1/psb-history-engine?style=flat-square&logo=github&label=stars&color=brightgreen)
 ![GitHub Issues](https://img.shields.io/github/issues/Piotras1/psb-history-engine?style=flat-square&logo=github&label=issues)
