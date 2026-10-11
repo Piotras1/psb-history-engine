@@ -108,23 +108,12 @@ Home Assistant logs a warning if entity state attributes exceed 16 KiB. To guara
 
 ### This limit applies strictly to this integration's buffer attributes and does not affect your global Home Assistant Recorder settings.
 
-## 🎨 Dashboards & Visualization
+## 🎨 Visualization & Dashboard Integration
 
-The history is stored in the `history` attribute of the generated entity, so a dashboard card can read it instantly from the frontend, with no database query involved.
+**PSB History Engine** is primary-tailored as the official backend for **[Piotras Smart Button (PSB)](https://github.com/Piotras1/piotras-smart-button)**:
 
-Home Assistant's built-in graph cards (History Graph, Statistics Graph, Energy dashboard) read from the recorder and cannot plot an array stored in a state attribute. To visualize `attributes.history`, use a custom card that can read entity attributes through JavaScript templates.
-
-Currently supported:
-
-- **[Piotras Smart Button (PSB)](https://github.com/Piotras1/piotras-smart-button)**: via custom JavaScript templates or ready-made [Custom Data Modules](https://github.com/Piotras1/piotras-smart-button/discussions/categories/custom-data-modules)
-- **[Custom Button-card (CB)](https://github.com/custom-cards/button-card)**: via custom JavaScript templates
-
-**Notes for card authors**
-
-- Timestamps are Unix time in **seconds** (not milliseconds).
-- In `counter` mode the buffer stores the raw meter values. A sample taken right after a meter reset is flagged with `"reset"`, so a consumer should treat its value as the delta for that interval instead of subtracting the previous value.
-
-For complete YAML configurations, setup guides and ready-made dashboard templates (Energy, Climate, Battery and more), see the visualization guide:
+* 🥇 **Piotras Smart Button (Recommended)**: Native, zero-overhead rendering via JavaScript templates and ready-made [Custom Data Modules](https://github.com/Piotras1/piotras-smart-button/discussions/categories/custom-data-modules).
+* ⚙️ **Other Custom Cards**: Can also be consumed by `custom:button-card` or any advanced card capable of reading entity state attributes via JS templates.
 
 👉 **[History Templates & Card Examples](docs/TEMPLATES.md)**
 
