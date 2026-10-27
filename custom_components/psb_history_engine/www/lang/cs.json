@@ -12,13 +12,16 @@
     "humidity": "Vlhkost",
     "battery": "Baterie",
     "water_gas": "Voda / plyn",
-    "other": "Ostatní"
+    "other": "Ostatní",
+    "on_off": "Zap / vyp"
   },
   "mode": {
     "value": "Aktuální hodnota",
     "counter": "Rostoucí počítadlo",
     "value_full": "Aktuální hodnota (teplota, baterie...)",
-    "counter_full": "Rostoucí počítadlo (energie, voda... detekuje reset)"
+    "counter_full": "Rostoucí počítadlo (energie, voda... detekuje reset)",
+    "on_off": "Zap/vyp",
+    "on_off_full": "Zap / vyp (každé zapnutí a vypnutí se ukládá s časem)"
   },
   "unit": {
     "seconds": "sekundy",
@@ -87,7 +90,9 @@
     "confirm_clear_yes": "Ano, vymazat",
     "confirm_remove": "Odstranit sledování a entitu {code} včetně uložených dat bufferu? Tuto akci nelze vrátit zpět.",
     "confirm_yes": "Ano, odstranit",
-    "confirm_no": "Ne"
+    "confirm_no": "Ne",
+    "depth_entries": "Počet záznamů (zapnutí a vypnutí)",
+    "on_off_hint": "Každé zapnutí a vypnutí se ukládá s datem a časem. Je to jediné nastavení."
   },
   "card": {
     "edit": "Upravit",
@@ -116,5 +121,66 @@
     "no_results": "Žádné výsledky.",
     "nothing": "Zatím nic není sledováno - přejděte na \"Přidat\" v nabídce."
   },
-  "loading": "Načítání..."
+  "loading": "Načítání...",
+  "copycard": {
+    "button": "Kopírovat do PSB",
+    "dialog_title": "Kopírovat kartu do PSB",
+    "card_title": "Název karty",
+    "accent": "Barva zvýraznění",
+    "opt_title": "Název a aktuální hodnota",
+    "opt_minmax": "Min / Max",
+    "opt_grid": "Stupnice a pomocné čáry",
+    "opt_dot": "Tečka u aktuální hodnoty",
+    "opt_trend": "Šipka trendu",
+    "opt_times": "Popisky času",
+    "opt_switch": "Přepínač rozsahu",
+    "detected": "Zjištěno: každých {interval}, vyrovnávací paměť {depth} bodů → rozsahy: {ranges}",
+    "counter_note": "Režim čítače: karta zobrazuje spotřebu za každou hodinu (jen celé hodiny), odolně vůči resetu. Na 24 h je potřeba vyrovnávací paměť {need} bodů.",
+    "paste_hint": "Vložte jako ruční kartu do dashboardu (vyžaduje Piotras Smart Button).",
+    "show_code": "Zobrazit kód",
+    "hide_code": "Skrýt kód",
+    "cancel": "Zrušit",
+    "copy": "Kopírovat",
+    "copied": "Zkopírováno",
+    "copy_failed": "Kopírování selhalo - zkopírujte kód níže ručně.",
+    "close": "Zavřít",
+    "card_nodata": "Žádná historická data.",
+    "card_pts": "bod.",
+    "unit_label": "Jednotka",
+    "unit_auto": "auto",
+    "card_collecting": "Sběr dat... (jsou potřeba alespoň 2 celé hodiny)",
+    "opt_buffer": "Tečka naplnění vyrovnávací paměti",
+    "card_buffer": "Buffer",
+    "on_off_note": "Režim zap/vyp: karta ukazuje pruh období ZAP a VYP sestavený z uložených změn.",
+    "detected_on_off": "Zjištěno: entita zap/vyp, uchovává se posledních {depth} změn.",
+    "card_starts": "zapnutí"
+  },
+  "slots": {
+    "add": "Přidat další",
+    "add_title": "Sledovat tuto entitu znovu s jiným nastavením (max. {n})",
+    "max_reached": "Dosaženo maxima {n} sledování na entitu.",
+    "family_title": "Sledování této entity: {n}",
+    "nav_families": "Rodiny"
+  },
+  "issues": {
+    "nav": "Nekompatibilní / chybné",
+    "title": "Nekompatibilní nebo chybné entity",
+    "hint": "Tato sledování nemohou vytvářet historii: zdrojová entita už neexistuje nebo její stav není číslo. Odstraňte je z integrace.",
+    "remove": "Odstranit",
+    "remove_all": "Odstranit vše ({n})",
+    "confirm_all": "Odstranit {n} z integrace?",
+    "confirm_yes": "Ano, odstranit",
+    "cancel": "Zrušit",
+    "missing": "Zdrojová entita už neexistuje",
+    "non_numeric": "Stav není číslo: {state}",
+    "skipped": "{n} přeskočeno - nyní fungují."
+  },
+  "footer": {
+    "integration": "Integrace na GitHubu",
+    "card": "Piotras Smart Button na GitHubu"
+  },
+  "state": {
+    "on": "ZAP",
+    "off": "VYP"
+  }
 }

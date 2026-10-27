@@ -12,13 +12,16 @@
     "humidity": "Luftfeuchtigkeit",
     "battery": "Batterien",
     "water_gas": "Wasser / Gas",
-    "other": "Sonstige"
+    "other": "Sonstige",
+    "on_off": "Ein / Aus"
   },
   "mode": {
     "value": "Aktueller Wert",
     "counter": "Steigender Zähler",
     "value_full": "Aktueller Wert (Temperatur, Batterie...)",
-    "counter_full": "Steigender Zähler (Energie, Wasser... erkennt Reset)"
+    "counter_full": "Steigender Zähler (Energie, Wasser... erkennt Reset)",
+    "on_off": "Ein/Aus",
+    "on_off_full": "Ein / Aus (jedes Ein- und Ausschalten wird mit Zeit gespeichert)"
   },
   "unit": {
     "seconds": "Sekunden",
@@ -87,7 +90,9 @@
     "confirm_clear_yes": "Ja, löschen",
     "confirm_remove": "Verfolgung und Entität {code} inklusive gespeichertem Puffer entfernen? Dies kann nicht rückgängig gemacht werden.",
     "confirm_yes": "Ja, entfernen",
-    "confirm_no": "Nein"
+    "confirm_no": "Nein",
+    "depth_entries": "Anzahl der Einträge (Ein- und Ausschaltvorgänge)",
+    "on_off_hint": "Jedes Ein- und Ausschalten wird mit Datum und Uhrzeit gespeichert. Das ist die einzige Einstellung."
   },
   "card": {
     "edit": "Bearbeiten",
@@ -116,5 +121,66 @@
     "no_results": "Keine Ergebnisse.",
     "nothing": "Noch nichts wird überwacht - gehe zu \"Hinzufügen\" im Menü."
   },
-  "loading": "Wird geladen..."
+  "loading": "Wird geladen...",
+  "copycard": {
+    "button": "Zu PSB kopieren",
+    "dialog_title": "Karte nach PSB kopieren",
+    "card_title": "Kartentitel",
+    "accent": "Akzentfarbe",
+    "opt_title": "Titel und aktueller Wert",
+    "opt_minmax": "Min / Max",
+    "opt_grid": "Skala und Hilfslinien",
+    "opt_dot": "Punkt beim aktuellen Wert",
+    "opt_trend": "Trendpfeil",
+    "opt_times": "Zeitbeschriftung",
+    "opt_switch": "Bereichsumschalter",
+    "detected": "Erkannt: alle {interval}, Puffer {depth} Punkte → Bereiche: {ranges}",
+    "counter_note": "Zählermodus: Die Karte zeigt den Verbrauch pro Stunde (nur volle Stunden), reset-sicher. Für 24 h wird ein Puffer von {need} Punkten benötigt.",
+    "paste_hint": "Als manuelle Karte im Dashboard einfügen (Piotras Smart Button muss installiert sein).",
+    "show_code": "Code anzeigen",
+    "hide_code": "Code ausblenden",
+    "cancel": "Abbrechen",
+    "copy": "Kopieren",
+    "copied": "Kopiert",
+    "copy_failed": "Kopieren fehlgeschlagen - Code unten manuell kopieren.",
+    "close": "Schließen",
+    "card_nodata": "Keine Verlaufsdaten.",
+    "card_pts": "Pkt.",
+    "unit_label": "Einheit",
+    "unit_auto": "auto",
+    "card_collecting": "Daten werden gesammelt... (mindestens 2 volle Stunden nötig)",
+    "opt_buffer": "Puffer-Füllstandspunkt",
+    "card_buffer": "Puffer",
+    "on_off_note": "Ein/Aus-Modus: Die Karte zeigt einen Balken mit EIN- und AUS-Zeiten, aufgebaut aus den gespeicherten Änderungen.",
+    "detected_on_off": "Erkannt: Ein/Aus-Entität, die letzten {depth} Änderungen werden gespeichert.",
+    "card_starts": "Einschaltungen"
+  },
+  "slots": {
+    "add": "Weiteres hinzufügen",
+    "add_title": "Diese Entität erneut mit anderen Einstellungen verfolgen (max. {n})",
+    "max_reached": "Maximum von {n} Verfolgungen pro Entität erreicht.",
+    "family_title": "Verfolgungen dieser Entität: {n}",
+    "nav_families": "Familien"
+  },
+  "issues": {
+    "nav": "Inkompatibel / fehlerhaft",
+    "title": "Inkompatible oder fehlerhafte Entitäten",
+    "hint": "Diese Verfolgungen können keinen Verlauf erzeugen: Die Quellentität existiert nicht mehr oder ihr Zustand ist keine Zahl. Entferne sie aus der Integration.",
+    "remove": "Entfernen",
+    "remove_all": "Alle entfernen ({n})",
+    "confirm_all": "{n} aus der Integration entfernen?",
+    "confirm_yes": "Ja, entfernen",
+    "cancel": "Abbrechen",
+    "missing": "Quellentität existiert nicht mehr",
+    "non_numeric": "Zustand ist keine Zahl: {state}",
+    "skipped": "{n} übersprungen - sie funktionieren jetzt."
+  },
+  "footer": {
+    "integration": "Integration auf GitHub",
+    "card": "Piotras Smart Button auf GitHub"
+  },
+  "state": {
+    "on": "EIN",
+    "off": "AUS"
+  }
 }

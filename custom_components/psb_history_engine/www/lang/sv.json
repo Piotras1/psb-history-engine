@@ -12,13 +12,16 @@
     "humidity": "Luftfuktighet",
     "battery": "Batterier",
     "water_gas": "Vatten / gas",
-    "other": "Övrigt"
+    "other": "Övrigt",
+    "on_off": "På / av"
   },
   "mode": {
     "value": "Aktuellt värde",
     "counter": "Stigande räknare",
     "value_full": "Aktuellt värde (temperatur, batteri...)",
-    "counter_full": "Stigande räknare (energi, vatten... upptäcker återställning)"
+    "counter_full": "Stigande räknare (energi, vatten... upptäcker återställning)",
+    "on_off": "På/av",
+    "on_off_full": "På / av (varje påslag och avstängning sparas med tid)"
   },
   "unit": {
     "seconds": "sekunder",
@@ -87,7 +90,9 @@
     "confirm_clear_yes": "Ja, rensa",
     "confirm_remove": "Ta bort spårning och entiteten {code}, inklusive dess buffrade data? Detta kan inte ångras.",
     "confirm_yes": "Ja, ta bort",
-    "confirm_no": "Nej"
+    "confirm_no": "Nej",
+    "depth_entries": "Antal poster (påslag och avstängningar)",
+    "on_off_hint": "Varje påslag och avstängning sparas med datum och tid. Det är den enda inställningen."
   },
   "card": {
     "edit": "Redigera",
@@ -116,5 +121,66 @@
     "no_results": "Inga resultat.",
     "nothing": "Inget spåras ännu - gå till \"Lägg till\" i menyn."
   },
-  "loading": "Laddar..."
+  "loading": "Laddar...",
+  "copycard": {
+    "button": "Kopiera till PSB",
+    "dialog_title": "Kopiera kort till PSB",
+    "card_title": "Kortets titel",
+    "accent": "Accentfärg",
+    "opt_title": "Titel och aktuellt värde",
+    "opt_minmax": "Min / Max",
+    "opt_grid": "Skala och hjälplinjer",
+    "opt_dot": "Punkt vid aktuellt värde",
+    "opt_trend": "Trendpil",
+    "opt_times": "Tidsetiketter",
+    "opt_switch": "Intervallväljare",
+    "detected": "Identifierat: var {interval}, buffert på {depth} punkter → intervall: {ranges}",
+    "counter_note": "Räknarläge: kortet visar förbrukningen per timme (endast hela timmar), säkert vid nollställning. För 24 h krävs en buffert på {need} punkter.",
+    "paste_hint": "Klistra in som manuellt kort i din dashboard (kräver Piotras Smart Button).",
+    "show_code": "Visa kod",
+    "hide_code": "Dölj kod",
+    "cancel": "Avbryt",
+    "copy": "Kopiera",
+    "copied": "Kopierat",
+    "copy_failed": "Kopieringen misslyckades - kopiera koden nedan manuellt.",
+    "close": "Stäng",
+    "card_nodata": "Inga historiska data.",
+    "card_pts": "pkt",
+    "unit_label": "Enhet",
+    "unit_auto": "auto",
+    "card_collecting": "Samlar in data... (minst 2 hela timmar behövs)",
+    "opt_buffer": "Punkt för buffertfyllnad",
+    "card_buffer": "Buffert",
+    "on_off_note": "På/av-läge: kortet visar ett fält med PÅ- och AV-perioder byggt av de sparade ändringarna.",
+    "detected_on_off": "Identifierat: på/av-entitet, de senaste {depth} ändringarna sparas.",
+    "card_starts": "påslag"
+  },
+  "slots": {
+    "add": "Lägg till fler",
+    "add_title": "Spåra den här entiteten igen med andra inställningar (max {n})",
+    "max_reached": "Maximalt {n} spårningar per entitet har uppnåtts.",
+    "family_title": "Spårningar av den här entiteten: {n}",
+    "nav_families": "Familjer"
+  },
+  "issues": {
+    "nav": "Inkompatibla / felaktiga",
+    "title": "Inkompatibla eller felaktiga entiteter",
+    "hint": "Dessa spårningar kan inte skapa historik: källentiteten finns inte längre eller så är dess tillstånd inte ett tal. Ta bort dem från integrationen.",
+    "remove": "Ta bort",
+    "remove_all": "Ta bort alla ({n})",
+    "confirm_all": "Ta bort {n} från integrationen?",
+    "confirm_yes": "Ja, ta bort",
+    "cancel": "Avbryt",
+    "missing": "Källentiteten finns inte längre",
+    "non_numeric": "Tillståndet är inte ett tal: {state}",
+    "skipped": "{n} hoppades över - de fungerar nu."
+  },
+  "footer": {
+    "integration": "Integration på GitHub",
+    "card": "Piotras Smart Button på GitHub"
+  },
+  "state": {
+    "on": "PÅ",
+    "off": "AV"
+  }
 }

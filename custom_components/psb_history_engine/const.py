@@ -10,7 +10,7 @@ PANEL_TITLE = "PSB History Engine"
 PANEL_ICON = "mdi:chart-timeline-variant"
 
 # --- entry.options top-level keys ---
-CONF_TRACKED = "tracked_entities"  # dict: source_entity_id -> per-entity config
+CONF_TRACKED = "tracked_entities"  # dict: tracking key -> per-tracking config (key = source entity_id for slot 0, "<source>#<n>" for extra trackings)
 CONF_DEFAULTS = "defaults"  # dict: global defaults for new entities
 
 # --- per-entity config keys (values stored under CONF_TRACKED[entity_id]) ---
@@ -29,7 +29,14 @@ LANGUAGES = ("cs", "de", "en", "es", "fr", "it", "pl", "pt", "ru", "sv")
 # --- tracking modes ---
 TRACKING_MODE_VALUE = "value"
 TRACKING_MODE_COUNTER = "counter"
-TRACKING_MODES = (TRACKING_MODE_VALUE, TRACKING_MODE_COUNTER)
+# on/off entities (switch, binary_sensor...): an EVENT LOG, one entry per state change,
+# [timestamp, 1 (on) | 0 (off) | -1 (unavailable / unknown)]. No sampling interval at all.
+TRACKING_MODE_ON_OFF = "on_off"
+LEGACY_MODE_ON_TIME = "on_time"      # 1.6 / 1.7 (percent per interval) - migrated to on_off
+TRACKING_MODES = (TRACKING_MODE_VALUE, TRACKING_MODE_COUNTER, TRACKING_MODE_ON_OFF)
+ON_STATE = "on"
+ON_OFF_ON, ON_OFF_OFF, ON_OFF_UNKNOWN = 1, 0, -1
+ON_OFF_DEFAULT_DEPTH = 100           # entries kept for a new on/off tracking
 
 # --- interval units -> seconds ---
 UNIT_SECONDS = "seconds"
@@ -56,6 +63,12 @@ SYSTEM_DEFAULTS = {
 }
 
 TRACKABLE_DOMAINS = ("sensor", "number", "input_number", "counter")
+# on/off domains, tracked in the "on_off" mode (an event log)
+BINARY_DOMAINS = ("binary_sensor", "switch", "light", "input_boolean", "fan")
+
+# one source entity can be tracked several times (slot 0 = classic, 1.. = extra)
+MAX_SLOTS = 5
+SLOT_SEPARATOR = "#"
 
 RESET_FLAG = "reset"
 MIN_DEPTH = 2

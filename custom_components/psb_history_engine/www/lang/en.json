@@ -12,13 +12,16 @@
     "humidity": "Humidity",
     "battery": "Batteries",
     "water_gas": "Water / Gas",
-    "other": "Other"
+    "other": "Other",
+    "on_off": "On / off"
   },
   "mode": {
     "value": "Current value",
     "counter": "Increasing counter",
     "value_full": "Current value (temperature, battery...)",
-    "counter_full": "Increasing counter (energy, water... detects resets)"
+    "counter_full": "Increasing counter (energy, water... detects resets)",
+    "on_off": "On/off",
+    "on_off_full": "On / off (each switch-on and switch-off is saved with its time)"
   },
   "unit": {
     "seconds": "seconds",
@@ -87,7 +90,9 @@
     "confirm_clear_yes": "Yes, clear",
     "confirm_remove": "Remove tracking and the entity {code}, including its buffered data? This cannot be undone.",
     "confirm_yes": "Yes, remove",
-    "confirm_no": "No"
+    "confirm_no": "No",
+    "depth_entries": "Number of entries (switch-ons and switch-offs)",
+    "on_off_hint": "Every switch-on and switch-off is saved with its date and time. This is the only setting."
   },
   "card": {
     "edit": "Edit",
@@ -116,5 +121,66 @@
     "no_results": "No results.",
     "nothing": "Nothing tracked yet - go to \"Add\" in the menu."
   },
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "copycard": {
+    "button": "Copy to PSB",
+    "dialog_title": "Copy card to PSB",
+    "card_title": "Card title",
+    "accent": "Accent color",
+    "opt_title": "Title and current value",
+    "opt_minmax": "Min / Max",
+    "opt_grid": "Scale and grid lines",
+    "opt_dot": "Dot at current value",
+    "opt_trend": "Trend arrow",
+    "opt_times": "Time labels",
+    "opt_switch": "Range switch",
+    "detected": "Detected: every {interval}, buffer {depth} points → ranges: {ranges}",
+    "counter_note": "Counter mode: the card shows consumption per hour (complete hours only), reset-safe. 24 h needs a buffer of {need} points.",
+    "paste_hint": "Paste it as a manual card in your dashboard (Piotras Smart Button must be installed).",
+    "show_code": "Show code",
+    "hide_code": "Hide code",
+    "cancel": "Cancel",
+    "copy": "Copy",
+    "copied": "Copied",
+    "copy_failed": "Copy failed - copy the code below manually.",
+    "close": "Close",
+    "card_nodata": "No historical data.",
+    "card_pts": "pts",
+    "unit_label": "Unit",
+    "unit_auto": "auto",
+    "card_collecting": "Collecting data... (at least 2 full hours are needed)",
+    "opt_buffer": "Buffer fill dot",
+    "card_buffer": "Buffer",
+    "on_off_note": "On/off mode: the card shows a bar of ON and OFF periods built from the saved changes.",
+    "detected_on_off": "Detected: on/off entity, the last {depth} changes are kept.",
+    "card_starts": "starts"
+  },
+  "slots": {
+    "add": "Add another",
+    "add_title": "Track this entity again with different settings (max {n})",
+    "max_reached": "Maximum of {n} trackings per entity reached.",
+    "family_title": "Trackings of this entity: {n}",
+    "nav_families": "Families"
+  },
+  "issues": {
+    "nav": "Incompatible / broken",
+    "title": "Incompatible or broken entities",
+    "hint": "These trackings cannot produce history: the source entity no longer exists or its state is not a number. Remove them from the integration.",
+    "remove": "Remove",
+    "remove_all": "Remove all ({n})",
+    "confirm_all": "Remove {n} from the integration?",
+    "confirm_yes": "Yes, remove",
+    "cancel": "Cancel",
+    "missing": "Source entity no longer exists",
+    "non_numeric": "State is not a number: {state}",
+    "skipped": "{n} skipped - they work now."
+  },
+  "footer": {
+    "integration": "Integration on GitHub",
+    "card": "Piotras Smart Button on GitHub"
+  },
+  "state": {
+    "on": "ON",
+    "off": "OFF"
+  }
 }

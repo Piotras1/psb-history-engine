@@ -12,13 +12,16 @@
     "humidity": "Wilgotność",
     "battery": "Baterie",
     "water_gas": "Woda / gaz",
-    "other": "Inne"
+    "other": "Inne",
+    "on_off": "Włącz / wyłącz"
   },
   "mode": {
     "value": "Wartość bieżąca",
     "counter": "Licznik narastający",
     "value_full": "Wartość bieżąca (temperatura, bateria...)",
-    "counter_full": "Licznik narastający (energia, woda... wykrywa reset)"
+    "counter_full": "Licznik narastający (energia, woda... wykrywa reset)",
+    "on_off": "Włącz/wyłącz",
+    "on_off_full": "Włącz / wyłącz (każde włączenie i wyłączenie zapisywane z datą i godziną)"
   },
   "unit": {
     "seconds": "sekundy",
@@ -87,7 +90,9 @@
     "confirm_clear_yes": "Tak, wyczyść",
     "confirm_remove": "Usunąć śledzenie i encję {code} razem z zapisanym buforem? Tego nie da się cofnąć.",
     "confirm_yes": "Tak, usuń",
-    "confirm_no": "Nie"
+    "confirm_no": "Nie",
+    "depth_entries": "Liczba wpisów (włączeń i wyłączeń)",
+    "on_off_hint": "Każde włączenie i wyłączenie jest zapisywane z datą i godziną. To jedyne ustawienie."
   },
   "card": {
     "edit": "Edytuj",
@@ -116,5 +121,66 @@
     "no_results": "Brak wyników.",
     "nothing": "Nic jeszcze nie jest śledzone - przejdź do „Dodaj” w menu."
   },
-  "loading": "Ładowanie..."
+  "loading": "Ładowanie...",
+  "copycard": {
+    "button": "Kopiuj do PSB",
+    "dialog_title": "Kopiuj kartę do PSB",
+    "card_title": "Tytuł karty",
+    "accent": "Kolor akcentu",
+    "opt_title": "Tytuł i aktualna wartość",
+    "opt_minmax": "Min / Max",
+    "opt_grid": "Skala i linie pomocnicze",
+    "opt_dot": "Kropka z aktualną wartością",
+    "opt_trend": "Strzałka trendu",
+    "opt_times": "Godziny pod wykresem",
+    "opt_switch": "Przełącznik zakresu",
+    "detected": "Wykryto: co {interval}, bufor {depth} punktów → zakresy: {ranges}",
+    "counter_note": "Tryb licznika: karta pokazuje zużycie w każdej godzinie (tylko pełne godziny), odporne na reset. Na 24 h potrzeba bufora {need} punktów.",
+    "paste_hint": "Wklej jako kartę ręczną w dashboardzie (wymagany Piotras Smart Button).",
+    "show_code": "Pokaż kod",
+    "hide_code": "Ukryj kod",
+    "cancel": "Anuluj",
+    "copy": "Kopiuj",
+    "copied": "Skopiowano",
+    "copy_failed": "Nie udało się skopiować - skopiuj kod poniżej ręcznie.",
+    "close": "Zamknij",
+    "card_nodata": "Brak danych historycznych.",
+    "card_pts": "pkt",
+    "unit_label": "Jednostka",
+    "unit_auto": "auto",
+    "card_collecting": "Zbieranie danych... (potrzeba co najmniej 2 pełnych godzin)",
+    "opt_buffer": "Kropka zapełnienia bufora",
+    "card_buffer": "Bufor",
+    "on_off_note": "Tryb włącz/wyłącz: karta pokazuje pasek okresów WŁ. i WYŁ. zbudowany z zapisanych zmian.",
+    "detected_on_off": "Wykryto: encja włącz/wyłącz, przechowywane jest ostatnich {depth} zmian.",
+    "card_starts": "włączeń"
+  },
+  "slots": {
+    "add": "Dodaj kolejne",
+    "add_title": "Śledź tę encję ponownie z innymi ustawieniami (maks. {n})",
+    "max_reached": "Osiągnięto maksimum {n} śledzeń jednej encji.",
+    "family_title": "Śledzenia tej encji: {n}",
+    "nav_families": "Rodziny"
+  },
+  "issues": {
+    "nav": "Niekompatybilne / błędne",
+    "title": "Niekompatybilne lub błędne encje",
+    "hint": "Tych śledzeń nie da się zamienić w historię: encja źródłowa już nie istnieje albo jej stan nie jest liczbą. Usuń je z integracji.",
+    "remove": "Usuń",
+    "remove_all": "Usuń wszystkie ({n})",
+    "confirm_all": "Usunąć {n} z integracji?",
+    "confirm_yes": "Tak, usuń",
+    "cancel": "Anuluj",
+    "missing": "Encja źródłowa już nie istnieje",
+    "non_numeric": "Stan nie jest liczbą: {state}",
+    "skipped": "Pominięto {n} - już działają."
+  },
+  "footer": {
+    "integration": "Integracja na GitHubie",
+    "card": "Piotras Smart Button na GitHubie"
+  },
+  "state": {
+    "on": "WŁ.",
+    "off": "WYŁ."
+  }
 }

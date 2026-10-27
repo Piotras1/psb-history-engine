@@ -12,13 +12,16 @@
     "humidity": "Umidade",
     "battery": "Baterias",
     "water_gas": "Água / gás",
-    "other": "Outros"
+    "other": "Outros",
+    "on_off": "Ligado / desligado"
   },
   "mode": {
     "value": "Valor atual",
     "counter": "Contador crescente",
     "value_full": "Valor atual (temperatura, bateria...)",
-    "counter_full": "Contador crescente (energia, água... detecta reinícios)"
+    "counter_full": "Contador crescente (energia, água... detecta reinícios)",
+    "on_off": "Ligado/desligado",
+    "on_off_full": "Ligado / desligado (cada ligação e desligação é guardada com a hora)"
   },
   "unit": {
     "seconds": "segundos",
@@ -87,7 +90,9 @@
     "confirm_clear_yes": "Sim, limpar",
     "confirm_remove": "Remover o monitoramento e a entidade {code}, incluindo os dados do buffer? Esta ação não pode ser desfeita.",
     "confirm_yes": "Sim, remover",
-    "confirm_no": "Não"
+    "confirm_no": "Não",
+    "depth_entries": "Número de entradas (ligações e desligações)",
+    "on_off_hint": "Cada ligação e desligação é guardada com data e hora. É a única definição."
   },
   "card": {
     "edit": "Editar",
@@ -116,5 +121,66 @@
     "no_results": "Nenhum resultado.",
     "nothing": "Nada sendo monitorado ainda - vá para \"Adicionar\" no menu."
   },
-  "loading": "Carregando..."
+  "loading": "Carregando...",
+  "copycard": {
+    "button": "Copiar para PSB",
+    "dialog_title": "Copiar cartão para PSB",
+    "card_title": "Título do cartão",
+    "accent": "Cor de destaque",
+    "opt_title": "Título e valor atual",
+    "opt_minmax": "Mín / Máx",
+    "opt_grid": "Escala e linhas de guia",
+    "opt_dot": "Ponto no valor atual",
+    "opt_trend": "Seta de tendência",
+    "opt_times": "Rótulos de hora",
+    "opt_switch": "Seletor de intervalo",
+    "detected": "Identificado: a cada {interval}, buffer de {depth} pontos → intervalos: {ranges}",
+    "counter_note": "Modo contador: o cartão mostra o consumo por hora (apenas horas completas), seguro contra reinícios. Para 24 h é preciso um buffer de {need} pontos.",
+    "paste_hint": "Cole como cartão manual no painel (requer Piotras Smart Button).",
+    "show_code": "Mostrar código",
+    "hide_code": "Ocultar código",
+    "cancel": "Cancelar",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "copy_failed": "Falha ao copiar - copie o código abaixo manualmente.",
+    "close": "Fechar",
+    "card_nodata": "Sem dados históricos.",
+    "card_pts": "pts",
+    "unit_label": "Unidade",
+    "unit_auto": "auto",
+    "card_collecting": "A recolher dados... (são necessárias pelo menos 2 horas completas)",
+    "opt_buffer": "Ponto de preenchimento do buffer",
+    "card_buffer": "Buffer",
+    "on_off_note": "Modo ligado/desligado: o cartão mostra uma barra de períodos LIG. e DESL. criada a partir das alterações guardadas.",
+    "detected_on_off": "Identificado: entidade ligado/desligado, são guardadas as últimas {depth} alterações.",
+    "card_starts": "ligações"
+  },
+  "slots": {
+    "add": "Adicionar outro",
+    "add_title": "Acompanhar esta entidade novamente com outras definições (máx. {n})",
+    "max_reached": "Atingido o máximo de {n} acompanhamentos por entidade.",
+    "family_title": "Acompanhamentos desta entidade: {n}",
+    "nav_families": "Famílias"
+  },
+  "issues": {
+    "nav": "Incompatíveis / com erro",
+    "title": "Entidades incompatíveis ou com erro",
+    "hint": "Estes acompanhamentos não conseguem gerar histórico: a entidade de origem já não existe ou o seu estado não é um número. Remova-os da integração.",
+    "remove": "Remover",
+    "remove_all": "Remover todos ({n})",
+    "confirm_all": "Remover {n} da integração?",
+    "confirm_yes": "Sim, remover",
+    "cancel": "Cancelar",
+    "missing": "A entidade de origem já não existe",
+    "non_numeric": "O estado não é um número: {state}",
+    "skipped": "{n} ignorados: já funcionam."
+  },
+  "footer": {
+    "integration": "Integração no GitHub",
+    "card": "Piotras Smart Button no GitHub"
+  },
+  "state": {
+    "on": "LIG.",
+    "off": "DESL."
+  }
 }

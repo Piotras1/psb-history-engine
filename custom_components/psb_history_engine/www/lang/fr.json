@@ -12,13 +12,16 @@
     "humidity": "Humidité",
     "battery": "Batteries",
     "water_gas": "Eau / gaz",
-    "other": "Autres"
+    "other": "Autres",
+    "on_off": "Marche / arrêt"
   },
   "mode": {
     "value": "Valeur actuelle",
     "counter": "Compteur croissant",
     "value_full": "Valeur actuelle (température, batterie...)",
-    "counter_full": "Compteur croissant (énergie, eau... détecte les remises à zéro)"
+    "counter_full": "Compteur croissant (énergie, eau... détecte les remises à zéro)",
+    "on_off": "Marche/arrêt",
+    "on_off_full": "Marche / arrêt (chaque allumage et extinction est enregistré avec son heure)"
   },
   "unit": {
     "seconds": "secondes",
@@ -87,7 +90,9 @@
     "confirm_clear_yes": "Oui, effacer",
     "confirm_remove": "Supprimer le suivi et l'entité {code}, y compris ses données mises en tampon ? Cette action est irréversible.",
     "confirm_yes": "Oui, supprimer",
-    "confirm_no": "Non"
+    "confirm_no": "Non",
+    "depth_entries": "Nombre d'entrées (allumages et extinctions)",
+    "on_off_hint": "Chaque allumage et extinction est enregistré avec la date et l'heure. C'est le seul réglage."
   },
   "card": {
     "edit": "Modifier",
@@ -116,5 +121,66 @@
     "no_results": "Aucun résultat.",
     "nothing": "Rien n'est encore suivi - allez dans \"Ajouter\" dans le menu."
   },
-  "loading": "Chargement..."
+  "loading": "Chargement...",
+  "copycard": {
+    "button": "Copier vers PSB",
+    "dialog_title": "Copier la carte vers PSB",
+    "card_title": "Titre de la carte",
+    "accent": "Couleur d'accent",
+    "opt_title": "Titre et valeur actuelle",
+    "opt_minmax": "Min / Max",
+    "opt_grid": "Échelle et lignes repères",
+    "opt_dot": "Point sur la valeur actuelle",
+    "opt_trend": "Flèche de tendance",
+    "opt_times": "Étiquettes d'heure",
+    "opt_switch": "Sélecteur de plage",
+    "detected": "Détecté : toutes les {interval}, tampon de {depth} points → plages : {ranges}",
+    "counter_note": "Mode compteur : la carte affiche la consommation par heure (heures complètes uniquement), insensible aux remises à zéro. Pour 24 h, il faut un tampon de {need} points.",
+    "paste_hint": "Collez-la comme carte manuelle dans votre tableau de bord (Piotras Smart Button requis).",
+    "show_code": "Afficher le code",
+    "hide_code": "Masquer le code",
+    "cancel": "Annuler",
+    "copy": "Copier",
+    "copied": "Copié",
+    "copy_failed": "Échec de la copie - copiez le code ci-dessous manuellement.",
+    "close": "Fermer",
+    "card_nodata": "Aucune donnée historique.",
+    "card_pts": "pts",
+    "unit_label": "Unité",
+    "unit_auto": "auto",
+    "card_collecting": "Collecte des données... (au moins 2 heures complètes nécessaires)",
+    "opt_buffer": "Point de remplissage du tampon",
+    "card_buffer": "Tampon",
+    "on_off_note": "Mode marche/arrêt : la carte affiche une barre des périodes ALLUMÉ et ÉTEINT construite à partir des changements enregistrés.",
+    "detected_on_off": "Détecté : entité marche/arrêt, les {depth} derniers changements sont conservés.",
+    "card_starts": "allumages"
+  },
+  "slots": {
+    "add": "Ajouter un autre",
+    "add_title": "Suivre à nouveau cette entité avec d'autres réglages (max. {n})",
+    "max_reached": "Maximum de {n} suivis par entité atteint.",
+    "family_title": "Suivis de cette entité : {n}",
+    "nav_families": "Familles"
+  },
+  "issues": {
+    "nav": "Incompatibles / en erreur",
+    "title": "Entités incompatibles ou en erreur",
+    "hint": "Ces suivis ne peuvent pas produire d'historique : l'entité source n'existe plus ou son état n'est pas un nombre. Supprimez-les de l'intégration.",
+    "remove": "Supprimer",
+    "remove_all": "Tout supprimer ({n})",
+    "confirm_all": "Supprimer {n} de l'intégration ?",
+    "confirm_yes": "Oui, supprimer",
+    "cancel": "Annuler",
+    "missing": "L'entité source n'existe plus",
+    "non_numeric": "L'état n'est pas un nombre : {state}",
+    "skipped": "{n} ignorés : ils fonctionnent maintenant."
+  },
+  "footer": {
+    "integration": "Intégration sur GitHub",
+    "card": "Piotras Smart Button sur GitHub"
+  },
+  "state": {
+    "on": "ALLUMÉ",
+    "off": "ÉTEINT"
+  }
 }

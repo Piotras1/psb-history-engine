@@ -12,13 +12,16 @@
     "humidity": "Umidità",
     "battery": "Batterie",
     "water_gas": "Acqua / gas",
-    "other": "Altro"
+    "other": "Altro",
+    "on_off": "Acceso / spento"
   },
   "mode": {
     "value": "Valore attuale",
     "counter": "Contatore crescente",
     "value_full": "Valore attuale (temperatura, batteria...)",
-    "counter_full": "Contatore crescente (energia, acqua... rileva gli azzeramenti)"
+    "counter_full": "Contatore crescente (energia, acqua... rileva gli azzeramenti)",
+    "on_off": "Acceso/spento",
+    "on_off_full": "Acceso / spento (ogni accensione e spegnimento è salvato con l'ora)"
   },
   "unit": {
     "seconds": "secondi",
@@ -87,7 +90,9 @@
     "confirm_clear_yes": "Sì, cancella",
     "confirm_remove": "Rimuovere il monitoraggio e l'entità {code}, compresi i dati nel buffer? L'operazione non può essere annullata.",
     "confirm_yes": "Sì, rimuovi",
-    "confirm_no": "No"
+    "confirm_no": "No",
+    "depth_entries": "Numero di voci (accensioni e spegnimenti)",
+    "on_off_hint": "Ogni accensione e spegnimento è salvato con data e ora. È l'unica impostazione."
   },
   "card": {
     "edit": "Modifica",
@@ -116,5 +121,66 @@
     "no_results": "Nessun risultato.",
     "nothing": "Ancora nulla in monitoraggio - vai su \"Aggiungi\" nel menu."
   },
-  "loading": "Caricamento..."
+  "loading": "Caricamento...",
+  "copycard": {
+    "button": "Copia in PSB",
+    "dialog_title": "Copia la scheda in PSB",
+    "card_title": "Titolo della scheda",
+    "accent": "Colore di accento",
+    "opt_title": "Titolo e valore attuale",
+    "opt_minmax": "Min / Max",
+    "opt_grid": "Scala e linee guida",
+    "opt_dot": "Punto sul valore attuale",
+    "opt_trend": "Freccia di tendenza",
+    "opt_times": "Etichette orarie",
+    "opt_switch": "Selettore intervallo",
+    "detected": "Rilevato: ogni {interval}, buffer di {depth} punti → intervalli: {ranges}",
+    "counter_note": "Modalità contatore: la scheda mostra il consumo per ora (solo ore complete), a prova di reset. Per 24 h serve un buffer di {need} punti.",
+    "paste_hint": "Incollala come scheda manuale nella dashboard (richiede Piotras Smart Button).",
+    "show_code": "Mostra codice",
+    "hide_code": "Nascondi codice",
+    "cancel": "Annulla",
+    "copy": "Copia",
+    "copied": "Copiato",
+    "copy_failed": "Copia non riuscita - copia manualmente il codice qui sotto.",
+    "close": "Chiudi",
+    "card_nodata": "Nessun dato storico.",
+    "card_pts": "pt.",
+    "unit_label": "Unità",
+    "unit_auto": "auto",
+    "card_collecting": "Raccolta dati... (servono almeno 2 ore complete)",
+    "opt_buffer": "Punto di riempimento del buffer",
+    "card_buffer": "Buffer",
+    "on_off_note": "Modalità acceso/spento: la scheda mostra una barra dei periodi ACCESO e SPENTO costruita con le modifiche salvate.",
+    "detected_on_off": "Rilevato: entità acceso/spento, vengono conservate le ultime {depth} modifiche.",
+    "card_starts": "accensioni"
+  },
+  "slots": {
+    "add": "Aggiungi altro",
+    "add_title": "Traccia di nuovo questa entità con altre impostazioni (max {n})",
+    "max_reached": "Raggiunto il massimo di {n} tracciamenti per entità.",
+    "family_title": "Tracciamenti di questa entità: {n}",
+    "nav_families": "Famiglie"
+  },
+  "issues": {
+    "nav": "Incompatibili / errati",
+    "title": "Entità incompatibili o errate",
+    "hint": "Questi tracciamenti non possono produrre uno storico: l'entità di origine non esiste più o il suo stato non è un numero. Rimuovili dall'integrazione.",
+    "remove": "Rimuovi",
+    "remove_all": "Rimuovi tutti ({n})",
+    "confirm_all": "Rimuovere {n} dall'integrazione?",
+    "confirm_yes": "Sì, rimuovi",
+    "cancel": "Annulla",
+    "missing": "L'entità di origine non esiste più",
+    "non_numeric": "Lo stato non è un numero: {state}",
+    "skipped": "{n} saltati: ora funzionano."
+  },
+  "footer": {
+    "integration": "Integrazione su GitHub",
+    "card": "Piotras Smart Button su GitHub"
+  },
+  "state": {
+    "on": "ACCESO",
+    "off": "SPENTO"
+  }
 }

@@ -12,13 +12,16 @@
     "humidity": "Humedad",
     "battery": "Baterías",
     "water_gas": "Agua / gas",
-    "other": "Otros"
+    "other": "Otros",
+    "on_off": "Encendido / apagado"
   },
   "mode": {
     "value": "Valor actual",
     "counter": "Contador creciente",
     "value_full": "Valor actual (temperatura, batería...)",
-    "counter_full": "Contador creciente (energía, agua... detecta reinicios)"
+    "counter_full": "Contador creciente (energía, agua... detecta reinicios)",
+    "on_off": "Encendido/apagado",
+    "on_off_full": "Encendido / apagado (cada encendido y apagado se guarda con su hora)"
   },
   "unit": {
     "seconds": "segundos",
@@ -87,7 +90,9 @@
     "confirm_clear_yes": "Sí, borrar",
     "confirm_remove": "¿Eliminar el seguimiento y la entidad {code}, incluidos sus datos almacenados? Esto no se puede deshacer.",
     "confirm_yes": "Sí, eliminar",
-    "confirm_no": "No"
+    "confirm_no": "No",
+    "depth_entries": "Número de entradas (encendidos y apagados)",
+    "on_off_hint": "Cada encendido y apagado se guarda con fecha y hora. Es el único ajuste."
   },
   "card": {
     "edit": "Editar",
@@ -116,5 +121,66 @@
     "no_results": "Sin resultados.",
     "nothing": "Todavía no hay nada en seguimiento - ve a \"Añadir\" en el menú."
   },
-  "loading": "Cargando..."
+  "loading": "Cargando...",
+  "copycard": {
+    "button": "Copiar a PSB",
+    "dialog_title": "Copiar tarjeta a PSB",
+    "card_title": "Título de la tarjeta",
+    "accent": "Color de acento",
+    "opt_title": "Título y valor actual",
+    "opt_minmax": "Mín / Máx",
+    "opt_grid": "Escala y líneas guía",
+    "opt_dot": "Punto en el valor actual",
+    "opt_trend": "Flecha de tendencia",
+    "opt_times": "Etiquetas de hora",
+    "opt_switch": "Selector de rango",
+    "detected": "Detectado: cada {interval}, búfer de {depth} puntos → rangos: {ranges}",
+    "counter_note": "Modo contador: la tarjeta muestra el consumo por hora (solo horas completas), a prueba de reinicios. Para 24 h se necesita un búfer de {need} puntos.",
+    "paste_hint": "Pégala como tarjeta manual en tu panel (requiere Piotras Smart Button).",
+    "show_code": "Mostrar código",
+    "hide_code": "Ocultar código",
+    "cancel": "Cancelar",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "copy_failed": "No se pudo copiar - copia el código de abajo manualmente.",
+    "close": "Cerrar",
+    "card_nodata": "Sin datos históricos.",
+    "card_pts": "pts",
+    "unit_label": "Unidad",
+    "unit_auto": "auto",
+    "card_collecting": "Recopilando datos... (se necesitan al menos 2 horas completas)",
+    "opt_buffer": "Punto de llenado del búfer",
+    "card_buffer": "Búfer",
+    "on_off_note": "Modo encendido/apagado: la tarjeta muestra una barra de periodos ENC. y APAG. creada con los cambios guardados.",
+    "detected_on_off": "Detectado: entidad de encendido/apagado, se guardan los últimos {depth} cambios.",
+    "card_starts": "encendidos"
+  },
+  "slots": {
+    "add": "Añadir otro",
+    "add_title": "Seguir esta entidad otra vez con otros ajustes (máx. {n})",
+    "max_reached": "Se alcanzó el máximo de {n} seguimientos por entidad.",
+    "family_title": "Seguimientos de esta entidad: {n}",
+    "nav_families": "Familias"
+  },
+  "issues": {
+    "nav": "Incompatibles / con error",
+    "title": "Entidades incompatibles o con error",
+    "hint": "Estos seguimientos no pueden generar historial: la entidad de origen ya no existe o su estado no es un número. Elimínalos de la integración.",
+    "remove": "Eliminar",
+    "remove_all": "Eliminar todo ({n})",
+    "confirm_all": "¿Eliminar {n} de la integración?",
+    "confirm_yes": "Sí, eliminar",
+    "cancel": "Cancelar",
+    "missing": "La entidad de origen ya no existe",
+    "non_numeric": "El estado no es un número: {state}",
+    "skipped": "{n} omitidos: ya funcionan."
+  },
+  "footer": {
+    "integration": "Integración en GitHub",
+    "card": "Piotras Smart Button en GitHub"
+  },
+  "state": {
+    "on": "ENC.",
+    "off": "APAG."
+  }
 }
