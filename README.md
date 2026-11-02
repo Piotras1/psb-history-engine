@@ -28,13 +28,13 @@ Traditional workarounds (like appending readings to `input_text` via automations
 
 ---
 
-## 🆕 What's new in 1.1.0
+## 🆕 What's new in 1.1.1
 
 - **On / off tracking**: switches, lights, binary sensors and other on/off entities are saved as an event log — one entry per switch-on / switch-off, with its exact time.
 - **Several trackings per entity**: track the same source entity up to 5 times with different mode, interval and depth.
 - **Copy to PSB**: one click generates a ready-to-paste Piotras Smart Button card, with a separate, shorter card for each tracking mode.
 - **Incompatible / broken view**: trackings whose source entity disappeared (or stopped being numeric) are listed and can be removed in one go.
-- **Security hardening**: the panel and all of its commands are restricted to administrators, and every value shown in the panel is escaped.
+- **Security hardening**: the panel and all of its commands are restricted to administrators, and every value shown in the panel and in the generated cards (names, units, suffixes, entity IDs, error messages) is escaped.
 - **Fix**: changing the number of entries of an on/off tracking no longer switches it to another mode.
 
 ---
@@ -65,14 +65,25 @@ Traditional workarounds (like appending readings to `input_text` via automations
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Piotras1&repository=psb-history-engine&category=integration)
 
 ### HACS (Recommended)
-1. Open **HACS** → **Integrations** → top right menu (⋮) → **Custom repositories**.
+1. Open **HACS** and search for **PSB History Engine**.
+2. Click **Download**, then restart Home Assistant.
+
+<details>
+<summary>Can't find it in the HACS search?</summary>
+
+Add it as a custom repository first:
+1. Open **HACS** → top right menu (⋮) → **Custom repositories**.
 2. Paste this repository URL and select **Integration** as the category.
-3. Click **Install**, then restart Home Assistant.
+3. Click **Add**, then find **PSB History Engine** in HACS, click **Download** and restart Home Assistant.
+
+</details>
 
 ### Manual
 1. Download the latest release.
 2. Copy the `custom_components/psb_history_engine` directory into your Home Assistant `config/custom_components/` folder.
 3. Restart Home Assistant.
+
+---
 
 
 ## 🚀 Getting Started
