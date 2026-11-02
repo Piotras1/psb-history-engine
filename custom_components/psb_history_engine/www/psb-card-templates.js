@@ -56,8 +56,10 @@ custom_data:
       const st = states[entity] || {};
       const a = st.attributes || {};
       const interval = Number(a.interval_seconds) || 900;   // seconds between two points
+      // the unit comes from whatever integration owns the source entity: it is shown as text, never as HTML
+      const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
       const unitAttr = a.source_unit_of_measurement;
-      const unit = unitOverride ?? ((unitAttr && unitAttr !== 'points') ? unitAttr : '');
+      const unit = unitOverride ?? ((unitAttr && unitAttr !== 'points') ? esc(unitAttr) : '');
 
       // --- buffer state & depth info ---
       const bufState = Number(st.state) || (Array.isArray(a.history) ? a.history.length : 0);
@@ -267,8 +269,10 @@ custom_data:
       const st = states[entity] || {};
       const a = st.attributes || {};
       const sampleInterval = Number(a.interval_seconds) || 900;
+      // the unit comes from whatever integration owns the source entity: it is shown as text, never as HTML
+      const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
       const unitAttr = a.source_unit_of_measurement;
-      const unit = unitOverride ?? ((unitAttr && unitAttr !== 'points') ? unitAttr : '');
+      const unit = unitOverride ?? ((unitAttr && unitAttr !== 'points') ? esc(unitAttr) : '');
 
       // --- buffer state & depth info ---
       const bufState = Number(st.state) || (Array.isArray(a.history) ? a.history.length : 0);
@@ -506,7 +510,7 @@ custom_data:
       const bufColor = bufPct >= 80 ? '#22c55e' : bufPct >= 30 ? '#eab308' : '#ef4444';
 
       const p2 = v => String(v).padStart(2, '0');
-      const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
       const dur = s => s >= 3600 ? \`\${Math.floor(s / 3600)}h \${p2(Math.floor((s % 3600) / 60))}m\` : s >= 60 ? \`\${Math.floor(s / 60)}m\` : \`\${Math.floor(s)}s\`;
       const when = t => { const d = new Date(t * 1000); return \`\${p2(d.getDate())}.\${p2(d.getMonth() + 1)} \${p2(d.getHours())}:\${p2(d.getMinutes())}\`; };
       // entries are [time, 1 = on | 0 = off | -1 = unavailable], one per state change
