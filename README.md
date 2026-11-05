@@ -68,16 +68,6 @@ Traditional workarounds (like appending readings to `input_text` via automations
 1. Open **HACS** and search for **PSB History Engine**.
 2. Click **Download**, then restart Home Assistant.
 
-<details>
-<summary>Can't find it in the HACS search?</summary>
-
-Add it as a custom repository first:
-1. Open **HACS** → top right menu (⋮) → **Custom repositories**.
-2. Paste this repository URL and select **Integration** as the category.
-3. Click **Add**, then find **PSB History Engine** in HACS, click **Download** and restart Home Assistant.
-
-</details>
-
 ### Manual
 1. Download the latest release.
 2. Copy the `custom_components/psb_history_engine` directory into your Home Assistant `config/custom_components/` folder.
