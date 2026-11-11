@@ -1,9 +1,9 @@
 ![HACS](https://img.shields.io/badge/HACS-Default-orange?style=flat-square)
-![Downloads](https://img.shields.io/github/downloads/Piotras1/psb-history-engine/psb_history_engine.zip?logo=homeassistant&color=41BDF5&displayAssetName=false)
-![GitHub Stars](https://img.shields.io/github/stars/Piotras1/psb-history-engine?style=flat-square&logo=github&label=stars&color=brightgreen)
-![GitHub Issues](https://img.shields.io/github/issues/Piotras1/psb-history-engine?style=flat-square&logo=github&label=issues)
-[![GitHub Release](https://img.shields.io/github/v/release/Piotras1/psb-history-engine?style=flat-square&logo=github&label=release)](https://github.com/Piotras1/psb-history-engine/releases)
-![GitHub Release Date](https://img.shields.io/github/release-date/Piotras1/psb-history-engine?style=flat-square&logo=github&label=released)
+[![Downloads](https://img.shields.io/github/downloads/Piotras1/psb-history-engine/psb_history_engine.zip?logo=homeassistant&color=41BDF5&displayAssetName=false)](https://github.com/Piotras1/psb-history-engine)
+[![GitHub Stars](https://img.shields.io/github/stars/Piotras1/psb-history-engine?style=flat-square&logo=github&label=stars&color=brightgreen)](https://github.com/Piotras1/psb-history-engine/stargazers)
+[![GitHub Issues](https://img.shields.io/github/issues/Piotras1/psb-history-engine?style=flat-square&logo=github&label=issues)](https://github.com/Piotras1/psb-history-engine/issues)
+[![GitHub Release](https://img.shields.io/github/v/release/Piotras1/psb-history-engine?style=flat-square&logo=github&label=released)](https://github.com/Piotras1/psb-history-engine/releases)
+[![GitHub Discussions](https://img.shields.io/github/discussions/Piotras1/psb-history-engine?style=flat-square&logo=github&label=discussions&color=blueviolet)](https://github.com/Piotras1/psb-history-engine/discussions)
 
 # PSB History Engine
 
@@ -28,7 +28,17 @@ Traditional workarounds (like appending readings to `input_text` via automations
 
 ---
 
-## 🆕 What's new in 1.1.1
+## 🆕 What's new in 1.2.0
+
+- **Write time in local time, like an automation**: instead of a raw offset in seconds you now enter *when* the point is written — for a daily interval a time of day (e.g. `23:59:50`), for an hourly interval a minute and second within the hour (e.g. `59:00`). The fields adapt to the chosen interval.
+- **Correct in every time zone**: sampling is now aligned to the **local time of your Home Assistant time zone**, not to UTC. A daily point set to `23:59:50` is written at `23:59:50` local time all year, also across the daylight-saving change, and zones with a half-hour or 45-minute offset (India, Nepal…) get clean local hours too.
+- **Your existing settings keep working**: the value is still stored as `offset_seconds`, so nothing has to be migrated. An old negative value such as `-10` on a daily interval is shown as `23:59:50`.
+- **Hardening**: a non-numeric `offset_seconds` in a hand-edited or imported settings file no longer breaks the tracking (it falls back to `0`).
+
+> **Upgrading from 1.1.x:** for a *daily* (or longer) interval the grid used to follow midnight **UTC**, so in most countries points did not land on the local midnight. They now do. Points already stored are not changed; only new points follow the new schedule.
+
+<details>
+<summary>What was new in 1.1.1</summary>
 
 - **On / off tracking**: switches, lights, binary sensors and other on/off entities are saved as an event log — one entry per switch-on / switch-off, with its exact time.
 - **Several trackings per entity**: track the same source entity up to 5 times with different mode, interval and depth.
@@ -37,6 +47,8 @@ Traditional workarounds (like appending readings to `input_text` via automations
 - **Security hardening**: the panel and all of its commands are restricted to administrators, and every value shown in the panel and in the generated cards (names, units, suffixes, entity IDs, error messages) is escaped.
 - **Fix**: changing the number of entries of an on/off tracking no longer switches it to another mode.
 
+</details>
+
 ---
 
 ## ✨ Features
@@ -44,11 +56,11 @@ Traditional workarounds (like appending readings to `input_text` via automations
 - **Supports numeric and on/off entities**:
   - Numeric: `sensor`, `number`, `input_number`, `counter`.
   - On / off: `binary_sensor`, `switch`, `light`, `input_boolean`, `fan`.
-- **Per-entity custom tuning**: Sampling interval (seconds / minutes / hours / days), buffer depth (up to 500 points), and precision alignment offsets.
+- **Per-entity custom tuning**: Sampling interval (seconds / minutes / hours / days), buffer depth (up to 500 points), and the exact local time at which each point is written.
 - **Three tracking modes**:
   - *Current value*: For temperature, humidity, power, or battery levels.
   - *Increasing counter*: For energy, gas, or water meters. Automatically handles periodic meter resets by flagging them as `"reset"` instead of negative deltas.
-  - *On / off*: For switches, lights and binary sensors. An event log with one entry per state change — no sampling interval and no offset, the number of entries is the only setting (100 by default).
+  - *On / off*: For switches, lights and binary sensors. An event log with one entry per state change — no sampling interval and no write time, the number of entries is the only setting (100 by default).
 - **Multiple trackings per entity**: Up to 5 independent trackings of the same source entity (for example a 15-minute and a daily buffer), each with its own history entity.
 - **Zero database overhead**: History buffers live strictly in memory and persist across restarts via Home Assistant's native Restore State mechanism.
 - **Dedicated Sidebar Panel** (administrators only):
@@ -81,7 +93,7 @@ Traditional workarounds (like appending readings to `input_text` via automations
 1. Go to **Settings** → **Devices & Services** → **Add Integration** → **PSB History Engine**.
 2. Open the new **PSB History Engine** item in your Home Assistant sidebar.
 3. Navigate to **Add**, search for an entity (e.g., `sensor.living_room_temperature`), and click **Add**.
-4. Navigate to **Tracked**, expand the entity row to fine-tune its tracking mode, interval, or offset.
+4. Navigate to **Tracked**, expand the entity row to fine-tune its tracking mode, interval, or write time.
 5. Click **Copy to PSB** to get a ready-made card, or copy the generated `sensor.<name>_history` entity ID and use it in your **Piotras Smart Button** card!
 
 > Switches, lights and binary sensors are added the same way and are tracked automatically as on / off.
@@ -115,7 +127,7 @@ attributes:
   tracking_slot: 0           # 0 = first tracking, 1-4 = extra trackings of the same entity
   tracking_mode: counter     # "value", "counter" or "on_off"
   interval_seconds: 3600
-  offset_seconds: -60
+  offset_seconds: 3540       # seconds after the start of each local period = write at HH:59:00
   depth: 48
   last_raw_value: 12.34
   unit_of_measurement: points
@@ -151,13 +163,28 @@ The first tracking of an entity is `sensor.<name>_history`. Extra trackings of t
 Reading `attributes.history` from a dashboard card is a lightweight, local state read with zero backend query overhead.
 
 
-## ⏱️ Interval Alignment & Offsets
+## ⏱️ Interval Alignment & Write Time
 
-Readings align automatically with wall-clock grids rather than integration startup times. On an hourly interval, samples occur precisely at HH:00:00.
+Readings align automatically with wall-clock grids rather than integration startup times, and the grid always follows the **local time of your Home Assistant time zone** (including daylight saving time). On an hourly interval, samples occur precisely at HH:00:00; on a daily interval, at local midnight.
 
-The offset setting (in seconds) shifts this grid. For example, setting an hourly interval with an offset = -60 forces samples to land at HH:59:00 — capturing the exact final reading before utility tariff changes or daily counter resets.
+The **Write time** setting moves the point within each period. What you enter depends on the interval:
 
-Interval and offset apply to the *current value* and *increasing counter* modes. An *on / off* tracking has neither: it records a change at the moment it happens.
+| Interval | You enter | Example | Point is written |
+|---|---|---|---|
+| 1 day (or more) | hour : minute : second | `23 : 59 : 50` | every day at 23:59:50 |
+| 1 day | hour : minute : second | `00 : 00 : 00` | every day at local midnight |
+| 1 hour (or more) | minute : second | `59 : 00` | every hour at HH:59:00 |
+| 6 hours | minute : second | `30 : 00` | 00:30, 06:30, 12:30, 18:30 |
+| minutes | second | `45` | every interval at 45 s past the grid point |
+| seconds | — | — | no write time |
+
+Setting a time just before the end of the period captures the final reading before utility tariff changes or daily counter resets.
+
+Intervals that divide a day evenly (15 min, 1 h, 6 h, 1 day…) always start from local midnight. Other intervals (for example 5 h) run as a continuous grid and do not restart at midnight. On the single day when clocks change, a write time that falls into the skipped or repeated hour can be shifted by up to an hour; afterwards the schedule is back to normal.
+
+Under the hood the write time is stored as `offset_seconds` — the number of seconds **after the start of the local period** (0 to period − 1). Negative values from older versions are still accepted and mean the same as their positive equivalent: `-60` on an hourly interval equals `3540` (HH:59:00), `-10` on a daily interval equals `86390` (23:59:50).
+
+Interval and write time apply to the *current value* and *increasing counter* modes. An *on / off* tracking has neither: it records a change at the moment it happens.
 
 ## 🛡️ Buffer Depth & Safety Limits
 
@@ -194,4 +221,3 @@ MIT — free to use, modify, and share.
 ---
 
 *Created by Piotras. Strictly engineered for reliability.*
-
