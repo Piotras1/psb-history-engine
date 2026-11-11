@@ -1008,7 +1008,7 @@ class PsbHistoryEnginePanel extends HTMLElement {
     const count = ev.length;
     const depth = entity.config.depth;
     if (!count) {
-      return `<div class="preview"><div class="preview-row"><span>${this._t("preview.count", { n: 0, depth })}</span></div><div class="preview-empty">${this._t("preview.no_entries_hint")}</div></div>`;
+      return `<div class="preview"><div class="preview-row"><span>${this._t("preview.count", { n: 0, depth })}</span></div>${this._scheduleLine(entity)}<div class="preview-empty">${this._noDataText(entity)}</div></div>`;
     }
     const now = Math.max(Math.floor(Date.now() / 1000), ev[count - 1].t);
     const total = Math.max(1, now - ev[0].t);
@@ -1034,6 +1034,7 @@ class PsbHistoryEnginePanel extends HTMLElement {
           ${count >= depth ? `<span class="full-badge" title="${this._t("preview.full_tooltip")}"><ha-icon icon="mdi:sync"></ha-icon>${this._t("preview.full_tag")}</span>` : ""}
           <span class="time-badge"><ha-icon icon="mdi:clock-outline"></ha-icon> ${this._fmtDuration(total)}</span>
         </div>
+        ${this._scheduleLine(entity)}
         <svg viewBox="0 0 100 12" preserveAspectRatio="none" style="width:100%;height:14px;display:block;border-radius:4px;background:var(--divider-color, rgba(125,125,125,0.2));margin:6px 0;">${bar}</svg>
         <div class="preview-sub">${this._t("preview.last_entries")}</div>
         ${rows}
@@ -1048,7 +1049,7 @@ class PsbHistoryEnginePanel extends HTMLElement {
     const history = state.attributes.history || [];
     const count = history.length;
     if (count === 0) {
-      return `<div class="preview"><div class="preview-row"><span>${this._t("preview.count", { n: 0, depth: entity.config.depth })}</span></div><div class="preview-empty">${this._t("preview.no_entries_hint")}</div></div>`;
+      return `<div class="preview"><div class="preview-row"><span>${this._t("preview.count", { n: 0, depth: entity.config.depth })}</span></div>${this._scheduleLine(entity)}<div class="preview-empty">${this._noDataText(entity)}</div></div>`;
     }
 
     if (entity.config && entity.config.tracking_mode === "on_off") return this._renderOnOffPreview(entity, history);
@@ -1117,6 +1118,7 @@ class PsbHistoryEnginePanel extends HTMLElement {
           }
           ${timespanText}
         </div>
+        ${this._scheduleLine(entity)}
         ${chart}
         <div class="preview-sub">${this._t("preview.last_entries")}</div>
         ${lastRows}
@@ -1172,8 +1174,8 @@ class PsbHistoryEnginePanel extends HTMLElement {
         <div class="hint" data-coverage${hid}>${this._t("coverage.prefix")}${this._coverageText(cfg.interval_value, cfg.interval_unit, cfg.depth)}</div>
         <label class="field"${hid}>
           <span>${this._t("form.offset")}</span>
-          <input type="number" step="1" data-f="offset_seconds" value="${this._esc(cfg.offset_seconds ?? 0)}">
-          <span class="hint">${this._t("form.offset_hint")}</span>
+          ${this._offsetFieldHtml(cfg.offset_seconds ?? 0, cfg.interval_unit)}
+          <span class="hint" data-offset-hint>${this._t(this._offsetHintKey(cfg.interval_unit))}</span>
         </label>
         <label class="field">
           <span>${this._t("form.suffix")}</span>
@@ -1263,6 +1265,128 @@ class PsbHistoryEnginePanel extends HTMLElement {
       </div>`;
   }
 
+  // one line under the entry counter: how and when this tracking writes its points
+  _scheduleText(entity) {
+    const c = (entity && entity.config) || {};
+    if (c.tracking_mode === "on_off") return this._t("sched.onoff");
+    const unit = c.interval_unit;
+    const n = parseInt(c.interval_value, 10) || 1;
+    const span = this._offsetSpan(unit);
+    if (!span) {
+      return n === 1 ? this._t("sched.sec_1") : this._t("sched.sec_n", { n });
+    }
+    const period = n * span;
+    const raw = parseInt(c.offset_seconds, 10) || 0;
+    const off = ((((raw % period) + period) % period)) % span;
+    const pad = (x) => String(x).padStart(2, "0");
+    const hh = Math.floor(off / 3600), mm = Math.floor((off % 3600) / 60), ss = off % 60;
+    let base, t = "";
+    if (unit === "days") {
+      base = n === 1 ? this._t("sched.day_1") : this._t("sched.day_n", { n });
+      t = `${pad(hh)}:${pad(mm)}:${pad(ss)}`;
+    } else if (unit === "hours") {
+      base = n === 1 ? this._t("sched.hour_1") : this._t("sched.hour_n", { n });
+      t = `HH:${pad(mm)}:${pad(ss)}`;
+    } else {
+      base = n === 1 ? this._t("sched.min_1") : this._t("sched.min_n", { n });
+      if (ss > 0) t = `HH:MM:${pad(ss)}`;
+    }
+    return t ? `${base} ${this._t("sched.at", { t })}` : base;
+  }
+
+  _scheduleLine(entity) {
+    return `<div class="preview-sched">${this._t("sched.label")} ${this._scheduleText(entity)}</div>`;
+  }
+
+  _offsetHintKey(unit) {
+    return unit === "days" ? "form.offset_hint_days" : unit === "hours" ? "form.offset_hint_hours" : "form.offset_hint_minutes";
+  }
+
+  // "today at 23:59:50" / "tomorrow at ..." / "12.11.2026 at ..." - in the Home Assistant time zone
+  _whenText(ts) {
+    let tz = this._hass && this._hass.config && this._hass.config.time_zone;
+    const mk = (loc, opts) => {
+      try {
+        return new Intl.DateTimeFormat(loc, { timeZone: tz, ...opts });
+      } catch (e) {
+        tz = undefined;
+        return new Intl.DateTimeFormat(loc, opts);
+      }
+    };
+    const dayKey = (sec) => mk("en-CA", { year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(sec * 1000));
+    const t = mk("en-GB", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false }).format(new Date(ts * 1000));
+    const nowSec = Math.floor(Date.now() / 1000);
+    const k = dayKey(ts);
+    if (k === dayKey(nowSec)) return this._t("preview.today", { t });
+    if (k === dayKey(nowSec + 86400)) return this._t("preview.tomorrow", { t });
+    let d;
+    try {
+      d = mk(this._language || "en", { year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(ts * 1000));
+    } catch (e) {
+      d = k;
+    }
+    return this._t("preview.on_date", { d, t });
+  }
+
+  _noDataText(entity) {
+    const ts = Number(entity && entity.next_sample);
+    if (!ts || ts * 1000 < Date.now() - 1000) return this._t("preview.no_entries_hint");
+    return this._t("preview.no_entries_at", { when: this._whenText(ts) });
+  }
+
+  // --- "write at" time of the sampling point (stored as offset_seconds = seconds after the
+  // start of the LOCAL period; for a 1-day interval that is the time of day) ---
+  _offsetSpan(unit) {
+    return unit === "days" ? 86400 : unit === "hours" ? 3600 : unit === "minutes" ? 60 : 0;
+  }
+
+  _offsetFieldHtml(offset, unit) {
+    const span = this._offsetSpan(unit);
+    const off = span ? ((((parseInt(offset, 10) || 0) % span) + span) % span) : 0;
+    const v = { h: Math.floor(off / 3600), m: Math.floor((off % 3600) / 60), s: off % 60 };
+    const pad = (n) => String(n).padStart(2, "0");
+    const part = (k, max) =>
+      `<input type="number" min="0" max="${max}" step="1" data-o="${k}" value="${pad(v[k])}">`;
+    return `<span class="inline offset-time" data-offset-wrap>
+            ${part("h", 23)}<span data-o-sep="1">:</span>${part("m", 59)}<span data-o-sep="2">:</span>${part("s", 59)}
+          </span>`;
+  }
+
+  _syncOffset(container) {
+    const unitEl = container.querySelector('[data-f="interval_unit"]');
+    const wrap = container.querySelector("[data-offset-wrap]");
+    if (!unitEl || !wrap) return;
+    const u = unitEl.value;
+    const showH = u === "days";
+    const showM = u === "days" || u === "hours";
+    const showS = u === "days" || u === "hours" || u === "minutes";
+    const set = (sel, show) => {
+      const el = wrap.querySelector(sel);
+      if (el) el.hidden = !show;
+    };
+    set('[data-o="h"]', showH);
+    set('[data-o="m"]', showM);
+    set('[data-o="s"]', showS);
+    set('[data-o-sep="1"]', showH && showM);
+    set('[data-o-sep="2"]', showM && showS);
+    const field = wrap.closest("label");
+    const hintEl = field && field.querySelector("[data-offset-hint]");
+    if (hintEl) hintEl.textContent = this._t(this._offsetHintKey(u));
+    if (field && !field.hasAttribute("data-onoff-hidden")) field.hidden = !showS;
+  }
+
+  _offsetFromForm(container) {
+    const unitEl = container.querySelector('[data-f="interval_unit"]');
+    const span = this._offsetSpan(unitEl ? unitEl.value : "minutes");
+    if (!span) return 0;
+    const num = (k, max) => {
+      const el = container.querySelector(`[data-o="${k}"]`);
+      if (!el || el.hidden) return 0;
+      return Math.min(max, Math.max(0, parseInt(el.value, 10) || 0));
+    };
+    return (num("h", 23) * 3600 + num("m", 59) * 60 + num("s", 59)) % span;
+  }
+
   _collectForm(container) {
     const get = (f) => container.querySelector(`[data-f="${f}"]`);
     return {
@@ -1271,7 +1395,7 @@ class PsbHistoryEnginePanel extends HTMLElement {
       interval_value: parseInt(get("interval_value").value, 10) || 1,
       interval_unit: get("interval_unit").value,
       depth: parseInt(get("depth").value, 10) || 2,
-      offset_seconds: parseInt(get("offset_seconds").value, 10) || 0,
+      offset_seconds: this._offsetFromForm(container),
       suffix: get("suffix").value.trim(),
       friendly_name: get("friendly_name").value.trim(),
     };
@@ -1344,7 +1468,8 @@ class PsbHistoryEnginePanel extends HTMLElement {
           </label>
           <label class="field">
             <span>${this._t("form.offset")}</span>
-            <input type="number" step="1" data-f="offset_seconds" value="${this._esc(d.offset_seconds ?? 0)}">
+            ${this._offsetFieldHtml(d.offset_seconds ?? 0, d.interval_unit)}
+            <span class="hint" data-offset-hint>${this._t(this._offsetHintKey(d.interval_unit))}</span>
           </label>
           <label class="field">
             <span>${this._t("form.suffix")}</span>
@@ -1768,6 +1893,10 @@ class PsbHistoryEnginePanel extends HTMLElement {
         .field .inline { display: flex; gap: 8px; }
         .field .inline input[type="number"] { width: 80px; }
         .field .inline select { flex: 1; }
+        .preview-sched { font-size: 12px; color: var(--secondary-text-color, #9aa0a6); margin: 2px 0 6px; }
+        .field .inline.offset-time { align-items: center; }
+        .field .inline.offset-time input[type="number"] { width: 64px; }
+        label.field[hidden], .field .inline [hidden] { display: none !important; }
         .hint { font-size: 0.8em; opacity: 0.65; }
         .target-preview { font-size: 0.85em; opacity: 0.8; }
         .target-preview code {
@@ -1975,7 +2104,7 @@ class PsbHistoryEnginePanel extends HTMLElement {
             interval_value: parseInt(get("interval_value").value, 10) || 1,
             interval_unit: get("interval_unit").value,
             depth: parseInt(get("depth").value, 10) || 2,
-            offset_seconds: parseInt(get("offset_seconds").value, 10) || 0,
+            offset_seconds: this._offsetFromForm(container),
             suffix: get("suffix").value.trim(),
             language: get("language").value,
           });
@@ -2062,6 +2191,12 @@ class PsbHistoryEnginePanel extends HTMLElement {
         this._applyTrackFilter();
       });
     }
+
+    this.shadowRoot.querySelectorAll(".edit-form, [data-settings-form]").forEach((container) => {
+      this._syncOffset(container);
+      const unitSel = container.querySelector('[data-f="interval_unit"]');
+      if (unitSel) unitSel.addEventListener("change", () => this._syncOffset(container));
+    });
 
     this.shadowRoot.querySelectorAll(".edit-form").forEach((container) => {
       const update = () => {

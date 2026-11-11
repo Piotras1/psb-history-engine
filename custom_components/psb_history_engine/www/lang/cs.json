@@ -57,6 +57,19 @@
     "import_ok": "Nastavení importováno.",
     "import_fail": "Import se nezdařil"
   },
+  "sched": {
+    "label": "Zápis:",
+    "sec_1": "každou sekundu",
+    "sec_n": "každých {n} s",
+    "min_1": "jednou za minutu",
+    "min_n": "každých {n} min",
+    "hour_1": "jednou za hodinu",
+    "hour_n": "každých {n} h",
+    "day_1": "jednou denně",
+    "day_n": "každých {n} dní",
+    "at": "v {t}",
+    "onoff": "při každé změně stavu"
+  },
   "preview": {
     "not_created": "Tato entita ještě neexistuje - vytvoří se při uložení; první bod se objeví na nejbližší hranici intervalu.",
     "count": "Záznamy v bufferu: {n} / {depth}",
@@ -65,6 +78,10 @@
     "timespan_tooltip": "Aktuálně pokryté časové rozmezí / maximální možné při této velikosti bufferu.",
     "value_label": "Hodnota",
     "no_entries_hint": "Zatím žádná data - první zápis na nejbližší hranici intervalu.",
+    "no_entries_at": "Zatím žádná data - první zápis {when}.",
+    "today": "dnes v {t}",
+    "tomorrow": "zítra v {t}",
+    "on_date": "{d} v {t}",
     "not_enough_points": "Nedostatek bodů pro graf (potřeba alespoň 2).",
     "last_entries": "Poslední záznamy:",
     "reset_tag": "reset"
@@ -74,8 +91,10 @@
     "mode": "Režim sledování",
     "interval": "Interval ukládání",
     "depth": "Hloubka bufferu (počet záznamů)",
-    "offset": "Posun vůči hranici období (sekundy)",
-    "offset_hint": "např. -60 při intervalu 1h = zápis v HH:59 místo HH:00. 0 = přesně na hranici.",
+    "offset": "Zápis v čase (místní čas)",
+    "offset_hint_days": "Hodina:minuta:sekunda zápisu každý den (místní čas), např. 23:59:50. 00:00:00 = přesně o půlnoci.",
+    "offset_hint_hours": "Minuta:sekunda zápisu v každé hodině, např. 59:00 = HH:59:00. 00:00 = přesně na celou hodinu.",
+    "offset_hint_minutes": "Sekunda zápisu v každé minutě, např. 45 = HH:MM:45. 0 = přesně na hranici minuty.",
     "suffix": "Přípona vytvořené entity",
     "name": "Název (volitelné)",
     "target": "Cílová entita:",

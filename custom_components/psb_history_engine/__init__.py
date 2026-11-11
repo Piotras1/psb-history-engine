@@ -186,7 +186,10 @@ def _build_entity_list(hass: HomeAssistant, entry: ConfigEntry) -> list[dict]:
                 points = int(hist_state.state)
             except (TypeError, ValueError):
                 points = None
+        live = hass.data.get(DOMAIN, {}).get(entry.entry_id, {}).get("entities", {}).get(key)
         return {
+            # when the next point will be written (UTC seconds); None for on/off or not running
+            "next_sample": getattr(live, "next_sample_ts", None) if is_tracked else None,
             # "entity_id" carries the tracking KEY (equal to the source entity_id for slot 0,
             # so older panels/saved state still line up); "source_entity_id" is the real entity
             "entity_id": key,

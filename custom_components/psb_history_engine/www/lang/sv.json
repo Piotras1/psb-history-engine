@@ -57,6 +57,19 @@
     "import_ok": "Inställningar importerade.",
     "import_fail": "Import misslyckades"
   },
+  "sched": {
+    "label": "Skrivning:",
+    "sec_1": "varje sekund",
+    "sec_n": "med {n} sekunders mellanrum",
+    "min_1": "en gång per minut",
+    "min_n": "med {n} minuters mellanrum",
+    "hour_1": "en gång per timme",
+    "hour_n": "med {n} timmars mellanrum",
+    "day_1": "en gång per dag",
+    "day_n": "med {n} dagars mellanrum",
+    "at": "kl. {t}",
+    "onoff": "vid varje tillståndsändring"
+  },
   "preview": {
     "not_created": "Den här entiteten finns inte än - den skapas vid sparande; första punkten visas vid nästa intervallgräns.",
     "count": "Poster i bufferten: {n} / {depth}",
@@ -65,6 +78,10 @@
     "timespan_tooltip": "Nuvarande täckt tidsintervall / max möjligt med denna buffertstorlek.",
     "value_label": "Värde",
     "no_entries_hint": "Ingen data än - första skrivningen sker vid nästa intervallgräns.",
+    "no_entries_at": "Inga data än - första skrivning {when}.",
+    "today": "idag kl. {t}",
+    "tomorrow": "imorgon kl. {t}",
+    "on_date": "{d} kl. {t}",
     "not_enough_points": "För få punkter för ett diagram (minst 2 krävs).",
     "last_entries": "Senaste posterna:",
     "reset_tag": "återställning"
@@ -74,8 +91,10 @@
     "mode": "Spårningsläge",
     "interval": "Sparintervall",
     "depth": "Buffertdjup (antal poster)",
-    "offset": "Förskjutning från periodgräns (sekunder)",
-    "offset_hint": "t.ex. -60 med 1h intervall = skrivning vid HH:59 istället för HH:00. 0 = exakt på gränsen.",
+    "offset": "Skrivning kl. (lokal tid)",
+    "offset_hint_days": "Klockslag för varje skrivning (lokal tid), t.ex. 23:59:50. 00:00:00 = exakt vid midnatt.",
+    "offset_hint_hours": "Minut:sekund för varje skrivning inom timmen, t.ex. 59:00 = HH:59:00. 00:00 = exakt på hel timme.",
+    "offset_hint_minutes": "Sekund för varje skrivning inom minuten, t.ex. 45 = HH:MM:45. 0 = exakt vid minutens början.",
     "suffix": "Suffix för skapad entitet",
     "name": "Namn (valfritt)",
     "target": "Målentitet:",

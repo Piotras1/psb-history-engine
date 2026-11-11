@@ -208,9 +208,13 @@ class HistorySensorEntity(RestoreEntity, SensorEntity):
         unit = cfg.get(CONF_INTERVAL_UNIT, SYSTEM_DEFAULTS[CONF_INTERVAL_UNIT])
         value = int(cfg.get(CONF_INTERVAL_VALUE, SYSTEM_DEFAULTS[CONF_INTERVAL_VALUE]))
         self._interval_seconds: int = max(1, value * UNIT_TO_SECONDS.get(unit, 60))
-        self._offset_seconds: int = int(
-            cfg.get(CONF_OFFSET_SECONDS, SYSTEM_DEFAULTS[CONF_OFFSET_SECONDS])
-        )
+        try:
+            self._offset_seconds: int = int(
+                cfg.get(CONF_OFFSET_SECONDS, SYSTEM_DEFAULTS[CONF_OFFSET_SECONDS])
+            )
+        except (TypeError, ValueError):
+            # e.g. a hand-edited / imported settings file with a non-numeric value
+            self._offset_seconds = SYSTEM_DEFAULTS[CONF_OFFSET_SECONDS]
 
         suffix = cfg.get(CONF_SUFFIX) or SYSTEM_DEFAULTS[CONF_SUFFIX]
         base_object_id = source_entity.split(".", 1)[-1]
@@ -339,30 +343,53 @@ class HistorySensorEntity(RestoreEntity, SensorEntity):
             int(event.time_fired.timestamp()), self._on_off_code(event.data.get("new_state"))
         )
 
-    def _next_aligned_time(self, after: datetime) -> datetime:
-        """Next wall-clock time to sample at, aligned to the interval grid
-        (e.g. interval=1h -> boundaries at HH:00:00) and shifted by
-        offset_seconds (e.g. -60 -> HH:59:00, so a reading lands just
-        before an hourly tariff/cycle boundary instead of drifting with
-        whatever time the entity happened to be added).
+    @staticmethod
+    def _local_utc_offset(ts: float) -> float:
+        """UTC offset (seconds) of the HA time zone at the UTC timestamp ``ts``."""
+        local = dt_util.as_local(dt_util.utc_from_timestamp(ts))
+        delta = local.utcoffset()
+        return delta.total_seconds() if delta is not None else 0.0
 
-        Alignment is anchored to the Unix epoch (UTC), so it lines up with
-        real wall-clock hours/days for any fixed whole-hour UTC offset
-        (this covers Poland/CET-CEST); for interval units smaller than an
-        hour this is exact everywhere.
+    def _next_aligned_time(self, after: datetime) -> datetime:
+        """Next time to sample at, aligned to the interval grid in LOCAL time.
+
+        The grid is anchored to local midnight of the Home Assistant time
+        zone (interval 1 day -> 00:00:00 local, 1 hour -> HH:00:00 local,
+        15 min -> HH:00/15/30/45), so it is correct in any time zone
+        (including half-hour / 45-min offsets such as India or Nepal) and
+        follows daylight saving time.
+
+        ``offset_seconds`` is the time AFTER the start of the period at which
+        the point is written, normalised into 0..period-1. Examples:
+        interval 1 day, 86390 (or the legacy -10) -> 23:59:50 local;
+        interval 1 day, 12600 -> 03:30:00 local; interval 1 hour, 90 -> HH:01:30.
         """
         period = self._interval_seconds
-        after_epoch = after.timestamp()
+        offset = self._offset_seconds % period  # python modulo: -10 -> period-10
+        after_ts = after.timestamp()
 
-        boundary = (int(after_epoch // period)) * period
-        if boundary <= after_epoch:
-            boundary += period
+        # "wall clock" seconds = UTC timestamp + local UTC offset
+        wall_now = after_ts + self._local_utc_offset(after_ts)
+        k = int((wall_now - offset) // period) + 1  # first grid point after now
 
-        target = boundary + self._offset_seconds
-        while target <= after_epoch:
-            target += period
+        for _ in range(8):  # a few steps are enough, loop only guards DST edges
+            wall = k * period + offset
+            guess = wall - self._local_utc_offset(after_ts)
+            target = wall - self._local_utc_offset(guess)
+            if target > after_ts:
+                return dt_util.utc_from_timestamp(target)
+            k += 1
+        return dt_util.utc_from_timestamp(after_ts + period)
 
-        return dt_util.utc_from_timestamp(target)
+    @property
+    def next_sample_ts(self) -> int | None:
+        """UTC timestamp of the next scheduled point (None for on/off trackings).
+
+        The grid is deterministic, so this is the same moment the timer fires at.
+        """
+        if self._tracking_mode == TRACKING_MODE_ON_OFF:
+            return None
+        return int(self._next_aligned_time(dt_util.utcnow()).timestamp())
 
     def _schedule_next(self, after: datetime):
         next_time = self._next_aligned_time(after)
