@@ -55,7 +55,16 @@
     "settings_save_fail": "Uložení nastavení se nezdařilo",
     "export_fail": "Export se nezdařil",
     "import_ok": "Nastavení importováno.",
-    "import_fail": "Import se nezdařil"
+    "import_fail": "Import se nezdařil",
+    "fill_ok": "Doplněno {n} bodů z posledních {days} dní.",
+    "fill_fail": "Doplnění z historie se nezdařilo",
+    "fill_err_no_recorder": "Integrace recorder není načtena.",
+    "fill_err_busy": "Doplňování tohoto sledování už probíhá.",
+    "fill_err_no_data": "Recorder nemá pro tuto entitu v daném období použitelná data (vyloučena z recorderu, vyčištěna nebo nečíselná). Nic se nezměnilo.",
+    "fill_err_not_tracked": "Toto sledování není načteno - je zapnuté?",
+    "fill_err_changed": "Sledování bylo během doplňování změněno - zkuste to znovu.",
+    "fill_err_recorder_error": "Čtení z recorderu se nezdařilo. Nic se nezměnilo - zkontrolujte log Home Assistantu.",
+    "import_skipped": "Importováno. {n} neplatných záznamů v souboru bylo přeskočeno."
   },
   "sched": {
     "label": "Zápis:",
@@ -111,7 +120,11 @@
     "confirm_yes": "Ano, odstranit",
     "confirm_no": "Ne",
     "depth_entries": "Počet záznamů (zapnutí a vypnutí)",
-    "on_off_hint": "Každé zapnutí a vypnutí se ukládá s datem a časem. Je to jediné nastavení."
+    "on_off_hint": "Každé zapnutí a vypnutí se ukládá s datem a časem. Je to jediné nastavení.",
+    "fill": "Doplnit z historie",
+    "filling": "Doplňování...",
+    "confirm_fill": "Doplnit {code} z historie Home Assistantu? Dosud nasbírané body budou NAHRAZENY posledními {days} dny načtenými z recorderu podle ULOŽENÉHO nastavení tohoto sledování (interval, čas zápisu, hloubka). Nejprve uložte změny. Nelze vrátit zpět.",
+    "confirm_fill_yes": "Ano, nahradit a doplnit"
   },
   "card": {
     "edit": "Upravit",

@@ -55,7 +55,16 @@
     "settings_save_fail": "Det gick inte att spara inställningarna",
     "export_fail": "Export misslyckades",
     "import_ok": "Inställningar importerade.",
-    "import_fail": "Import misslyckades"
+    "import_fail": "Import misslyckades",
+    "fill_ok": "{n} punkter fyllda från de senaste {days} dagarna.",
+    "fill_fail": "Det gick inte att fylla från historiken",
+    "fill_err_no_recorder": "Integrationen recorder är inte laddad.",
+    "fill_err_busy": "En fyllning pågår redan för denna spårning.",
+    "fill_err_no_data": "Recordern har inga användbara data för denna entitet under perioden (utesluten från recordern, rensad eller inte numerisk). Inget ändrades.",
+    "fill_err_not_tracked": "Denna spårning är inte laddad - är den aktiverad?",
+    "fill_err_changed": "Spårningen ändrades under fyllningen - försök igen.",
+    "fill_err_recorder_error": "Det gick inte att läsa recordern. Inget ändrades - se Home Assistants logg.",
+    "import_skipped": "Importerat. {n} ogiltiga poster i filen hoppades över."
   },
   "sched": {
     "label": "Skrivning:",
@@ -111,7 +120,11 @@
     "confirm_yes": "Ja, ta bort",
     "confirm_no": "Nej",
     "depth_entries": "Antal poster (påslag och avstängningar)",
-    "on_off_hint": "Varje påslag och avstängning sparas med datum och tid. Det är den enda inställningen."
+    "on_off_hint": "Varje påslag och avstängning sparas med datum och tid. Det är den enda inställningen.",
+    "fill": "Fyll från historik",
+    "filling": "Fyller...",
+    "confirm_fill": "Fylla {code} från Home Assistants historik? De hittills insamlade punkterna ERSÄTTS med de senaste {days} dagarna från recordern, enligt den SPARADE inställningen för denna spårning (intervall, skrivtid, djup). Spara först dina ändringar. Det går inte att ångra.",
+    "confirm_fill_yes": "Ja, ersätt och fyll"
   },
   "card": {
     "edit": "Redigera",

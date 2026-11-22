@@ -55,7 +55,16 @@
     "settings_save_fail": "No se pudieron guardar los ajustes",
     "export_fail": "Error al exportar",
     "import_ok": "Ajustes importados.",
-    "import_fail": "Error al importar"
+    "import_fail": "Error al importar",
+    "fill_ok": "Se rellenaron {n} puntos de los últimos {days} días.",
+    "fill_fail": "No se pudo rellenar desde el historial",
+    "fill_err_no_recorder": "La integración recorder no está cargada.",
+    "fill_err_busy": "Ya hay un relleno en curso para este seguimiento.",
+    "fill_err_no_data": "El recorder no tiene datos utilizables de esta entidad en ese periodo (excluida del recorder, purgada o no numérica). No se cambió nada.",
+    "fill_err_not_tracked": "Este seguimiento no está cargado: ¿está activado?",
+    "fill_err_changed": "El seguimiento cambió durante el relleno: inténtalo de nuevo.",
+    "fill_err_recorder_error": "Falló la lectura del recorder. No se cambió nada: revisa el registro de Home Assistant.",
+    "import_skipped": "Importado. Se omitieron {n} entradas no válidas del archivo."
   },
   "sched": {
     "label": "Escritura:",
@@ -111,7 +120,11 @@
     "confirm_yes": "Sí, eliminar",
     "confirm_no": "No",
     "depth_entries": "Número de entradas (encendidos y apagados)",
-    "on_off_hint": "Cada encendido y apagado se guarda con fecha y hora. Es el único ajuste."
+    "on_off_hint": "Cada encendido y apagado se guarda con fecha y hora. Es el único ajuste.",
+    "fill": "Rellenar desde el historial",
+    "filling": "Rellenando...",
+    "confirm_fill": "¿Rellenar {code} desde el historial de Home Assistant? Los puntos recogidos hasta ahora serán REEMPLAZADOS por los últimos {days} días leídos del recorder, según los ajustes GUARDADOS de este seguimiento (intervalo, hora de escritura, profundidad). Guarda antes tus cambios. No se puede deshacer.",
+    "confirm_fill_yes": "Sí, reemplazar y rellenar"
   },
   "card": {
     "edit": "Editar",

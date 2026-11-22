@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import logging
 import math
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Any
 
 from homeassistant.components.sensor import SensorEntity
@@ -47,6 +47,13 @@ from .const import (
     ON_OFF_OFF,
     ON_OFF_UNKNOWN,
     UNIT_TO_SECONDS,
+)
+from .backfill import (
+    BackfillError,
+    build_on_off_points,
+    build_points,
+    fetch_events_blocking,
+    fetch_samples_blocking,
 )
 from .keys import split_key
 
@@ -180,6 +187,34 @@ async def async_clear_history(hass: HomeAssistant, entry: ConfigEntry, key: str)
     return True
 
 
+async def async_backfill_history(
+    hass: HomeAssistant, entry: ConfigEntry, key: str, days: int
+) -> dict[str, int]:
+    """Replace the buffer of one tracking with data read from the recorder.
+
+    Nothing is touched unless the recorder returned usable data: the old buffer is replaced
+    only after the new points have been built successfully.
+    """
+    store = _store(hass, entry)
+    entity = store["entities"].get(key)
+    if entity is None:
+        raise BackfillError("not_tracked", "This tracking is not loaded (is it enabled?)")
+    if entity.backfill_running:
+        raise BackfillError("busy", "A fill is already running for this tracking")
+
+    entity.backfill_running = True
+    try:
+        points, last_raw, last_reset = await entity.async_backfill_fetch(days)
+        if store["entities"].get(key) is not entity:
+            # the tracking was edited / replaced while the recorder was being read
+            raise BackfillError("changed", "The tracking was changed during the fill - try again")
+        entity.replace_history(points, last_raw, last_reset)
+    finally:
+        entity.backfill_running = False
+
+    return {"points": len(points), "first": int(points[0][0]), "last": int(points[-1][0])}
+
+
 class HistorySensorEntity(RestoreEntity, SensorEntity):
     """A RAM-buffered history sensor tracking one source entity."""
 
@@ -229,9 +264,12 @@ class HistorySensorEntity(RestoreEntity, SensorEntity):
 
         self._history: list[list[Any]] = []
         self._previous_value: float | None = None
+        # last_reset attribute of the source as seen at the previous sample (counter mode)
+        self._previous_source_reset: str | None = None
         self._unsub_timer = None
         self._unsub_state = None
         self._adopted = False
+        self.backfill_running = False
 
     @property
     def device_info(self) -> DeviceInfo:
@@ -245,6 +283,7 @@ class HistorySensorEntity(RestoreEntity, SensorEntity):
         """Take over the live buffer of the entity this one replaces (panel edit)."""
         self._history = [list(point) for point in other._history][-self._depth :]
         self._previous_value = other._previous_value
+        self._previous_source_reset = other._previous_source_reset
         self._source_unit = other._source_unit
         self._adopted = True
 
@@ -270,6 +309,10 @@ class HistorySensorEntity(RestoreEntity, SensorEntity):
                     self._previous_value = float(last_raw)
                 except (TypeError, ValueError):
                     self._previous_value = None
+
+            last_src_reset = last_state.attributes.get("last_source_reset")
+            if last_src_reset:
+                self._previous_source_reset = str(last_src_reset)
 
             # Odczytujemy nową nazwę z opcją zapasową do starej (kompatybilność wsteczna)
             uom = last_state.attributes.get("source_unit_of_measurement") or last_state.attributes.get("unit_of_measurement")
@@ -422,14 +465,41 @@ class HistorySensorEntity(RestoreEntity, SensorEntity):
 
         timestamp = int(now.timestamp())
 
-        if (
-            self._tracking_mode == TRACKING_MODE_COUNTER
-            and self._previous_value is not None
-            and value < self._previous_value
-        ):
-            point = [timestamp, value, RESET_FLAG]
-        else:
-            point = [timestamp, value]
+        is_reset = False
+        if self._tracking_mode == TRACKING_MODE_COUNTER:
+            # 1) Preferred: the source's own "last_reset" attribute. A counter that resets once
+            #    a day and is sampled right before the reset (e.g. 23:59:50) can show a HIGHER
+            #    value than yesterday, so comparing values alone misses the reset. A changed
+            #    last_reset since the previous sample is a reliable signal.
+            src_reset = state.attributes.get("last_reset")
+            src_reset = str(src_reset) if src_reset else None
+            if (
+                src_reset is not None
+                and self._previous_source_reset is not None
+                and src_reset != self._previous_source_reset
+            ):
+                is_reset = True
+            # Also covers the first sample after an upgrade (nothing remembered yet): a
+            # last_reset newer than the previous buffered point means a reset happened since.
+            if not is_reset and src_reset is not None:
+                parsed = dt_util.parse_datetime(src_reset)
+                if parsed is not None:
+                    # nothing stored yet: the previous point would have been one interval ago,
+                    # so a reset inside the first period flags the first point too
+                    ref = float(self._history[-1][0]) if self._history else timestamp - self._interval_seconds
+                    if parsed.timestamp() > ref:
+                        is_reset = True
+            if src_reset is not None:
+                self._previous_source_reset = src_reset
+            # 2) Fallback (sources without last_reset): the value dropped.
+            if (
+                not is_reset
+                and self._previous_value is not None
+                and value < self._previous_value
+            ):
+                is_reset = True
+
+        point = [timestamp, value, RESET_FLAG] if is_reset else [timestamp, value]
 
         # Tworzenie nowej instancji listy przełamuje cache referencji w HA
         new_history = list(self._history)
@@ -447,6 +517,94 @@ class HistorySensorEntity(RestoreEntity, SensorEntity):
 
         self.async_write_ha_state()
 
+    # ------------------------------------------------------------------
+    # backfill: rebuild the buffer from the recorder
+    # ------------------------------------------------------------------
+    def backfill_targets(self, now: datetime, days: int) -> list[int]:
+        """The grid timestamps of the last ``days`` days, at most ``depth`` of them.
+
+        Same grid the live sampling uses (local time, offset, DST), so filled points are
+        indistinguishable from collected ones.
+        """
+        window = min(days * 86400, (self._depth + 2) * self._interval_seconds)
+        targets: list[int] = []
+        point = self._next_aligned_time(now - timedelta(seconds=window))
+        for _ in range(self._depth + 50):          # guard only; normally ~depth iterations
+            if point > now:
+                break
+            targets.append(int(point.timestamp()))
+            point = self._next_aligned_time(point)
+        return targets[-self._depth :]
+
+    async def async_backfill_fetch(self, days: int):
+        """Read the recorder and return (points, last value, last source reset). Changes nothing."""
+        if "recorder" not in self.hass.config.components:
+            raise BackfillError("no_recorder", "The recorder integration is not loaded")
+        from homeassistant.components.recorder import get_instance
+
+        recorder = get_instance(self.hass)
+        now = dt_util.utcnow()
+        try:
+            if self._tracking_mode == TRACKING_MODE_ON_OFF:
+                rows = await recorder.async_add_executor_job(
+                    fetch_events_blocking,
+                    self.hass,
+                    self._source_entity,
+                    now - timedelta(days=days),
+                    now,
+                )
+                points = build_on_off_points(rows, self._depth)
+                last_raw = float(points[-1][1]) if points else None
+                last_reset = None
+            else:
+                targets = self.backfill_targets(now, days)
+                counter = self._tracking_mode == TRACKING_MODE_COUNTER
+                samples = (
+                    await recorder.async_add_executor_job(
+                        fetch_samples_blocking, self.hass, self._source_entity, targets, counter
+                    )
+                    if targets
+                    else []
+                )
+                points, last_raw, last_reset = build_points(counter, samples, self._interval_seconds)
+        except BackfillError:
+            raise
+        except Exception as err:  # noqa: BLE001 - report, never crash the websocket handler
+            _LOGGER.exception("PSB History Engine: reading the recorder for %s failed", self._source_entity)
+            raise BackfillError("recorder_error", f"Reading the recorder failed: {err}") from err
+
+        if not points:
+            raise BackfillError(
+                "no_data",
+                "The recorder has no usable states for this entity in that period "
+                "(excluded from the recorder, purged, or never numeric)",
+            )
+        return points, last_raw, last_reset
+
+    def replace_history(self, points: list[list[Any]], last_raw: float | None, last_reset: str | None) -> None:
+        """Swap the buffer for backfilled points (call only after a successful fetch)."""
+        newest = points[-1][0]
+        # points the live sampling wrote while the recorder was being read stay (no duplicates)
+        tail = [list(p) for p in self._history if p[0] > newest]
+        if self._tracking_mode == TRACKING_MODE_ON_OFF:
+            merged = list(points)
+            for p in tail:
+                if merged[-1][1] != p[1]:
+                    merged.append(p)
+        else:
+            merged = list(points) + tail
+        self._history = merged[-self._depth :]
+        last = self._history[-1]
+        self._previous_value = float(last[1])
+        if self._tracking_mode == TRACKING_MODE_COUNTER and not tail:
+            self._previous_source_reset = last_reset
+        if self._source_unit is None:
+            state = self.hass.states.get(self._source_entity)
+            uom = state.attributes.get("unit_of_measurement") if state is not None else None
+            if uom:
+                self._source_unit = uom
+        self.async_write_ha_state()
+
     def clear_buffer(self) -> None:
         """Empty the history buffer in place, keeping tracking config intact.
 
@@ -455,6 +613,7 @@ class HistorySensorEntity(RestoreEntity, SensorEntity):
         """
         self._history = []
         self._previous_value = None
+        self._previous_source_reset = None
         self.async_write_ha_state()
 
     @property
@@ -478,5 +637,6 @@ class HistorySensorEntity(RestoreEntity, SensorEntity):
             "offset_seconds": None if self._tracking_mode == TRACKING_MODE_ON_OFF else self._offset_seconds,
             "depth": self._depth,
             "last_raw_value": self._previous_value,
+            "last_source_reset": self._previous_source_reset,
             "history": self._history,
         }

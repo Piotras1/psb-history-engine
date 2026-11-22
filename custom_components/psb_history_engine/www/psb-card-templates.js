@@ -158,10 +158,25 @@ custom_data:
       // --- time labels (unified text color for full contrast) ---
       let times = '';
       if (show.times) {
-        const an = ['start', 'middle', 'middle', 'middle', 'end'];
-        [0, 0.25, 0.5, 0.75, 1].forEach((f, k) => {
-          const d = new Date((t0 + span * f) * 1000);
-          times += \`<text x="\${(padL + f * CW).toFixed(1)}" y="\${H + 14}" fill="var(--secondary-text-color, #64748b)" font-size="9" font-weight="\${k === 4 ? '700' : '600'}" font-family="monospace" text-anchor="\${an[k]}" style="text-shadow:none;">\${pad2(d.getHours())}:\${pad2(d.getMinutes())}</text>\`;
+        // daily (or longer) points get DATES - a time of day would be the same on every point
+        const dateMode = interval >= 86400;
+        const dayLabel = ts => {
+          const d = new Date((ts - Math.min(interval, 86400) / 2) * 1000);   // the day the period belongs to
+          return pad2(d.getDate()) + '.' + pad2(d.getMonth() + 1);
+        };
+        // dates: one label per point when they fit (max 8), otherwise every 2nd, 3rd ... point
+        // counted back from the newest one, so the spacing is even and the last day is always shown
+        const idxStep = Math.max(1, Math.ceil((n - 1) / 7));
+        const dayIdx = [];
+        for (let i = n - 1; i >= 0; i -= idxStep) dayIdx.unshift(i);
+        const marks = dateMode
+          ? dayIdx.map(i => ({ f: span > 0 ? (pts[i].t - t0) / span : 0, text: dayLabel(pts[i].t), an: i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle' }))
+          : [0, 0.25, 0.5, 0.75, 1].map(f => {
+              const d = new Date((t0 + span * f) * 1000);
+              return { f, text: pad2(d.getHours()) + ':' + pad2(d.getMinutes()), an: f === 0 ? 'start' : f === 1 ? 'end' : 'middle' };
+            });
+        marks.forEach((m, k) => {
+          times += \`<text x="\${(padL + m.f * CW).toFixed(1)}" y="\${H + 14}" fill="var(--secondary-text-color, #64748b)" font-size="9" font-weight="\${m.an === 'end' ? '700' : '600'}" font-family="monospace" text-anchor="\${m.an}" style="text-shadow:none;">\${m.text}</text>\`;
         });
       }
       const svgH = H + (show.times ? 18 : 4);
@@ -210,7 +225,7 @@ custom_data:
       const minmax = show.minmax
         ? \`<span style="color:var(--secondary-text-color, #64748b); font-size:0.85em; font-family:monospace; text-shadow:none;">MIN \${fmt(vMin)} · MAX \${fmt(vMax)}</span>\` : '<span></span>';
 
-      const rangeLabel = \`\${count} \${lang.pts} · \${fmtDur(count * interval)}\`;
+      const rangeLabel = \`\${count} \${lang.pts} · \${interval >= 86400 ? Math.round(count * interval / 86400) + 'd' : fmtDur(count * interval)}\`;
 
       const switchBtn = (show.switch && ranges.length > 1)
         ? \`<div \${customTap.id_js({ action: () => {
@@ -290,8 +305,8 @@ custom_data:
       const interval = hourly ? 3600 : sampleInterval;
       const perHour = hourly ? Math.floor(3600 / sampleInterval) : 1;
       const buckets = new Map();
-      for (let i = 1; i < raw.length; i++) {
-        if (raw[i].t - raw[i - 1].t > sampleInterval * 1.5) continue;   // data gap
+      for (let i = raw[0] && raw[0].reset ? 0 : 1; i < raw.length; i++) {   // a first point flagged "reset" is a whole period of use
+        if (i > 0 && raw[i].t - raw[i - 1].t > sampleInterval * 1.5) continue;   // data gap
         const d = (raw[i].reset || raw[i].v < raw[i - 1].v) ? raw[i].v : raw[i].v - raw[i - 1].v;
         let t = raw[i].t;
         if (hourly) {
@@ -394,10 +409,25 @@ custom_data:
       // --- time labels (unified text color for full contrast) ---
       let times = '';
       if (show.times) {
-        const an = ['start', 'middle', 'middle', 'middle', 'end'];
-        [0, 0.25, 0.5, 0.75, 1].forEach((f, k) => {
-          const d = new Date((t0 + span * f) * 1000);
-          times += \`<text x="\${(padL + f * CW).toFixed(1)}" y="\${H + 14}" fill="var(--secondary-text-color, #64748b)" font-size="9" font-weight="\${k === 4 ? '700' : '600'}" font-family="monospace" text-anchor="\${an[k]}" style="text-shadow:none;">\${pad2(d.getHours())}:\${pad2(d.getMinutes())}</text>\`;
+        // daily (or longer) points get DATES - a time of day would be the same on every point
+        const dateMode = interval >= 86400;
+        const dayLabel = ts => {
+          const d = new Date((ts - Math.min(interval, 86400) / 2) * 1000);   // the day the period belongs to
+          return pad2(d.getDate()) + '.' + pad2(d.getMonth() + 1);
+        };
+        // dates: one label per point when they fit (max 8), otherwise every 2nd, 3rd ... point
+        // counted back from the newest one, so the spacing is even and the last day is always shown
+        const idxStep = Math.max(1, Math.ceil((n - 1) / 7));
+        const dayIdx = [];
+        for (let i = n - 1; i >= 0; i -= idxStep) dayIdx.unshift(i);
+        const marks = dateMode
+          ? dayIdx.map(i => ({ f: span > 0 ? (pts[i].t - t0) / span : 0, text: dayLabel(pts[i].t), an: i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle' }))
+          : [0, 0.25, 0.5, 0.75, 1].map(f => {
+              const d = new Date((t0 + span * f) * 1000);
+              return { f, text: pad2(d.getHours()) + ':' + pad2(d.getMinutes()), an: f === 0 ? 'start' : f === 1 ? 'end' : 'middle' };
+            });
+        marks.forEach((m, k) => {
+          times += \`<text x="\${(padL + m.f * CW).toFixed(1)}" y="\${H + 14}" fill="var(--secondary-text-color, #64748b)" font-size="9" font-weight="\${m.an === 'end' ? '700' : '600'}" font-family="monospace" text-anchor="\${m.an}" style="text-shadow:none;">\${m.text}</text>\`;
         });
       }
       const svgH = H + (show.times ? 18 : 4);
@@ -446,7 +476,7 @@ custom_data:
       const minmax = show.minmax
         ? \`<span style="color:var(--secondary-text-color, #64748b); font-size:0.85em; font-family:monospace; text-shadow:none;">MIN \${fmt(vMin)} · MAX \${fmt(vMax)}</span>\` : '<span></span>';
 
-      const rangeLabel = hourly ? fmtDur(count * 3600) : \`\${count} \${lang.pts} · \${fmtDur(count * interval)}\`;
+      const rangeLabel = hourly ? fmtDur(count * 3600) : \`\${count} \${lang.pts} · \${interval >= 86400 ? Math.round(count * interval / 86400) + 'd' : fmtDur(count * interval)}\`;
 
       const switchBtn = (show.switch && ranges.length > 1)
         ? \`<div \${customTap.id_js({ action: () => {

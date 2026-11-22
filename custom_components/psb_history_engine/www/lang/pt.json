@@ -55,7 +55,16 @@
     "settings_save_fail": "Falha ao salvar as configurações",
     "export_fail": "Falha na exportação",
     "import_ok": "Configurações importadas.",
-    "import_fail": "Falha na importação"
+    "import_fail": "Falha na importação",
+    "fill_ok": "Preenchidos {n} pontos dos últimos {days} dias.",
+    "fill_fail": "Falha ao preencher a partir do histórico",
+    "fill_err_no_recorder": "A integração recorder não está carregada.",
+    "fill_err_busy": "Já está em curso um preenchimento para este acompanhamento.",
+    "fill_err_no_data": "O recorder não tem dados utilizáveis desta entidade nesse período (excluída do recorder, purgada ou não numérica). Nada foi alterado.",
+    "fill_err_not_tracked": "Este acompanhamento não está carregado - está ativo?",
+    "fill_err_changed": "O acompanhamento foi alterado durante o preenchimento - tente novamente.",
+    "fill_err_recorder_error": "Falha ao ler o recorder. Nada foi alterado - consulte o registo do Home Assistant.",
+    "import_skipped": "Importado. {n} entradas inválidas do ficheiro foram ignoradas."
   },
   "sched": {
     "label": "Gravação:",
@@ -111,7 +120,11 @@
     "confirm_yes": "Sim, remover",
     "confirm_no": "Não",
     "depth_entries": "Número de entradas (ligações e desligações)",
-    "on_off_hint": "Cada ligação e desligação é guardada com data e hora. É a única definição."
+    "on_off_hint": "Cada ligação e desligação é guardada com data e hora. É a única definição.",
+    "fill": "Preencher a partir do histórico",
+    "filling": "A preencher...",
+    "confirm_fill": "Preencher {code} a partir do histórico do Home Assistant? Os pontos recolhidos até agora serão SUBSTITUÍDOS pelos últimos {days} dias lidos do recorder, segundo as definições GUARDADAS deste acompanhamento (intervalo, hora de escrita, profundidade). Guarde primeiro as alterações. Não pode ser desfeito.",
+    "confirm_fill_yes": "Sim, substituir e preencher"
   },
   "card": {
     "edit": "Editar",

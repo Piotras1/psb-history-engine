@@ -55,7 +55,16 @@
     "settings_save_fail": "Salvataggio delle impostazioni non riuscito",
     "export_fail": "Esportazione non riuscita",
     "import_ok": "Impostazioni importate.",
-    "import_fail": "Importazione non riuscita"
+    "import_fail": "Importazione non riuscita",
+    "fill_ok": "Inseriti {n} punti dagli ultimi {days} giorni.",
+    "fill_fail": "Riempimento dalla cronologia non riuscito",
+    "fill_err_no_recorder": "L'integrazione recorder non è caricata.",
+    "fill_err_busy": "È già in corso un riempimento per questo monitoraggio.",
+    "fill_err_no_data": "Il recorder non ha dati utilizzabili per questa entità in quel periodo (esclusa dal recorder, eliminata o non numerica). Nulla è stato modificato.",
+    "fill_err_not_tracked": "Questo monitoraggio non è caricato: è attivo?",
+    "fill_err_changed": "Il monitoraggio è stato modificato durante il riempimento: riprova.",
+    "fill_err_recorder_error": "Lettura del recorder non riuscita. Nulla è stato modificato: controlla il log di Home Assistant.",
+    "import_skipped": "Importato. {n} voci non valide del file sono state ignorate."
   },
   "sched": {
     "label": "Scrittura:",
@@ -111,7 +120,11 @@
     "confirm_yes": "Sì, rimuovi",
     "confirm_no": "No",
     "depth_entries": "Numero di voci (accensioni e spegnimenti)",
-    "on_off_hint": "Ogni accensione e spegnimento è salvato con data e ora. È l'unica impostazione."
+    "on_off_hint": "Ogni accensione e spegnimento è salvato con data e ora. È l'unica impostazione.",
+    "fill": "Riempi dalla cronologia",
+    "filling": "Riempimento...",
+    "confirm_fill": "Riempire {code} dalla cronologia di Home Assistant? I punti raccolti finora verranno SOSTITUITI dagli ultimi {days} giorni letti dal recorder, secondo le impostazioni SALVATE di questo monitoraggio (intervallo, ora di scrittura, profondità). Salva prima le modifiche. L'operazione non può essere annullata.",
+    "confirm_fill_yes": "Sì, sostituisci e riempi"
   },
   "card": {
     "edit": "Modifica",

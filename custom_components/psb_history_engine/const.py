@@ -74,5 +74,11 @@ RESET_FLAG = "reset"
 MIN_DEPTH = 2
 MAX_DEPTH = 500
 MIN_INTERVAL_VALUE = 1
+MAX_INTERVAL_VALUE = 100000   # keeps every computed time inside what Python dates can represent
+MAX_TRACKED_IMPORT = 2000     # most trackings one settings import may contain
 MIN_OFFSET_SECONDS = -86400
 MAX_OFFSET_SECONDS = 86400
+
+# --- backfill ("Fill from history") ---
+BACKFILL_DEFAULT_DAYS = 7
+BACKFILL_MAX_DAYS = 30   # the recorder keeps 10 days by default (purge_keep_days); more only helps if raised

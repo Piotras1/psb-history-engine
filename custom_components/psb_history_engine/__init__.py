@@ -22,7 +22,7 @@ from homeassistant.components.http import StaticPathConfig
 from homeassistant.components.panel_custom import async_register_panel
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, valid_entity_id
 from homeassistant.helpers import config_validation as cv, entity_registry as er
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.loader import async_get_integration
@@ -60,8 +60,13 @@ from .const import (
     TRACKING_MODE_VALUE,
     TRACKING_MODES,
     BINARY_DOMAINS,
+    BACKFILL_DEFAULT_DAYS,
+    BACKFILL_MAX_DAYS,
+    MAX_INTERVAL_VALUE,
+    MAX_TRACKED_IMPORT,
 )
 
+from .backfill import BackfillError
 from .keys import is_valid_key, make_key, split_key
 
 _LOGGER = logging.getLogger(__name__)
@@ -70,18 +75,60 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
+def _plain_int(value):
+    """An integer, but not a bool (True would pass a plain int check)."""
+    if isinstance(value, bool) or not isinstance(value, int):
+        raise vol.Invalid("expected an integer")
+    return value
+
+
+# Suffix and friendly name end up in entity ids / names: restrict them to what is valid there.
+_SUFFIX = vol.All(str, vol.Length(max=64), vol.Match(r"^[a-z0-9_]*$"))
+_NAME = vol.All(str, vol.Length(max=120))
+_INTERVAL_VALUE = vol.All(_plain_int, vol.Range(min=MIN_INTERVAL_VALUE, max=MAX_INTERVAL_VALUE))
+_DEPTH = vol.All(_plain_int, vol.Range(min=MIN_DEPTH, max=MAX_DEPTH))
+_OFFSET = vol.All(_plain_int, vol.Range(min=MIN_OFFSET_SECONDS, max=MAX_OFFSET_SECONDS))
+
+# What an imported settings file may contain. Unknown keys are dropped, every value is checked
+# exactly like a value typed in the panel - a hand-edited file cannot store anything the panel
+# could not (e.g. a text depth, a huge interval or a suffix that is not a valid entity id part).
+_IMPORT_FIELDS = {
+    vol.Optional(CONF_ENABLED): bool,
+    vol.Optional(CONF_TRACKING_MODE): vol.In(TRACKING_MODES),
+    vol.Optional(CONF_INTERVAL_VALUE): _INTERVAL_VALUE,
+    vol.Optional(CONF_INTERVAL_UNIT): vol.In(INTERVAL_UNITS),
+    vol.Optional(CONF_DEPTH): _DEPTH,
+    vol.Optional(CONF_OFFSET_SECONDS): _OFFSET,
+    vol.Optional(CONF_SUFFIX): _SUFFIX,
+    vol.Optional(CONF_FRIENDLY_NAME): _NAME,
+}
+IMPORT_TRACKED_SCHEMA = vol.Schema(_IMPORT_FIELDS, extra=vol.REMOVE_EXTRA)
+IMPORT_DEFAULTS_SCHEMA = vol.Schema(
+    {**_IMPORT_FIELDS, vol.Optional(CONF_LANGUAGE): vol.In(LANGUAGES)}, extra=vol.REMOVE_EXTRA
+)
+
+
+def _clean_import_cfg(cfg: dict, schema: vol.Schema) -> dict:
+    """Validate one imported config; raises vol.Invalid if it is not acceptable."""
+    cfg = dict(_normalize_cfg(cfg))
+    # a non-numeric offset has always fallen back to 0 (the default) instead of failing
+    try:
+        _OFFSET(cfg.get(CONF_OFFSET_SECONDS, 0))
+    except vol.Invalid:
+        cfg.pop(CONF_OFFSET_SECONDS, None)
+    return schema(cfg)
+
+
 ENTITY_CFG_SCHEMA = {
     vol.Required("entity_id"): str,
     vol.Required(CONF_ENABLED): bool,
     vol.Required(CONF_TRACKING_MODE): vol.In(TRACKING_MODES),
-    vol.Required(CONF_INTERVAL_VALUE): vol.All(int, vol.Range(min=MIN_INTERVAL_VALUE)),
+    vol.Required(CONF_INTERVAL_VALUE): _INTERVAL_VALUE,
     vol.Required(CONF_INTERVAL_UNIT): vol.In(INTERVAL_UNITS),
-    vol.Required(CONF_DEPTH): vol.All(int, vol.Range(min=MIN_DEPTH, max=MAX_DEPTH)),
-    vol.Optional(CONF_OFFSET_SECONDS): vol.All(
-        int, vol.Range(min=MIN_OFFSET_SECONDS, max=MAX_OFFSET_SECONDS)
-    ),
-    vol.Optional(CONF_SUFFIX): str,
-    vol.Optional(CONF_FRIENDLY_NAME): str,
+    vol.Required(CONF_DEPTH): _DEPTH,
+    vol.Optional(CONF_OFFSET_SECONDS): _OFFSET,
+    vol.Optional(CONF_SUFFIX): _SUFFIX,
+    vol.Optional(CONF_FRIENDLY_NAME): _NAME,
 }
 
 
@@ -286,7 +333,7 @@ async def ws_save_entity(hass: HomeAssistant, connection, msg) -> None:
         return
 
     entity_id = msg["entity_id"]  # tracking key (see keys.py)
-    if not is_valid_key(entity_id):
+    if not is_valid_key(entity_id) or not valid_entity_id(split_key(entity_id)[0]):
         connection.send_error(
             msg["id"], "invalid_key", f"Nieprawidłowy klucz śledzenia (maks. {MAX_SLOTS} na encję)"
         )
@@ -442,6 +489,42 @@ async def ws_remove_entities(hass: HomeAssistant, connection, msg) -> None:
     )
 
 
+@websocket_api.websocket_command(
+    {
+        vol.Required("type"): f"{DOMAIN}/backfill_entity",
+        vol.Required("entity_id"): str,
+        vol.Optional("days", default=BACKFILL_DEFAULT_DAYS): vol.All(
+            int, vol.Range(min=1, max=BACKFILL_MAX_DAYS)
+        ),
+    }
+)
+@websocket_api.require_admin
+@websocket_api.async_response
+async def ws_backfill_entity(hass: HomeAssistant, connection, msg) -> None:
+    """Replace a tracking's buffer with the last N days read from the recorder.
+
+    The old buffer is replaced only once the new points were read successfully; on any
+    error (no recorder, no data, busy ...) nothing is changed.
+    """
+    entry = _get_entry(hass)
+    if entry is None:
+        connection.send_error(msg["id"], "not_setup", "Integracja nie jest skonfigurowana")
+        return
+    if not is_valid_key(msg["entity_id"]) or not valid_entity_id(split_key(msg["entity_id"])[0]):
+        connection.send_error(msg["id"], "invalid_key", "Invalid tracking key")
+        return
+
+    from .sensor import async_backfill_history
+
+    try:
+        summary = await async_backfill_history(hass, entry, msg["entity_id"], msg["days"])
+    except BackfillError as err:
+        connection.send_error(msg["id"], err.code, err.message)
+        return
+
+    connection.send_result(msg["id"], {"entities": _build_entity_list(hass, entry), **summary})
+
+
 @websocket_api.websocket_command({vol.Required("type"): f"{DOMAIN}/get_settings"})
 @websocket_api.require_admin
 @websocket_api.async_response
@@ -460,13 +543,11 @@ async def ws_get_settings(hass: HomeAssistant, connection, msg) -> None:
     {
         vol.Required("type"): f"{DOMAIN}/save_settings",
         vol.Optional(CONF_TRACKING_MODE): vol.In(TRACKING_MODES),
-        vol.Optional(CONF_INTERVAL_VALUE): vol.All(int, vol.Range(min=MIN_INTERVAL_VALUE)),
+        vol.Optional(CONF_INTERVAL_VALUE): _INTERVAL_VALUE,
         vol.Optional(CONF_INTERVAL_UNIT): vol.In(INTERVAL_UNITS),
-        vol.Optional(CONF_DEPTH): vol.All(int, vol.Range(min=MIN_DEPTH, max=MAX_DEPTH)),
-        vol.Optional(CONF_OFFSET_SECONDS): vol.All(
-            int, vol.Range(min=MIN_OFFSET_SECONDS, max=MAX_OFFSET_SECONDS)
-        ),
-        vol.Optional(CONF_SUFFIX): str,
+        vol.Optional(CONF_DEPTH): _DEPTH,
+        vol.Optional(CONF_OFFSET_SECONDS): _OFFSET,
+        vol.Optional(CONF_SUFFIX): _SUFFIX,
         vol.Optional(CONF_LANGUAGE): vol.In(LANGUAGES),
     }
 )
@@ -535,14 +616,39 @@ async def ws_import_settings(hass: HomeAssistant, connection, msg) -> None:
         connection.send_error(msg["id"], "not_setup", "Integracja nie jest skonfigurowana")
         return
 
-    # keep only well-formed tracking keys (malformed "#" keys are dropped)
-    imported = {k: _normalize_cfg(v) for k, v in msg["tracked_entities"].items() if is_valid_key(k)}
+    if len(msg["tracked_entities"]) > MAX_TRACKED_IMPORT:
+        connection.send_error(
+            msg["id"], "too_many", f"The file has more than {MAX_TRACKED_IMPORT} trackings"
+        )
+        return
+    try:
+        new_defaults = _clean_import_cfg(msg["defaults"], IMPORT_DEFAULTS_SCHEMA)
+    except vol.Invalid as err:
+        connection.send_error(msg["id"], "invalid_format", f"The defaults in the file are not valid: {err}")
+        return
+
+    # Keep only well-formed trackings. A bad entry is skipped (and counted), never stored, so
+    # a damaged file cannot leave the integration unable to start.
+    imported: dict[str, dict] = {}
+    skipped = 0
+    for key, raw in msg["tracked_entities"].items():
+        if (
+            not is_valid_key(key)
+            or not valid_entity_id(split_key(key)[0])
+            or not isinstance(raw, dict)
+        ):
+            skipped += 1
+            continue
+        try:
+            imported[key] = _clean_import_cfg(raw, IMPORT_TRACKED_SCHEMA)
+        except vol.Invalid:
+            skipped += 1
 
     hass.config_entries.async_update_entry(
         entry,
         options={
             **entry.options,
-            CONF_DEFAULTS: _normalize_cfg(msg["defaults"]),
+            CONF_DEFAULTS: new_defaults,
             CONF_TRACKED: imported,
         },
     )
@@ -560,7 +666,9 @@ async def ws_import_settings(hass: HomeAssistant, connection, msg) -> None:
     for entity_id, cfg in imported.items():
         await async_apply_tracking(hass, entry, entity_id, {**defaults, **cfg})
 
-    connection.send_result(msg["id"], {"entities": _build_entity_list(hass, entry)})
+    connection.send_result(
+        msg["id"], {"entities": _build_entity_list(hass, entry), "skipped": skipped}
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -574,6 +682,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     websocket_api.async_register_command(hass, ws_save_entity)
     websocket_api.async_register_command(hass, ws_get_entity_state)
     websocket_api.async_register_command(hass, ws_clear_entity)
+    websocket_api.async_register_command(hass, ws_backfill_entity)
     websocket_api.async_register_command(hass, ws_remove_entity)
     websocket_api.async_register_command(hass, ws_remove_entities)
     websocket_api.async_register_command(hass, ws_get_settings)

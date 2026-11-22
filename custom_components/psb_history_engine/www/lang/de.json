@@ -55,7 +55,16 @@
     "settings_save_fail": "Einstellungen konnten nicht gespeichert werden",
     "export_fail": "Export fehlgeschlagen",
     "import_ok": "Einstellungen importiert.",
-    "import_fail": "Import fehlgeschlagen"
+    "import_fail": "Import fehlgeschlagen",
+    "fill_ok": "{n} Punkte aus den letzten {days} Tagen eingetragen.",
+    "fill_fail": "Füllen aus dem Verlauf fehlgeschlagen",
+    "fill_err_no_recorder": "Die Recorder-Integration ist nicht geladen.",
+    "fill_err_busy": "Für diese Verfolgung läuft bereits ein Füllvorgang.",
+    "fill_err_no_data": "Der Recorder hat für diese Entität in diesem Zeitraum keine verwertbaren Daten (vom Recorder ausgeschlossen, bereinigt oder nicht numerisch). Nichts wurde geändert.",
+    "fill_err_not_tracked": "Diese Verfolgung ist nicht geladen - ist sie aktiviert?",
+    "fill_err_changed": "Die Verfolgung wurde während des Füllens geändert - bitte erneut versuchen.",
+    "fill_err_recorder_error": "Das Lesen des Recorders ist fehlgeschlagen. Nichts wurde geändert - siehe Home-Assistant-Protokoll.",
+    "import_skipped": "Importiert. {n} ungültige Einträge in der Datei wurden übersprungen."
   },
   "sched": {
     "label": "Eintrag:",
@@ -111,7 +120,11 @@
     "confirm_yes": "Ja, entfernen",
     "confirm_no": "Nein",
     "depth_entries": "Anzahl der Einträge (Ein- und Ausschaltvorgänge)",
-    "on_off_hint": "Jedes Ein- und Ausschalten wird mit Datum und Uhrzeit gespeichert. Das ist die einzige Einstellung."
+    "on_off_hint": "Jedes Ein- und Ausschalten wird mit Datum und Uhrzeit gespeichert. Das ist die einzige Einstellung.",
+    "fill": "Aus Verlauf füllen",
+    "filling": "Wird gefüllt...",
+    "confirm_fill": "{code} aus dem Home-Assistant-Verlauf füllen? Die bisher gesammelten Punkte werden DURCH die letzten {days} Tage aus dem Recorder ERSETZT, anhand der GESPEICHERTEN Einstellungen dieser Verfolgung (Intervall, Schreibzeit, Tiefe). Speichere zuerst deine Änderungen. Das kann nicht rückgängig gemacht werden.",
+    "confirm_fill_yes": "Ja, ersetzen und füllen"
   },
   "card": {
     "edit": "Bearbeiten",

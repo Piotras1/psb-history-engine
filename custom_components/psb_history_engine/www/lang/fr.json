@@ -55,7 +55,16 @@
     "settings_save_fail": "Échec de l'enregistrement des paramètres",
     "export_fail": "Échec de l'exportation",
     "import_ok": "Paramètres importés.",
-    "import_fail": "Échec de l'importation"
+    "import_fail": "Échec de l'importation",
+    "fill_ok": "{n} points ajoutés à partir des {days} derniers jours.",
+    "fill_fail": "Échec du remplissage depuis l'historique",
+    "fill_err_no_recorder": "L'intégration recorder n'est pas chargée.",
+    "fill_err_busy": "Un remplissage est déjà en cours pour ce suivi.",
+    "fill_err_no_data": "Le recorder n'a aucune donnée exploitable pour cette entité sur cette période (exclue du recorder, purgée ou non numérique). Rien n'a été modifié.",
+    "fill_err_not_tracked": "Ce suivi n'est pas chargé - est-il activé ?",
+    "fill_err_changed": "Le suivi a été modifié pendant le remplissage - réessayez.",
+    "fill_err_recorder_error": "La lecture du recorder a échoué. Rien n'a été modifié - consultez le journal de Home Assistant.",
+    "import_skipped": "Importé. {n} entrées invalides du fichier ont été ignorées."
   },
   "sched": {
     "label": "Écriture :",
@@ -111,7 +120,11 @@
     "confirm_yes": "Oui, supprimer",
     "confirm_no": "Non",
     "depth_entries": "Nombre d'entrées (allumages et extinctions)",
-    "on_off_hint": "Chaque allumage et extinction est enregistré avec la date et l'heure. C'est le seul réglage."
+    "on_off_hint": "Chaque allumage et extinction est enregistré avec la date et l'heure. C'est le seul réglage.",
+    "fill": "Remplir depuis l'historique",
+    "filling": "Remplissage...",
+    "confirm_fill": "Remplir {code} depuis l'historique de Home Assistant ? Les points collectés jusqu'ici seront REMPLACÉS par les {days} derniers jours lus dans le recorder, selon les paramètres ENREGISTRÉS de ce suivi (intervalle, heure d'écriture, profondeur). Enregistrez d'abord vos modifications. Action irréversible.",
+    "confirm_fill_yes": "Oui, remplacer et remplir"
   },
   "card": {
     "edit": "Modifier",

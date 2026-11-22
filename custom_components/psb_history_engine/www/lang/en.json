@@ -55,7 +55,16 @@
     "settings_save_fail": "Failed to save settings",
     "export_fail": "Export failed",
     "import_ok": "Settings imported.",
-    "import_fail": "Import failed"
+    "import_fail": "Import failed",
+    "fill_ok": "Filled {n} points from the last {days} days.",
+    "fill_fail": "Failed to fill from history",
+    "fill_err_no_recorder": "The recorder integration is not loaded.",
+    "fill_err_busy": "A fill is already running for this tracking.",
+    "fill_err_no_data": "The recorder has no usable data for this entity in that period (excluded from the recorder, purged or not numeric). Nothing was changed.",
+    "fill_err_not_tracked": "This tracking is not loaded - is it enabled?",
+    "fill_err_changed": "The tracking was changed during the fill - try again.",
+    "fill_err_recorder_error": "Reading the recorder failed. Nothing was changed - see the Home Assistant log.",
+    "import_skipped": "Imported. {n} invalid entries in the file were skipped."
   },
   "sched": {
     "label": "Writes:",
@@ -111,7 +120,11 @@
     "confirm_yes": "Yes, remove",
     "confirm_no": "No",
     "depth_entries": "Number of entries (switch-ons and switch-offs)",
-    "on_off_hint": "Every switch-on and switch-off is saved with its date and time. This is the only setting."
+    "on_off_hint": "Every switch-on and switch-off is saved with its date and time. This is the only setting.",
+    "fill": "Fill from history",
+    "filling": "Filling...",
+    "confirm_fill": "Fill {code} from Home Assistant history? The points collected so far will be REPLACED with the last {days} days read from the recorder, using the SAVED settings of this tracking (interval, write time, depth). Save your changes first. This cannot be undone.",
+    "confirm_fill_yes": "Yes, replace and fill"
   },
   "card": {
     "edit": "Edit",

@@ -38,6 +38,7 @@ const UNIT_TO_CATEGORY = {
   "m³": "water_gas", m3: "water_gas", l: "water_gas", "ft³": "water_gas",
 };
 const ADD_RESULTS_LIMIT = 40;
+const BACKFILL_DAYS = 7;   // "Fill from history" reads this many days back from the recorder
 
 const UNIT_SECONDS = { seconds: 1, minutes: 60, hours: 3600, days: 86400 };
 const UNIT_KEYS = ["seconds", "minutes", "hours", "days"];
@@ -182,6 +183,11 @@ class PsbHistoryEnginePanel extends HTMLElement {
       const entity = this._entities.find((e) => e.entity_id === el.dataset.valueFor);
       if (entity) el.textContent = this._valueText(entity);
     });
+  }
+
+  _cleanSuffix(value) {
+    // entity ids allow only a-z, 0-9 and "_" - the server rejects anything else
+    return String(value).trim().toLowerCase().replace(/[^a-z0-9_]+/g, "_");
   }
 
   _flashError(message, isError = true) {
@@ -818,6 +824,24 @@ class PsbHistoryEnginePanel extends HTMLElement {
     }
   }
 
+  async _fillData(entityId) {
+    const key = `fill::${entityId}`;
+    this._pending.add(key);
+    this._render();
+    try {
+      const result = await this._call("backfill_entity", { entity_id: entityId, days: BACKFILL_DAYS });
+      this._entities = result.entities;
+      this._flashError(this._t("msg.fill_ok", { n: result.points, days: BACKFILL_DAYS }), false);
+    } catch (err) {
+      const mapKey = err && err.code ? `msg.fill_err_${err.code}` : "";
+      const mapped = mapKey ? this._t(mapKey) : mapKey;
+      this._flashError(mapped && mapped !== mapKey ? mapped : err?.message || this._t("msg.fill_fail"));
+    } finally {
+      this._pending.delete(key);
+      this._render();
+    }
+  }
+
   async _removeEntity(entityId) {
     const key = `remove::${entityId}`;
     this._pending.add(key);
@@ -872,7 +896,11 @@ class PsbHistoryEnginePanel extends HTMLElement {
         tracked_entities: data.tracked_entities || {},
       });
       this._entities = result.entities;
-      this._flashError(this._t("msg.import_ok"), false);
+      const skipped = Number(result.skipped) || 0;
+      this._flashError(
+        skipped ? this._t("msg.import_skipped", { n: skipped }) : this._t("msg.import_ok"),
+        false
+      );
       await this._refresh();
     } catch (err) {
       this._flashError(err?.message || this._t("msg.import_fail"));
@@ -1146,6 +1174,7 @@ class PsbHistoryEnginePanel extends HTMLElement {
     const pendingSave = this._pending.has(`save::${entity.entity_id}`);
     const pendingRemove = this._pending.has(`remove::${entity.entity_id}`);
     const pendingClear = this._pending.has(`clear::${entity.entity_id}`);
+    const pendingFill = this._pending.has(`fill::${entity.entity_id}`);
     const enabledChecked = entity.tracked ? entity.enabled : true;
     return `
       <div class="edit-form" data-entity="${this._esc(entity.entity_id)}">
@@ -1193,6 +1222,11 @@ class PsbHistoryEnginePanel extends HTMLElement {
           <button class="ghost-btn" data-action="cancel-edit">${this._t("form.cancel")}</button>
           ${
             entity.tracked
+              ? `<button class="ghost-btn" data-action="fill-ask" ${pendingFill ? "disabled" : ""}>${this._t("form.fill")}</button>`
+              : ""
+          }
+          ${
+            entity.tracked
               ? `<button class="ghost-btn" data-action="clear-ask" ${pendingClear ? "disabled" : ""}>${this._t("form.clear")}</button>`
               : ""
           }
@@ -1208,6 +1242,13 @@ class PsbHistoryEnginePanel extends HTMLElement {
             ${pendingClear ? this._t("form.clearing") : this._t("form.confirm_clear_yes")}
           </button>
           <button class="ghost-btn" data-action="clear-cancel">${this._t("form.confirm_no")}</button>
+        </div>
+        <div class="confirm-row" data-confirm="fill" hidden>
+          <span>${this._t("form.confirm_fill", { code: `<code>${this._esc(entity.history_entity_id)}</code>`, days: BACKFILL_DAYS })}</span>
+          <button class="remove-btn" data-action="fill-entity" data-entity="${this._esc(entity.entity_id)}" ${pendingFill ? "disabled" : ""}>
+            ${pendingFill ? this._t("form.filling") : this._t("form.confirm_fill_yes")}
+          </button>
+          <button class="ghost-btn" data-action="fill-cancel">${this._t("form.confirm_no")}</button>
         </div>
         <div class="confirm-row" data-confirm="remove" hidden>
           <span>${this._t("form.confirm_remove", { code: `<code>${this._esc(entity.history_entity_id)}</code>` })}</span>
@@ -1396,7 +1437,7 @@ class PsbHistoryEnginePanel extends HTMLElement {
       interval_unit: get("interval_unit").value,
       depth: parseInt(get("depth").value, 10) || 2,
       offset_seconds: this._offsetFromForm(container),
-      suffix: get("suffix").value.trim(),
+      suffix: this._cleanSuffix(get("suffix").value),
       friendly_name: get("friendly_name").value.trim(),
     };
   }
@@ -2078,6 +2119,20 @@ class PsbHistoryEnginePanel extends HTMLElement {
           form.querySelector('[data-confirm="clear"]').hidden = true;
           form.querySelector("[data-actions]").hidden = false;
         });
+      } else if (action === "fill-ask") {
+        el.addEventListener("click", () => {
+          const form = el.closest(".edit-form");
+          form.querySelector("[data-actions]").hidden = true;
+          form.querySelector('[data-confirm="fill"]').hidden = false;
+        });
+      } else if (action === "fill-cancel") {
+        el.addEventListener("click", () => {
+          const form = el.closest(".edit-form");
+          form.querySelector('[data-confirm="fill"]').hidden = true;
+          form.querySelector("[data-actions]").hidden = false;
+        });
+      } else if (action === "fill-entity") {
+        el.addEventListener("click", () => this._fillData(entityId));
       } else if (action === "clear-entity") {
         el.addEventListener("click", () => this._clearData(entityId));
       } else if (action === "more-info") {
@@ -2105,7 +2160,7 @@ class PsbHistoryEnginePanel extends HTMLElement {
             interval_unit: get("interval_unit").value,
             depth: parseInt(get("depth").value, 10) || 2,
             offset_seconds: this._offsetFromForm(container),
-            suffix: get("suffix").value.trim(),
+            suffix: this._cleanSuffix(get("suffix").value),
             language: get("language").value,
           });
         });

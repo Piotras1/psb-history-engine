@@ -55,7 +55,16 @@
     "settings_save_fail": "Nie udało się zapisać ustawień",
     "export_fail": "Eksport nie powiódł się",
     "import_ok": "Zaimportowano ustawienia.",
-    "import_fail": "Import nie powiódł się"
+    "import_fail": "Import nie powiódł się",
+    "fill_ok": "Wypełniono {n} punktów z ostatnich {days} dni.",
+    "fill_fail": "Nie udało się wypełnić z historii",
+    "fill_err_no_recorder": "Integracja recorder nie jest załadowana.",
+    "fill_err_busy": "Wypełnianie tego śledzenia już trwa.",
+    "fill_err_no_data": "Recorder nie ma użytecznych danych tej encji z tego okresu (wykluczona z recordera, wyczyszczona lub nienumeryczna). Nic nie zmieniono.",
+    "fill_err_not_tracked": "To śledzenie nie jest załadowane - czy jest włączone?",
+    "fill_err_changed": "Śledzenie zostało zmienione w trakcie wypełniania - spróbuj ponownie.",
+    "fill_err_recorder_error": "Odczyt z recordera nie powiódł się. Nic nie zmieniono - sprawdź log Home Assistanta.",
+    "import_skipped": "Zaimportowano. Pominięto {n} nieprawidłowych wpisów z pliku."
   },
   "sched": {
     "label": "Zapis:",
@@ -111,7 +120,11 @@
     "confirm_yes": "Tak, usuń",
     "confirm_no": "Nie",
     "depth_entries": "Liczba wpisów (włączeń i wyłączeń)",
-    "on_off_hint": "Każde włączenie i wyłączenie jest zapisywane z datą i godziną. To jedyne ustawienie."
+    "on_off_hint": "Każde włączenie i wyłączenie jest zapisywane z datą i godziną. To jedyne ustawienie.",
+    "fill": "Wypełnij z historii",
+    "filling": "Wypełnianie...",
+    "confirm_fill": "Wypełnić {code} z historii Home Assistanta? Dotychczas zebrane punkty zostaną ZASTĄPIONE danymi z ostatnich {days} dni odczytanymi z recordera, według ZAPISANYCH ustawień tego śledzenia (interwał, godzina zapisu, głębokość). Najpierw zapisz zmiany. Tego nie da się cofnąć.",
+    "confirm_fill_yes": "Tak, zastąp i wypełnij"
   },
   "card": {
     "edit": "Edytuj",
