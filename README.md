@@ -28,7 +28,20 @@ Traditional workarounds (like appending readings to `input_text` via automations
 
 ---
 
-## 🆕 What's new in 1.2.0
+## 🆕 What's new in 1.3.0
+
+- **Fill from history.** A new **Fill from history** button in a tracking's edit form reads the last 7 days of the source entity from the Home Assistant recorder and rebuilds the buffer from it, so a new tracking does not have to wait days for its first points. The points follow the tracking's own settings — the same aligned grid, local write time, depth and counter-reset flags as live sampling. See [Fill from history](#-fill-from-history).
+- **Fix: daily counters whose reset was not recognised.** In *increasing counter* mode a reset used to be detected only when the value dropped below the previous one. A counter that resets once a day and is sampled just before the reset (for example at `23:59:50`) writes the total of the whole day, so on a day with higher consumption than the day before the value did not drop and the point was **not** flagged as `"reset"`. Cards then showed the difference between two daily totals instead of the day's own total.
+  The integration now also uses the source entity's `last_reset` attribute: if it changed since the previous point (or is newer than the last stored point), the new point is flagged as a reset. Sources without `last_reset` keep working as before (a drop in value is a reset).
+- **Fix: the first day of a daily counter.** The first point of a tracking was never flagged as a reset, and the counter card skipped it, so the first day was missing from the chart. A first point is now flagged when the source's `last_reset` lies within the interval before it, and the card shows it.
+- **Fix: dates on the axis of daily cards.** The **Copy to PSB** value and counter cards labelled the time axis with times of day (`23:59`, `05:59`…) even for a daily tracking, where every point has the same time. For intervals of one day or longer the axis now shows dates (`DD.MM`) at the points — one per day when they fit (up to 8), otherwise every 2nd, 3rd… day counted back from the newest, so the spacing is even — and the range label is in days.
+- **New attribute `last_source_reset`** on the history entity: the `last_reset` of the source as seen at the previous point. It survives restarts.
+- **Security: the unit in generated cards.** The unit taken from the source entity (`source_unit_of_measurement`) is HTML-escaped in the **Copy to PSB** value and counter cards, the same way a unit typed in the dialog already was.
+
+> **Upgrading from 1.2.x:** points that are already stored are not changed, so older daily points keep their missing `"reset"` flags. To rebuild a counter's history with correct flags use the new **Fill from history** (or **Clear data**) on that tracking; new points are flagged correctly either way. The integration now loads after the recorder (`after_dependencies`); no configuration change is needed.
+
+<details>
+<summary>What was new in 1.2.0</summary>
 
 - **Write time in local time, like an automation**: instead of a raw offset in seconds you now enter *when* the point is written — for a daily interval a time of day (e.g. `23:59:50`), for an hourly interval a minute and second within the hour (e.g. `59:00`). The fields adapt to the chosen interval.
 - **Correct in every time zone**: sampling is now aligned to the **local time of your Home Assistant time zone**, not to UTC. A daily point set to `23:59:50` is written at `23:59:50` local time all year, also across the daylight-saving change, and zones with a half-hour or 45-minute offset (India, Nepal…) get clean local hours too.
@@ -36,6 +49,8 @@ Traditional workarounds (like appending readings to `input_text` via automations
 - **Hardening**: a non-numeric `offset_seconds` in a hand-edited or imported settings file no longer breaks the tracking (it falls back to `0`).
 
 > **Upgrading from 1.1.x:** for a *daily* (or longer) interval the grid used to follow midnight **UTC**, so in most countries points did not land on the local midnight. They now do. Points already stored are not changed; only new points follow the new schedule.
+
+</details>
 
 <details>
 <summary>What was new in 1.1.1</summary>
@@ -59,8 +74,9 @@ Traditional workarounds (like appending readings to `input_text` via automations
 - **Per-entity custom tuning**: Sampling interval (seconds / minutes / hours / days), buffer depth (up to 500 points), and the exact local time at which each point is written.
 - **Three tracking modes**:
   - *Current value*: For temperature, humidity, power, or battery levels.
-  - *Increasing counter*: For energy, gas, or water meters. Automatically handles periodic meter resets by flagging them as `"reset"` instead of negative deltas.
+  - *Increasing counter*: For energy, gas, or water meters. Automatically recognises meter resets — by the source's `last_reset` attribute when it has one, otherwise by a drop in value — and flags the point as `"reset"` instead of producing a negative delta. Works for meters that reset once a day as well as for ones that reset at random moments (see [Counter reset detection](#-counter-reset-detection)).
   - *On / off*: For switches, lights and binary sensors. An event log with one entry per state change — no sampling interval and no write time, the number of entries is the only setting (100 by default).
+- **Fill from history**: one click rebuilds a tracking's buffer from the last 7 days of the recorder, using the tracking's own interval, write time and depth.
 - **Multiple trackings per entity**: Up to 5 independent trackings of the same source entity (for example a 15-minute and a daily buffer), each with its own history entity.
 - **Zero database overhead**: History buffers live strictly in memory and persist across restarts via Home Assistant's native Restore State mechanism.
 - **Dedicated Sidebar Panel** (administrators only):
@@ -79,6 +95,7 @@ Traditional workarounds (like appending readings to `input_text` via automations
 ### HACS (Recommended)
 1. Open **HACS** and search for **PSB History Engine**.
 2. Click **Download**, then restart Home Assistant.
+3. Continue with [Getting Started](#-getting-started).
 
 ### Manual
 1. Download the latest release.
@@ -112,7 +129,7 @@ The card is chosen by the tracking mode, so you only copy the code that kind of 
 | Increasing counter | Line chart of consumption per hour (complete hours only, reset-safe) |
 | On / off | Bar of ON and OFF periods built from the saved changes |
 
-The dialog offers only the options that make sense for the chosen card.
+The dialog offers only the options that make sense for the chosen card. If the unit field is left empty, the card uses the unit of the source entity.
 
 ---
 
@@ -130,6 +147,7 @@ attributes:
   offset_seconds: 3540       # seconds after the start of each local period = write at HH:59:00
   depth: 48
   last_raw_value: 12.34
+  last_source_reset: "2026-11-13T23:00:00+00:00"   # last_reset of the source at the previous point (counter mode); null if the source has none
   unit_of_measurement: points
   source_unit_of_measurement: kWh
   history:
@@ -186,6 +204,36 @@ Under the hood the write time is stored as `offset_seconds` — the number of se
 
 Interval and write time apply to the *current value* and *increasing counter* modes. An *on / off* tracking has neither: it records a change at the moment it happens.
 
+## ⏪ Fill from history
+
+A freshly added tracking is empty until its first points are written — a daily tracking needs a week to show a week. **Fill from history** shortcuts that: open the tracking's edit form, click **Fill from history** and confirm.
+
+What happens:
+
+1. The integration reads the last **7 days** of the source entity from the Home Assistant recorder.
+2. It builds the points exactly as live sampling would: on the tracking's own grid (interval, local write time, daylight saving), no more than the configured **depth**, with `"reset"` flags for counters (from `last_reset` when the source has it, otherwise from a drop in value). For an on / off tracking it rebuilds the event log of state changes.
+3. Only then does it **replace** the existing contents of the `…_history` entity with the new points. Points the live sampling wrote while the recorder was being read are kept.
+
+Safeguards:
+
+- A confirmation is required, because the existing points are replaced and this cannot be undone.
+- The buffer is replaced **only after the new data was read successfully**. If the recorder is not loaded, has no usable data for the entity, or fails, nothing is changed and you get a clear message.
+- The **saved** settings of the tracking are used — save your changes before filling.
+- Only administrators can run it, and only one fill per tracking at a time. The recorder is read in the background, a day at a time, so large histories do not block Home Assistant or fill memory.
+
+Limits: the data must exist in the recorder. By default Home Assistant keeps about 10 days of states (`purge_keep_days`), and an entity excluded from the recorder cannot be filled. A tracking never holds more than its **depth** in points, so a 15-minute tracking with depth 48 gets the last 12 hours, not 7 days.
+
+## 🔁 Counter reset detection
+
+In *increasing counter* mode every new point is compared with the previous one to find out whether the meter was reset in between. A reset is flagged (`[timestamp, value, "reset"]`) when either:
+
+1. the source entity's **`last_reset`** attribute changed since the previous point (or is newer than the previous point), or
+2. the value is **lower** than the previous one (used for sources without `last_reset`).
+
+The first rule matters for meters that reset once a day and are sampled just before the reset, e.g. a daily energy meter written at `23:59:50`: each point is then the total of that day, and a day with more consumption than the day before is higher than the previous point, so a drop in value alone would never show the reset. Cards use the flag to take the value itself as the consumption of that period instead of the difference to the previous point.
+
+The **first** point of a tracking has no previous point to compare with. It is flagged as a reset when the source's `last_reset` lies within the last interval before it (for a once-a-day meter: the reset of that same day), so the first day is not lost; with no `last_reset` it is not flagged.
+
 ## 🛡️ Buffer Depth & Safety Limits
 
 Home Assistant logs a warning if entity state attributes exceed 16 KiB. To guarantee long-term stability regardless of entity name length or value size, buffer depth is capped at 500 points per entity (~10–12 KiB).
@@ -200,6 +248,10 @@ Home Assistant logs a warning if entity state attributes exceed 16 KiB. To guara
 ## 🔒 Security
 
 The sidebar panel and every command it uses (adding, editing and removing trackings, clearing buffers, saving, exporting and importing settings) require a Home Assistant **administrator**. Non-admin users cannot read or change the integration's configuration, even over the websocket API.
+
+Every value the panel sends — and every value in an **imported settings file** — is validated on the server with the same rules: allowed modes, units, integer ranges (depth 2–500, interval 1–100000), a suffix made only of `a-z`, `0-9` and `_`, a valid entity id for the tracked entity, and a limit on the size of an import. Unknown keys are dropped and an invalid entry in an import file is skipped (and counted in the panel message) instead of being stored, so a damaged or hand-edited file cannot leave the integration unable to start.
+
+Everything shown in the panel and in the cards generated by **Copy to PSB** is HTML-escaped, including the unit that comes from the source entity (which is controlled by whichever integration owns that entity). The integration makes no network requests and has no external dependencies. **Fill from history** only reads states from the local recorder.
 
 ---
 
